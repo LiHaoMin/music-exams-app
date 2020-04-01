@@ -26,4 +26,19 @@ const router = new VueRouter({
   routes
 })
 
+// 路由拦截
+router.beforeEach((to, from, next) => {
+  console.log('to:', to)
+  // TODO 路由页面设置to.meta.requireAuth参数这里判断是否登录页
+  const flag = true
+  if (flag) {
+    // 判断该路由是否需要登录权限
+    next()
+  } else {
+    next({
+      name: 'login'
+    })
+  }
+})
+
 export default router
