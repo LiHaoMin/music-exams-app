@@ -6,18 +6,21 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/1',
     name: 'Home',
+    meta: {
+      title: '首页'
+    },
     component: Home
+  },
+  {
+    path: '/',
+    name: 'Login',
+    meta: {
+      title: '登录'
+    },
+    component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue')
   }
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
 ]
 
 const router = new VueRouter({
@@ -28,7 +31,9 @@ const router = new VueRouter({
 
 // 路由拦截
 router.beforeEach((to, from, next) => {
-  console.log('to:', to)
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
   // TODO 路由页面设置to.meta.requireAuth参数这里判断是否登录页
   const flag = true
   if (flag) {
