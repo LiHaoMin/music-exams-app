@@ -1,18 +1,22 @@
 <template>
   <div class="login">
     <div class="login-header"></div>
-    <div class="login-form">
+    <div class="login-box">
       <van-cell-group>
-        <van-field placeholder="请输入手机号" />
-        <van-field placeholder="请输入验证码">
-          <template #button>
-            <a href="#">获取验证码</a>
-          </template>
+        <van-field v-model="phoneNumber" maxlength="11" placeholder="请输入手机号" />
+        <van-field v-model="smsCaptcha" maxlength="4" placeholder="请输入验证码">
+          <van-button slot="button" color="#1E4058" size="small" type="primary"
+                      :disabled="captchaDisable"
+                      @click="sendVerifyCode"
+                      v-if="!countDown">获取验证码</van-button>
+          <van-button slot="button" color="#1E4058" size="small" type="primary"
+                      disabled=""
+                      v-else>{{countDown}}s</van-button>
         </van-field>
         <span></span>
       </van-cell-group>
-      <van-button class="btn-login" round="true" color="#1E4058" type="primary">立即登录</van-button>
-      <van-checkbox v-model="checked" class="login-read" checked-color="#1E4058"><span>已阅读并同意</span><a href="#">《用户协议》</a> </van-checkbox>
+      <van-button class="login-btn" round color="#1E4058" type="primary" :disabled="!isAgreement" @click="login">立即登录</van-button>
+      <van-checkbox v-model="isAgreement" class="agreement" checked-color="#1E4058"><span>已阅读并同意</span><a href="#">《用户协议》</a> </van-checkbox>
     </div>
     <div class="login-footer">
       <van-divider />
@@ -21,13 +25,14 @@
 </template>
 
 <script>
-import { Col, Row, Field, Button, Checkbox, Divider } from 'vant'
+import { Col, Row, CellGroup, Field, Button, Checkbox, Divider, Toast } from 'vant'
 
 export default {
   name: 'Login',
   components: {
     [Col.name]: Col,
     [Row.name]: Row,
+    [CellGroup.name]: CellGroup,
     [Field.name]: Field,
     [Button.name]: Button,
     [Checkbox.name]: Checkbox,
@@ -35,7 +40,46 @@ export default {
   },
   data () {
     return {
-      checked: true
+      // 手机号码
+      phoneNumber: '',
+      // 短信验证码
+      smsCaptcha: '',
+      // 倒计时
+      countDown: 0,
+      isAgreement: false
+    }
+  },
+  computed: {
+    // 验证码按钮禁用
+    captchaDisable () {
+      return this.phoneNumber.length !== 11
+    }
+  },
+  methods: {
+    // 获取短信验证码
+    sendVerifyCode () {
+      this.countDown = 60
+      this.timeIntervalID = setInterval(() => {
+        this.countDown--
+        // 如果减到0 则清除定时器
+        if (this.countDown === 0) {
+          clearInterval(this.timeIntervalID)
+        }
+      }, 1000)
+      // TODO 请求验证码
+    },
+    // 登录
+    login () {
+      if (this.phoneNumber.length !== 11) {
+        Toast('请输入正确的手机号')
+        return
+      }
+      if (this.smsCaptcha.length !== 4) {
+        Toast('请输入正确的验证码')
+        return
+      }
+      // TODO 请求登录
+      Toast('请求登录')
     }
   }
 }
@@ -43,28 +87,32 @@ export default {
 
 <style scoped>
   .login {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 38px;
+    padding-right: 38px;
   }
   .login-header {
-    height: 280px;
+    height: 194px;
   }
-  .login-form {
+  .login-box {
     text-align: center;
   }
-  .btn-login {
+  .login-btn {
     width: 284px;
-    margin-top: 60px;
+    margin-top: 100px;
   }
-  .login-read {
+  .agreement {
     font-size: 12px;
-    margin-top: 30px;
+    margin-top: 25px;
+    margin-left: 8px;
   }
-  .login-read span {
-    color: #ccc;
+  .agreement span {
+    color: #999;
   }
-  .login-read a {
+  .agreement a {
     color: #1E4058;
+  }
+  .agreement >>> i {
+    font-size: 12px !important;
   }
   .login-footer {
     margin-top: 60px;

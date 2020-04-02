@@ -1,20 +1,19 @@
 <template>
   <div class="home">
-    <div>123</div>
+    <van-search
+      show-action
+      placeholder="请输入搜索关键词"
+    />
   </div>
 </template>
 
 <script>
-import { getTopicsHotList } from '@/http/api'
+import { Search } from 'vant'
 
 export default {
   name: 'Home',
   components: {
-  },
-  created () {
-    getTopicsHotList().then(rsp => {
-      console.log(rsp)
-    })
+    [Search.name]: Search
   }
 }
 </script>
