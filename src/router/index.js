@@ -1,25 +1,76 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
+import DashBoard from '@/views/DashBoard'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/1',
-    name: 'Home',
+    path: '/',
+    redirect: '/dashboard',
     meta: {
-      title: '首页'
+      keepAlive: true
     },
-    component: Home
+    component: DashBoard
   },
   {
-    path: '/',
+    // 根页面
+    path: '/dashboard',
+    name: 'DashBoard',
+    meta: {
+      keepAlive: true
+    },
+    component: DashBoard,
+    children: [
+      {
+        path: '/dashboard',
+        redirect: '/dashboard/home'
+      },
+      {
+        // 首页
+        path: 'home',
+        name: 'Home',
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/home/Home'),
+        meta: {
+          title: '首页'
+        }
+      },
+      {
+        // 收藏课程
+        path: 'favorite',
+        name: 'Favorite',
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/favorite/Favorite'),
+        meta: {
+          title: '收藏课程'
+        }
+      },
+      {
+        // 我的学习
+        path: 'learn',
+        name: 'Learn',
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/learn/Learn'),
+        meta: {
+          title: '我的学习'
+        }
+      },
+      {
+        // 我的
+        path: 'mine',
+        name: 'Mine',
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/mine/Mine'),
+        meta: {
+          title: '我的'
+        }
+      }
+    ]
+  },
+  {
+    path: '/login',
     name: 'Login',
     meta: {
       title: '登录'
     },
-    component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue')
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login/Login')
   }
 ]
 
