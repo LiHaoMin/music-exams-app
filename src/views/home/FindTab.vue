@@ -46,6 +46,17 @@
         </div>
       </div>
     </div>
+    <div class="list-warp">
+      <div class="title">
+        <h3>推荐课程</h3>
+        <span>更多</span>
+      </div>
+      <div class="list-item-warp">
+        <p>标题</p>
+        <p>课程：8节</p>
+        <p>时长：1小时30分钟</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -151,5 +162,11 @@ export default {
     background-position: center;
     padding-left: 10px;
     padding-top: 5px;
+  }
+  .list-warp {
+    font-size: 14px;
+  }
+  .list-warp .title {
+    font-size: 16px;
   }
 </style>
