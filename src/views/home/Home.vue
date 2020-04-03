@@ -2,6 +2,7 @@
   <div class="home">
     <van-search shape="round" readonly placeholder="搜索" />
     <van-tabs v-model="currentIdx"
+              animated
               color="#1E4058"
               line-height="2"
               title-inactive-color="#333"

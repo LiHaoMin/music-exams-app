@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <van-tabbar v-model="currentIdx" active-color="#333333" :safe-area-inset-bottom="true">
-      <van-tabbar-item :key="index" :to="item.path" v-for="(item, index) in tabBars">
+      <van-tabbar-item :key="index" replace :to="item.path" v-for="(item, index) in tabBars">
         <span>{{item.title}}</span>
         <template #icon="props">
           <img :src="props.active ? item.active : item.normal"/>
