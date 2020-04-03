@@ -8,7 +8,7 @@
               title-inactive-color="#333"
               title-active-color="#1E4058">
       <van-tab title-style="font-size: 16px;font-weight:500;" title="发现课程">
-        <FindTab />
+        <FindTab v-on:tabSelected="tabSelected" />
       </van-tab>
       <van-tab title-style="font-size: 16px;font-weight:500;" title="推荐课程">推荐课程</van-tab>
       <van-tab title-style="font-size: 16px;font-weight:500;" title="课程列表">课程列表</van-tab>
@@ -31,6 +31,12 @@ export default {
   data () {
     return {
       currentIdx: 0
+    }
+  },
+  methods: {
+    // tab 选择
+    tabSelected (idx) {
+      this.currentIdx = idx
     }
   }
 }

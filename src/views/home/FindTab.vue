@@ -49,7 +49,7 @@
     <div class="list-warp">
       <div class="title">
         <span>推荐课程</span>
-        <span>更多 <img :src="require('@/assets/images/home/more.png')" /></span>
+        <span @click="moreRecommend">更多 <img :src="require('@/assets/images/home/more.png')" /></span>
       </div>
       <div class="list-item-warp">
         <div class="tag">优选</div>
@@ -183,6 +183,12 @@ export default {
         'https://i.loli.net/2020/04/02/CNold4PSJUIayZb.png',
         'https://i.loli.net/2020/04/02/CNold4PSJUIayZb.png'
       ]
+    }
+  },
+  methods: {
+    // 更多推荐课程
+    moreRecommend () {
+      this.$emit('tabSelected', 1)
     }
   }
 }
