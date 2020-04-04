@@ -98,9 +98,10 @@ const router = new VueRouter({
 
 // 路由拦截
 router.beforeEach((to, from, next) => {
-  if (to.meta.title) {
-    document.title = to.meta.title
-  }
+  let title = ''
+  if (to.meta.title) title = to.meta.title
+  if (to.params.title) title = to.params.title
+  document.title = title
   // TODO 路由页面设置to.meta.requireAuth参数这里判断是否登录页
   const flag = true
   if (flag) {

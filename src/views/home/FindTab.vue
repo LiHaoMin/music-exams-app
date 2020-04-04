@@ -98,15 +98,15 @@ export default {
     },
     // 导师博讲堂
     teacher () {
-      this.$router.push('/classroom')
+      this.$router.push({ name: 'Classroom', params: { title: '导师博讲堂', classroomType: 1 } })
     },
     // 学长博讲堂
     senior () {
-      this.$router.push('/classroom')
+      this.$router.push({ name: 'Classroom', params: { title: '学长博讲堂', classroomType: 2 } })
     },
     // 学员博讲堂
     student () {
-      this.$router.push('/classroom')
+      this.$router.push({ name: 'Classroom', params: { title: '学员博讲堂', classroomType: 3 } })
     }
   }
 }

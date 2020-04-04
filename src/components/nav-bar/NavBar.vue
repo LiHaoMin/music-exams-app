@@ -1,7 +1,7 @@
 <template>
   <div class="nav-bar">
     <van-nav-bar
-      :title="$route.meta.title"
+      :title="$route.params.title || $route.meta.title"
       fixed
       placeholder
       @click-left="$router.back()">
