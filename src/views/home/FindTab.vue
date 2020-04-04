@@ -358,7 +358,7 @@ export default {
   }
   .list-item-warp .list-item-top > .price {
     position: absolute;
-    top: 58px;
+    bottom: 0;
     right: 0;
   }
   .list-item-warp .list-item-top > .price label {

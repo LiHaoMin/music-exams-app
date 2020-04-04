@@ -10,7 +10,9 @@
       <van-tab title-style="font-size: 16px;font-weight:500;" title="发现课程">
         <FindTab v-on:tabSelected="tabSelected" />
       </van-tab>
-      <van-tab title-style="font-size: 16px;font-weight:500;" title="推荐课程">推荐课程</van-tab>
+      <van-tab title-style="font-size: 16px;font-weight:500;" title="推荐课程">
+        <RecommendTab />
+      </van-tab>
       <van-tab title-style="font-size: 16px;font-weight:500;" title="课程列表">课程列表</van-tab>
     </van-tabs>
   </div>
@@ -19,6 +21,7 @@
 <script>
 import { Search, Tab, Tabs } from 'vant'
 import FindTab from '@/views/home/FindTab'
+import RecommendTab from '@/views/home/RecommendTab'
 
 export default {
   name: 'Home',
@@ -26,7 +29,8 @@ export default {
     [Search.name]: Search,
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
-    FindTab
+    FindTab,
+    RecommendTab
   },
   data () {
     return {
