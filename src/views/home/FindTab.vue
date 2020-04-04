@@ -30,16 +30,16 @@
     <div class="offline-box">
       <div class="title">音乐博讲堂实体课</div>
       <div class="warp">
-        <div class="warp-left" v-lazy:background-image="require('@/assets/images/home/music.png')">
+        <div class="warp-left">
           <p>音乐考研 <img :src="require('@/assets/images/home/arrow.png')"></p>
           <p>音乐考研助你轻松上岸</p>
         </div>
         <div class="warp-right">
-          <div v-lazy:background-image="require('@/assets/images/home/dance.png')">
+          <div>
             <p>舞蹈考研</p>
             <p>舞蹈考研助你上岸</p>
           </div>
-          <div v-lazy:background-image="require('@/assets/images/home/abroad.png')">
+          <div>
             <p>音乐留学</p>
             <p>音乐留学情况展示</p>
           </div>
@@ -247,6 +247,7 @@ export default {
   .offline-box .warp-left {
     flex: 1;
     color: #D99F51;
+    background-image: url("~@/assets/images/home/music.png");
     background-size: cover;
     background-position: center;
     margin-right: 5px;
@@ -263,6 +264,7 @@ export default {
   .offline-box .warp-right div:first-child {
     height: 82px;
     color: #CC8B76;
+    background-image: url("~@/assets/images/home/dance.png");
     background-size: cover;
     background-position: center;
     padding-left: 10px;
@@ -271,6 +273,7 @@ export default {
   .offline-box .warp-right div:last-child {
     height: 82px;
     color: #6DACD0;
+    background-image: url("~@/assets/images/home/abroad.png");
     background-size: cover;
     background-position: center;
     padding-left: 10px;
