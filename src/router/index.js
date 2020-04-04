@@ -100,7 +100,15 @@ const routes = [
     meta: {
       title: '音乐考研'
     },
-    component: () => import(/* webpackChunkName: "classroom" */ '@/views/home/offline-course/OfflineCourse')
+    component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/offline-course/OfflineCourse')
+  },
+  {
+    path: '/offline-course-detail',
+    name: 'OfflineCourseDetail',
+    meta: {
+      title: '保过班'
+    },
+    component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/offline-course/OfflineCourseDetail')
   }
 ]
 

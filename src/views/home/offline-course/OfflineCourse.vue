@@ -9,7 +9,7 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad">
-        <ListItemCard :key="index" v-for="(item, index) in list" />
+        <ListItemCard @onItemClick="itemClick(index)" :key="index" v-for="(item, index) in list" />
       </van-list>
     </div>
   </div>
@@ -36,6 +36,10 @@ export default {
     }
   },
   methods: {
+    // 明细点击
+    itemClick (idx) {
+      this.$router.push('/offline-course-detail')
+    },
     onLoad () {
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
