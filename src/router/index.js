@@ -87,6 +87,14 @@ const routes = [
       title: '导师博讲堂'
     },
     component: () => import(/* webpackChunkName: "classroom" */ '@/views/home/classroom/Classroom')
+  },
+  {
+    path: '/offline-course',
+    name: 'OfflineCourse',
+    meta: {
+      title: '音乐考研'
+    },
+    component: () => import(/* webpackChunkName: "classroom" */ '@/views/home/offline-course/OfflineCourse')
   }
 ]
 

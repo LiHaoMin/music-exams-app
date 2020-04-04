@@ -30,16 +30,16 @@
     <div class="offline-box">
       <div class="title">音乐博讲堂实体课</div>
       <div class="warp">
-        <div class="warp-left">
+        <div class="warp-left" @click="music">
           <p>音乐考研 <img :src="require('@/assets/images/home/arrow.png')"></p>
           <p>音乐考研助你轻松上岸</p>
         </div>
         <div class="warp-right">
-          <div>
+          <div @click="dance">
             <p>舞蹈考研</p>
             <p>舞蹈考研助你上岸</p>
           </div>
-          <div>
+          <div @click="abroad">
             <p>音乐留学</p>
             <p>音乐留学情况展示</p>
           </div>
@@ -107,6 +107,18 @@ export default {
     // 学员博讲堂
     student () {
       this.$router.push({ name: 'Classroom', params: { title: '学员博讲堂', classroomType: 3 } })
+    },
+    // 音乐考研
+    music () {
+      this.$router.push({ name: 'OfflineCourse', params: { title: '音乐考研', offlineCourseType: 1 } })
+    },
+    // 舞蹈考研
+    dance () {
+      this.$router.push({ name: 'OfflineCourse', params: { title: '舞蹈考研', offlineCourseType: 1 } })
+    },
+    // 音乐留学
+    abroad () {
+      this.$router.push({ name: 'OfflineCourse', params: { title: '音乐留学', offlineCourseType: 1 } })
     }
   }
 }
