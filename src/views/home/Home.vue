@@ -13,7 +13,9 @@
       <van-tab title-style="font-size: 16px;font-weight:500;" title="推荐课程">
         <RecommendTab />
       </van-tab>
-      <van-tab title-style="font-size: 16px;font-weight:500;" title="课程列表">课程列表</van-tab>
+      <van-tab title-style="font-size: 16px;font-weight:500;" title="课程列表">
+        <CourseTab />
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -22,6 +24,7 @@
 import { Search, Tab, Tabs } from 'vant'
 import FindTab from '@/views/home/FindTab'
 import RecommendTab from '@/views/home/RecommendTab'
+import CourseTab from '@/views/home/CourseTab'
 
 export default {
   name: 'Home',
@@ -30,7 +33,8 @@ export default {
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
     FindTab,
-    RecommendTab
+    RecommendTab,
+    CourseTab
   },
   data () {
     return {

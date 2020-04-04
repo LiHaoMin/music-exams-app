@@ -448,7 +448,7 @@ export default {
     background-color: #fff;
     box-shadow: 0 2px 4px 0 rgba(234,234,234,0.5);
     border-radius:10px;
-    padding: 8px;
+    padding: 8px 8px 0 8px;
     margin-bottom: 10px;
     display: flex;
   }
