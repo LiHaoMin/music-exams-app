@@ -11,7 +11,7 @@
           @cancel="$router.back()">
         </van-search>
       </form>
-      <div class="hot-warp">
+      <div class="hot-warp" v-if="!isSearched">
         <span>热门搜索</span>
         <div class="tags">
           <div class="tag" @click="tag(item)" :key="index" v-for="(item,index) in hotTags">{{ item }}</div>
