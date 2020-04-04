@@ -71,6 +71,14 @@ const routes = [
       title: '登录'
     },
     component: () => import(/* webpackChunkName: "login" */ '@/views/login/Login')
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    meta: {
+      title: '首页'
+    },
+    component: () => import(/* webpackChunkName: "search" */ '@/views/home/search/Search')
   }
 ]
 

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <van-search shape="round" readonly placeholder="搜索" />
+    <van-search @click="search" shape="round" readonly placeholder="搜索" />
     <van-tabs v-model="currentIdx"
               animated
               color="#1E4058"
@@ -45,6 +45,10 @@ export default {
     // tab 选择
     tabSelected (idx) {
       this.currentIdx = idx
+    },
+    // 搜索
+    search () {
+      this.$router.push('/search')
     }
   }
 }
