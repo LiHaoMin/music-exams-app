@@ -7,13 +7,13 @@
               line-height="2"
               title-inactive-color="#333"
               title-active-color="#1E4058">
-      <van-tab title-style="font-size: 16px;font-weight:500;" title="发现课程">
+      <van-tab title-style="font-size: 0.42667rem;font-weight:500;" title="发现课程">
         <FindTab v-on:tabSelected="tabSelected" />
       </van-tab>
-      <van-tab title-style="font-size: 16px;font-weight:500;" title="推荐课程">
+      <van-tab title-style="font-size: 0.42667rem;font-weight:500;" title="推荐课程">
         <RecommendTab />
       </van-tab>
-      <van-tab title-style="font-size: 16px;font-weight:500;" title="课程列表">
+      <van-tab title-style="font-size: 0.42667rem;font-weight:500;" title="课程列表">
         <CourseTab />
       </van-tab>
     </van-tabs>
