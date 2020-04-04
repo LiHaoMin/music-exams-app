@@ -90,10 +90,14 @@ export default {
   methods: {
     // 更多 -> 推荐课程
     moreRecommend () {
+      // 解决tab滚动条位置问题
+      window.scrollTo(0,0)
       this.$emit('tabSelected', 1)
     },
     // 查看全部 -> 课程列表
     moreCourse () {
+      // 解决tab滚动条位置问题
+      window.scrollTo(0,0)
       this.$emit('tabSelected', 2)
     },
     // 导师博讲堂
