@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { Search, Tag, List } from 'vant'
+import { Search, List } from 'vant'
 import ListItemCell from '@/components/list/ListItemCell'
 import ListItemCard from '@/components/list/ListItemCard'
 
@@ -44,7 +44,6 @@ export default {
   name: 'Search',
   components: {
     [Search.name]: Search,
-    [Tag.name]: Tag,
     [List.name]: List,
     ListItemCell,
     ListItemCard

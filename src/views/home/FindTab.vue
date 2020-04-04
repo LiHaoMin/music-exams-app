@@ -7,19 +7,19 @@
         </van-swipe-item>
       </van-swipe>
       <van-grid :border="false" :column-num="3">
-        <van-grid-item>
+        <van-grid-item @click="teacher">
           <div class="grid">
             <img :src="require('@/assets/images/home/teacher.png')" />
             <p>导师博讲堂</p>
           </div>
         </van-grid-item>
-        <van-grid-item>
+        <van-grid-item @click="senior">
           <div class="grid">
             <img :src="require('@/assets/images/home/senior.png')" />
             <p>学长博讲堂</p>
           </div>
         </van-grid-item>
-        <van-grid-item>
+        <van-grid-item @click="student">
           <div class="grid">
             <img :src="require('@/assets/images/home/student.png')" />
             <p>学员博讲堂</p>
@@ -95,6 +95,18 @@ export default {
     // 查看全部 -> 课程列表
     moreCourse () {
       this.$emit('tabSelected', 2)
+    },
+    // 导师博讲堂
+    teacher () {
+      this.$router.push('/classroom')
+    },
+    // 学长博讲堂
+    senior () {
+      this.$router.push('/classroom')
+    },
+    // 学员博讲堂
+    student () {
+      this.$router.push('/classroom')
     }
   }
 }

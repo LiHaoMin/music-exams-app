@@ -79,6 +79,14 @@ const routes = [
       title: '首页'
     },
     component: () => import(/* webpackChunkName: "search" */ '@/views/home/search/Search')
+  },
+  {
+    path: '/classroom',
+    name: 'Classroom',
+    meta: {
+      title: '导师博讲堂'
+    },
+    component: () => import(/* webpackChunkName: "classroom" */ '@/views/home/classroom/Classroom')
   }
 ]
 
