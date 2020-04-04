@@ -118,4 +118,7 @@ export default {
     height: 14px;
     margin-right: 12px;
   }
+  .van-picker >>> button {
+    color: #060606;
+  }
 </style>
