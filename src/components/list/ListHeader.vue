@@ -2,7 +2,7 @@
   <div class="list-warp">
     <div class="title">
       <span>{{title}}</span>
-      <span @click="onMore">{{moreText}} <img :src="require('@/assets/images/home/more.png')" /></span>
+      <span @click="onMore">{{moreText}} <img v-if="moreText" :src="require('@/assets/images/home/more.png')" /></span>
     </div>
     <slot></slot>
   </div>

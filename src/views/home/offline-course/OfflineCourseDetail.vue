@@ -3,7 +3,21 @@
     <NavBar />
     <div class="header">
       <div class="image"><img v-lazy="'https://i.loli.net/2020/04/04/Fed3fi4m8bGklsu.jpg'" /></div>
-      <div class="content"></div>
+      <div class="content">
+        <div class="title">
+          <p>保过班</p>
+          <p>202020人已报名</p>
+          <div class="price"><label>¥</label>800</div>
+        </div>
+        <div class="teacher">
+          <img class="circle" v-lazy="'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg'" />
+          <div class="info">
+            <span>方笑笑</span>
+            <span>带班老师</span>
+            <p>18278654321</p>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="summary">
       <div class="resume">
@@ -68,7 +82,7 @@ export default {
     },
     // 播放中
     timeupdate () {
-      if (this.player.video.currentTime < 1) alert(this.player.video.currentTime)
+      console.log(this.player.video.currentTime)
     },
     // 视频播放结束
     ended () {
@@ -76,12 +90,12 @@ export default {
       // http://vjs.zencdn.net/v/oceans.mp4
       // this.player.switchVideo({
       //   url: 'http://cdn.toxicjohann.com/lostStar.mp4'
-      alert('视频播放结束')
+      console.log('视频播放结束')
       // })
     },
     // 我要报名
     apply () {
-      alert('我要报名')
+      this.$router.push('/offline-course/apply')
     }
   },
   mounted () {
@@ -105,10 +119,78 @@ export default {
     object-position: center;
   }
   .header .content {
-    width: 100%;
-    height: 122px;
     background-color: #fff;
+    padding-left: 25px;
+    padding-right: 25px;
   }
+  .header .content .title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border-bottom: 2px solid #F5F5F5;
+    position: relative;
+  }
+  .header .content .title p {
+    margin: 0;
+  }
+  .header .content .title p:nth-last-child(2) {
+    color: #888;
+    font-size: 12px;
+    font-weight: 400;
+    padding-top: 6px;
+  }
+  .header .content .price {
+    position: absolute;
+    bottom: 9px;
+    right: 0;
+    font-size:20px;
+    font-weight: 500;
+    color: #DB6073;
+  }
+  .header .content .price label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #DB6073;
+    margin-right: 5px;
+  }
+  .header .content .teacher {
+    margin-top: -10px;
+  }
+  .header .content .teacher .circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+  }
+  .header .content .teacher .info {
+    display: inline-block;
+    padding-left: 7px;
+    padding-bottom: 10px;
+  }
+  .header .content .teacher .info span:first-child {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+  }
+  .header .content .teacher .info span:nth-child(2) {
+    font-size: 12px;
+    font-weight: 400;
+    color: #1E4058;
+    padding: 2px 5px;
+    background-color: #F2FAFF;
+    border-radius:5px;
+  }
+  .header .content .teacher .info p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #888;
+    margin: 0;
+  }
+
   .summary {
     width: 100%;
     height: 747px;

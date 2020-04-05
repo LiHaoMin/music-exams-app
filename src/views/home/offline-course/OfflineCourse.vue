@@ -38,7 +38,7 @@ export default {
   methods: {
     // 明细点击
     itemClick (idx) {
-      this.$router.push('/offline-course-detail')
+      this.$router.push('/offline-course/detail')
     },
     onLoad () {
       // 异步更新数据
