@@ -117,6 +117,14 @@ const routes = [
       title: '报名信息填写'
     },
     component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/offline-course/OfflineCourseApply')
+  },
+  {
+    path: '/course/detail',
+    name: 'CourseDetail',
+    meta: {
+      title: '课程'
+    },
+    component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/course/CourseDetail')
   }
 ]
 

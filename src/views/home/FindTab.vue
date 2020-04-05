@@ -47,14 +47,14 @@
       </div>
     </div>
     <list-header title="推荐课程" moreText="更多" @onMore="moreRecommend">
-      <ListItemCell />
-      <ListItemCell />
-      <ListItemCell />
+      <ListItemCell @onItemClick="$router.push('/course/detail')" />
+      <ListItemCell  @onItemClick="$router.push('/course/detail')" />
+      <ListItemCell @onItemClick="$router.push('/course/detail')" />
     </list-header>
     <list-header title="课程列表" moreText="查看全部" @onMore="moreCourse">
-      <ListItemCard />
-      <ListItemCard />
-      <ListItemCard />
+      <ListItemCard @onItemClick="$router.push('/course/detail')" />
+      <ListItemCard @onItemClick="$router.push('/course/detail')" />
+      <ListItemCard @onItemClick="$router.push('/course/detail')" />
     </list-header>
     <div class="block"></div>
   </div>

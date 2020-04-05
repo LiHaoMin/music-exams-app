@@ -7,7 +7,7 @@
       :finished="finished"
       finished-text="没有更多了"
       @load="onLoad">
-      <ListItemCell :key="index" v-for="(item, index) in list" />
+      <ListItemCell @onItemClick="$router.push('/course/detail')" :key="index" v-for="(item, index) in list" />
     </van-list>
   </div>
 </template>

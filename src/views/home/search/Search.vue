@@ -27,8 +27,8 @@
         finished-text="没有更多了"
         @load="onLoad">
         <template v-for="(item, index) in list">
-          <ListItemCell :key="index" v-if="index % 2 === 0" />
-          <ListItemCard :key="index" v-else />
+          <ListItemCell  @onItemClick="$router.push('/course/detail')" :key="index" v-if="index % 2 === 0" />
+          <ListItemCard @onItemClick="$router.push('/course/detail')" :key="index" v-else />
         </template>
       </van-list>
     </div>

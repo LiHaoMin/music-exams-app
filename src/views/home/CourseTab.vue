@@ -12,7 +12,7 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad">
-        <ListItemCard :key="index" v-for="(item, index) in list" />
+        <ListItemCard @onItemClick="$router.push('/course/detail')" :key="index" v-for="(item, index) in list" />
       </van-list>
     </div>
     <van-popup v-model="showPicker" :safe-area-inset-bottom="true" position="bottom" get-container="#app">

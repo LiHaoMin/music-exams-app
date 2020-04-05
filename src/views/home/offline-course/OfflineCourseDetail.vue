@@ -106,6 +106,7 @@ export default {
 
 <style scoped>
   .offline-course-detail {
+    height: 100%;
     background-color: #F8F8F8;
   }
   .header .image {
@@ -195,7 +196,7 @@ export default {
     width: 100%;
     height: 747px;
     margin-top: 10px;
-    background-image: url("~@/assets/images/home/summary.png");
+    background-image: url("~@/assets/images/home/summary-01.png");
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
@@ -212,7 +213,7 @@ export default {
     font-size: 14px;
     font-weight: 400;
     line-height: 23px;
-    padding: 10px;
+    padding: 13px 19px 11px 20px;
     border-radius:10px;
     background-color: #F6FBFF;
     overflow: scroll;
@@ -252,7 +253,7 @@ export default {
     margin: 10px 15px;
     background-color: #DB6073;
   }
-  .dplayer {
+  .player >>> .dplayer {
     width: 100%;
     height: 100%;
     border-radius: 10px;
