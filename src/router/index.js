@@ -173,6 +173,14 @@ const routes = [
       title: '讲师功能'
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/join/TeacherFunc')
+  },
+  {
+    path: '/mine/chat',
+    name: 'Chat',
+    meta: {
+      title: '机器人客服'
+    },
+    component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/chat/Chat')
   }
 ]
 
