@@ -12,7 +12,13 @@
         <p>保过班</p>
         <p>202020人已报名</p>
         <div class="price"><label>¥</label>800</div>
+        <div class="share" @click="share">
+          <img :src="require('@/assets/images/home/share.png')" />
+        </div>
       </div>
+    </div>
+    <div class="favorite">
+      <img :src="require('@/assets/images/home/favorite.png')" />
     </div>
     <div class="tab-warp">
       <van-tabs v-model="currentIdx"
@@ -95,6 +101,10 @@ export default {
       //   url: 'http://cdn.toxicjohann.com/lostStar.mp4'
       console.log('视频播放结束')
       // })
+    },
+    // 分享
+    share () {
+      alert('分享')
     }
   },
   mounted () {
@@ -107,6 +117,7 @@ export default {
   .course-detail {
     height: 100%;
     background-color: #F8F8F8;
+    position: relative;
   }
   .player {
     height: 189px;
@@ -163,9 +174,36 @@ export default {
     color: #DB6073;
     margin-right: 5px;
   }
+  .content .share {
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+  }
+  .content .share img {
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    object-fit: cover;
+  }
 
   .tab-warp {
     margin-top: 10px;
+  }
+
+  .favorite {
+    position: absolute;
+    top: 1.49334rem;
+    right: 25px;
+    width: 25px;
+    height: 25px;
+  }
+  .favorite img {
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    object-fit: cover;
   }
 
   .player >>> .dplayer {
