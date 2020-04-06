@@ -16,7 +16,7 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad">
-        <ListItemCard :rate="1" @onRateClick="onRateClick" :key="index" v-for="(item, index) in list" @onItemClick="$router.push('/course/detail')" />
+        <ListItemCard :isPageType="1" @onRateClick="onRateClick" :key="index" v-for="(item, index) in list" @onItemClick="$router.push('/course/detail')" />
       </van-list>
     </div>
     <div class="list-empty" v-if="isEmpty">
