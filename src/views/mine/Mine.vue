@@ -32,7 +32,7 @@
         <van-cell center title-class="cell-title" title="联系客服" is-link>
           <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
         </van-cell>
-        <van-cell center title-class="cell-title" title="帮助手册" is-link>
+        <van-cell center title-class="cell-title" title="帮助手册" is-link to="/mine/help">
           <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
         </van-cell>
       </van-cell-group>

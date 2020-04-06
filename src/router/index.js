@@ -143,12 +143,20 @@ const routes = [
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/info/Info')
   },
   {
-    path: '/mine/edit',
+    path: '/mine/info/edit',
     name: 'InfoEdit',
     meta: {
       title: '修改昵称'
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/info/InfoEdit')
+  },
+  {
+    path: '/mine/help',
+    name: 'Help',
+    meta: {
+      title: '帮助手册'
+    },
+    component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/help/Help')
   }
 ]
 
