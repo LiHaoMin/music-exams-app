@@ -28,7 +28,7 @@
           <DirectoryTab />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="老师介绍">
-          <p>老师介绍</p>
+          <ResumeTab />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="评价（35）">
           <p>评价（35）</p>
@@ -45,6 +45,7 @@ import VueDPlayer from 'vue-dplayer'
 import 'vue-dplayer/dist/vue-dplayer.css'
 import SummaryTab from '@/views/home/course/SummaryTab'
 import DirectoryTab from '@/views/home/course/DirectoryTab'
+import ResumeTab from '@/views/home/course/ResumeTab'
 
 export default {
   name: 'CourseDetail',
@@ -54,6 +55,7 @@ export default {
     NavBar,
     SummaryTab,
     DirectoryTab,
+    ResumeTab,
     'd-player': VueDPlayer
   },
   data () {
