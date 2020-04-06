@@ -112,8 +112,8 @@ export default {
     min-height: 1579px;
     background-image: url("~@/assets/images/home/summary-02.png");
     background-position: top;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-size: contain;
+    background-repeat: repeat-y;
     display: flex;
     flex-direction: column;
     align-items: center;
