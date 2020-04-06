@@ -21,3 +21,9 @@ export default {
   }
 }
 </script>
+<style>
+  .nav-bar {
+    position: relative;
+    z-index: 99;
+  }
+</style>
