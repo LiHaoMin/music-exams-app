@@ -16,12 +16,10 @@
 </template>
 
 <script>
-import { List } from 'vant'
 
 export default {
   name: 'ResumeTab',
   components: {
-    [List.name]: List
   },
   data () {
     return {
