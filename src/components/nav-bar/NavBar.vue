@@ -4,7 +4,7 @@
       :title="$route.params.title || $route.meta.title"
       fixed
       placeholder
-      @click-left="$router.back()">
+      @click-left="$router.back()" style="height: 1.22667rem">
       <van-icon slot="left" name="arrow-left"  color="#060606" size="0.42667rem" />
     </van-nav-bar>
   </div>
