@@ -35,7 +35,7 @@
     <div class="btn">
       <van-button class="publish" @click="showDialog = true" type="default">发布评价</van-button>
     </div>
-    <van-dialog v-model="showDialog" confirm-button-color="#1E4058" cancel-button-color="#666" getContainer="#app" show-cancel-button>
+    <van-dialog v-model="showDialog" getContainer="#app" show-cancel-button>
       <div class="dialog-title" slot="title">评价</div>
       <div class="dialog-content">
         <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" v-model="value" />
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { Rate, List, Button, Dialog, Field } from 'vant'
+import { Rate, List, Button, Field } from 'vant'
 
 export default {
   name: 'CommentTab',
@@ -54,8 +54,7 @@ export default {
     [Rate.name]: Rate,
     [List.name]: List,
     [Button.name]: Button,
-    [Field.name]: Field,
-    [Dialog.Component.name]: Dialog.Component
+    [Field.name]: Field
   },
   data () {
     return {
