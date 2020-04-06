@@ -23,7 +23,7 @@
     </div>
     <div class="cell-warp">
       <van-cell-group>
-        <van-cell center title-class="cell-title" title="购买记录" is-link>
+        <van-cell center title-class="cell-title" title="购买记录" is-link to="/mine/purchase-history">
           <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
         </van-cell>
         <van-cell center title-class="cell-title" title="个人信息" is-link>

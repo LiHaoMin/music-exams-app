@@ -125,6 +125,14 @@ const routes = [
       title: '课程'
     },
     component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/course/CourseDetail')
+  },
+  {
+    path: '/mine/purchase-history',
+    name: 'PurchaseHistory',
+    meta: {
+      title: '购买记录'
+    },
+    component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/purchase-history/PurchaseHistory')
   }
 ]
 
