@@ -27,7 +27,7 @@
           </ul>
         </div>
       </div>
-      <div class="warpper">
+      <div class="warpper block">
         <div class="title"></div>
         <div class="container card">
           <ListItemCard />
@@ -35,20 +35,73 @@
           <ListItemCard />
         </div>
       </div>
+      <div class="warpper">
+        <div class="title"></div>
+        <div class="container comment">
+          <div class="subtitle">
+            <h3>课程评价</h3>
+            <span>5.0</span>
+            <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="value" />
+          </div>
+          <div class="content">
+            <div class="comment-item" :key="index" v-for="(item, index) in [1, 1, 1]">
+              <div class="circle">
+                <img v-lazy="'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg'" />
+              </div>
+              <div class="right-warp">
+                <div class="info">
+                  <span class="nickname">chjshdjs </span>
+                  <span class="date">2019-09-21</span>
+                </div>
+                <div class="rate"><van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="value" /></div>
+                <div class="description van-multi-ellipsis--l2">太棒了太棒了太棒了太棒了太棒了太棒了太棒了吧
+                  我的天呐</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-block"></div>
     </div>
+    <div class="footer">
+      <van-button class="join" @click="showPayment = true" type="default">加入学习</van-button>
+    </div>
+    <van-action-sheet v-model="showPayment" title="确认支付" :round="false">
+      <div class="popup">
+        <div class="info">
+          <p>需付金额</p>
+          <div class="price"><label>¥</label>800</div>
+        </div>
+        <div class="btn">
+          <van-button class="payment" @click="payment = true" type="default">确认支付</van-button>
+        </div>
+      </div>
+    </van-action-sheet>
   </div>
 </template>
 
 <script>
-import { Tab, Tabs } from 'vant'
+import { Rate, button, ActionSheet } from 'vant'
 import ListItemCard from '@/components/list/ListItemCard'
 
 export default {
   name: 'SummaryTab',
   components: {
-    [Tab.name]: Tab,
-    [Tabs.name]: Tabs,
+    [Rate.name]: Rate,
+    [button.name]: button,
+    [ActionSheet.name]: ActionSheet,
     ListItemCard
+  },
+  data () {
+    return {
+      value: 4,
+      showPayment: false
+    }
+  },
+  methods: {
+    // 付款
+    payment () {
+    }
   }
 }
 </script>
@@ -56,7 +109,7 @@ export default {
 <style scoped>
   .summary {
     width: 100%;
-    height: 1579px;
+    min-height: 1579px;
     background-image: url("~@/assets/images/home/summary-02.png");
     background-position: top;
     background-size: cover;
@@ -130,6 +183,7 @@ export default {
     display: flex;
     flex-direction: column;
     background-color: initial !important;
+    margin-bottom: 30px;
   }
   .card >>> .card-item-warp {
     background-color: #FFF9F0;
@@ -151,5 +205,138 @@ export default {
     position: absolute;
     top: 38px;
     right: 10px;
+  }
+  .block {
+    margin-bottom: 88px;
+  }
+
+  .comment {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .comment .subtitle h3 {
+    color: #333;
+    font-size: 15px;
+    font-weight: 400;
+    display: inline-block;
+    margin-left: 10px;
+  }
+  .comment .subtitle span {
+    color: #FFBC49;
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 15px;
+    margin-right: 11px;
+  }
+  .comment-item {
+    display: flex;
+  }
+  .comment-item .circle img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+  }
+  .comment-item .right-warp {
+    width: 242px;
+    margin-left: 10px;
+    margin-bottom: 9px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #fff;
+  }
+  .comment-item .info {
+    display: flex;
+    justify-content: space-between;
+  }
+  .comment-item .info .nickname {
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+  }
+  .comment-item .info .date {
+    font-size: 11px;
+    font-weight: 400;
+    color: #979797;
+    line-height: 17px;
+  }
+  .comment-item .description {
+    font-size: 11px;
+    font-weight: 400;
+    color: #585858;
+    line-height:16px;
+  }
+  .bottom-block {
+    width: 100%;
+    height: 220px;
+  }
+
+  .footer {
+    display: flex;
+  }
+  .footer .join {
+    width: 100%;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 2px;
+    margin: 10px 15px;
+    background-color: #DB6073;
+  }
+
+  .popup .info p {
+    margin: 0;
+    color: #333;
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .popup {
+    background-color: #FFF;
+  }
+  .popup .info {
+    position: relative;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 29px;
+  }
+  .popup .info .price {
+    font-size:20px;
+    font-weight: 500;
+    color: #DB6073;
+    position: absolute;
+    right: 25px;
+    top: 25px;
+  }
+  .popup .info .price label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #DB6073;
+    margin-right: 5px;
+  }
+  .popup .btn {
+    display: flex;
+    background-color: #fff;
+    margin-top: 68px;
+  }
+  .popup .btn .payment {
+    width: 100%;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 2px;
+    margin: 10px 15px;
+    background-color: #1E4058;
+  }
+
+  .summary-tab >>> .van-action-sheet__header {
+    color: #333;
+    font-size: 13px;
+    font-weight: 400;
+    background-color: #F8F8F8;
+  }
+  .summary-tab >>> .van-action-sheet__header i {
+    color: #333;
+    font-size: 14px;
   }
 </style>
