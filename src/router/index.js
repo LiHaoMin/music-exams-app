@@ -165,6 +165,14 @@ const routes = [
       title: '成为讲师'
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/join/JoinTeacher')
+  },
+  {
+    path: '/mine/join/func',
+    name: 'TeacherFunc',
+    meta: {
+      title: '讲师功能'
+    },
+    component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/join/TeacherFunc')
   }
 ]
 

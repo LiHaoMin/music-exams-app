@@ -55,8 +55,9 @@ export default {
     color: #333;
     line-height: 20px;
     text-indent: 12px;
-  } .content .text p {
+  }
+  .content .text p {
     margin-top: 10px;
     margin-bottom: 10px;
-      }
+  }
 </style>
