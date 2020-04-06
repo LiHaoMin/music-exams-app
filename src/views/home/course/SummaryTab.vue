@@ -17,14 +17,22 @@
       </div>
       <div class="warpper">
         <div class="title">课程涵盖</div>
-        <div class="container">
+        <div class="container directory">
           <ul>
-            <li>
-              <div>1</div>
-              <div>西方音乐史</div>
-              <div>时长：30</div>
+            <li :key="index" v-for="(item, index) in [1, 1, 1, 1, 1, 1]">
+              <div class="no">{{index + 1}}</div>
+              <div class="text van-ellipsis">西方音乐史</div>
+              <div class="time">时长：30</div>
             </li>
           </ul>
+        </div>
+      </div>
+      <div class="warpper">
+        <div class="title"></div>
+        <div class="container card">
+          <ListItemCard />
+          <ListItemCard />
+          <ListItemCard />
         </div>
       </div>
     </div>
@@ -33,12 +41,14 @@
 
 <script>
 import { Tab, Tabs } from 'vant'
+import ListItemCard from '@/components/list/ListItemCard'
 
 export default {
   name: 'SummaryTab',
   components: {
     [Tab.name]: Tab,
-    [Tabs.name]: Tabs
+    [Tabs.name]: Tabs,
+    ListItemCard
   }
 }
 </script>
@@ -56,8 +66,8 @@ export default {
     align-items: center;
   }
   .warpper {
-    max-width: 305px;
-    max-height: 231px;
+    width: 305px;
+    height: 231px;
     margin-top: 85px;
   }
   .warpper:first-child {
@@ -71,7 +81,6 @@ export default {
     text-align: center;
   }
   .warpper .container {
-    max-height: 231px;
     border-radius:10px;
     background-color: #FFF9F0;
     overflow: scroll;
@@ -85,11 +94,62 @@ export default {
     line-height: 23px;
     padding: 13px 19px 11px 20px;
   }
-  .container li {
+
+  .directory ul {
+    padding: 23px 24px 15px 24px;
+    overflow: scroll;
+  }
+  .directory li {
     display: flex;
     font-size: 11px;
-    padding: 23px 24px;
-    background-color: red;
-    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .directory li .no {
+    background-color: #FF8C3E;
+    padding: 2px 10px;
+    border-radius: 8px;
+    color: #FFF;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .directory li .text {
+    font-size: 14px;
+    color: #333;
+    font-weight: 400;
+    margin-left: 14px;
+    width: 155px;
+  }
+  .directory li .time {
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background-color: initial !important;
+  }
+  .card >>> .card-item-warp {
+    background-color: #FFF9F0;
+    overflow: hidden;
+    height: initial !important;
+    padding: 8px;
+  }
+  .card >>> .card-item-warp .thumb {
+    width: 80px;
+    height: 80px;
+  }
+  .card >>> .card-item-warp .content .title {
+    margin-top: 0;
+  }
+  .card >>> .card-item-warp .content .description {
+    display: none;
+  }
+  .card >>> .card-item-warp .content .price {
+    position: absolute;
+    top: 38px;
+    right: 10px;
   }
 </style>
