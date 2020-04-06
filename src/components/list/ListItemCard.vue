@@ -66,7 +66,7 @@ export default {
     font-weight: 500;
     color: #333;
     margin-top: 10px;
-    display: inline-block;
+    /*display: inline-block;*/
     width: 160px;
   }
   .card-item-warp .content .description {
@@ -74,7 +74,7 @@ export default {
     font-weight: 400;
     color: #333;
     margin-top: 6px;
-    display: inline-block;
+    /*display: inline-block;*/
     width: 160px;
   }
   .card-item-warp .content .teacher {
