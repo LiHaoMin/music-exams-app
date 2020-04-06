@@ -157,6 +157,14 @@ const routes = [
       title: '帮助手册'
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/help/Help')
+  },
+  {
+    path: '/mine/join/teacher',
+    name: 'JoinTeacher',
+    meta: {
+      title: '成为讲师'
+    },
+    component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/join/JoinTeacher')
   }
 ]
 

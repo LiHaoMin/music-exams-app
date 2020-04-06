@@ -38,7 +38,7 @@
       </van-cell-group>
       <div class="gap"></div>
       <van-cell-group>
-        <van-cell center title-class="cell-title" title="成为讲师" is-link>
+        <van-cell center title-class="cell-title" title="成为讲师" is-link to="/mine/join/teacher">
           <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
         </van-cell>
         <van-cell center title-class="cell-title" title="讲师功能" is-link>
