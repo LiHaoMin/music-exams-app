@@ -13,13 +13,21 @@
       </div>
       <div class="price"><label>¥</label><span>100</span></div>
     </div>
+    <div class="rate" @click.stop="onRateClick" v-if="rate">
+      <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" readonly :count="1"  void-color="#FFBC49" v-model="rate" />
+    </div>
   </div>
 </template>
 
 <script>
+import { Rate } from 'vant'
 
 export default {
   props: {
+    rate: Number
+  },
+  components: {
+    [Rate.name]: Rate
   },
   data () {
     return {
@@ -28,6 +36,9 @@ export default {
   methods: {
     onItemClick () {
       this.$emit('onItemClick')
+    },
+    onRateClick () {
+      this.$emit('onRateClick')
     }
   }
 }
@@ -42,6 +53,7 @@ export default {
     padding: 8px 8px 0 8px;
     margin-bottom: 10px;
     display: flex;
+    position: relative;
   }
   .card-item-warp .thumb {
     width: 110px;
@@ -112,5 +124,11 @@ export default {
     font-size: 20px;
     font-weight:500;
     color: #DB6073;
+  }
+
+  .rate {
+    position: absolute;
+    top: 0;
+    right: 15px;
   }
 </style>
