@@ -133,6 +133,22 @@ const routes = [
       title: '购买记录'
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/purchase-history/PurchaseHistory')
+  },
+  {
+    path: '/mine/info',
+    name: 'Info',
+    meta: {
+      title: '个人信息'
+    },
+    component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/info/Info')
+  },
+  {
+    path: '/mine/edit',
+    name: 'InfoEdit',
+    meta: {
+      title: '修改昵称'
+    },
+    component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/info/InfoEdit')
   }
 ]
 

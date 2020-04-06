@@ -26,7 +26,7 @@
         <van-cell center title-class="cell-title" title="购买记录" is-link to="/mine/purchase-history">
           <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
         </van-cell>
-        <van-cell center title-class="cell-title" title="个人信息" is-link>
+        <van-cell center title-class="cell-title" title="个人信息" is-link to="/mine/info">
           <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
         </van-cell>
         <van-cell center title-class="cell-title" title="联系客服" is-link>
@@ -151,8 +151,10 @@ export default {
 
   .btn {
     display: flex;
-    margin-top: 50px;
-    justify-content: center;
+    margin-bottom: 80px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
   }
 
   .btn .logout {
