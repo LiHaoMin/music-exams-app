@@ -245,6 +245,7 @@ export default {
     margin-bottom: 9px;
     padding-bottom: 9px;
     border-bottom: 1px solid #fff;
+    line-height: 17px;
   }
   .comment-item .info {
     display: flex;
@@ -265,7 +266,8 @@ export default {
     font-size: 11px;
     font-weight: 400;
     color: #585858;
-    line-height:16px;
+    line-height: 16px;
+    margin-top: 5px;
   }
   .bottom-block {
     width: 100%;

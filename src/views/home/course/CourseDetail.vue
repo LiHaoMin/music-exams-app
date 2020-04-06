@@ -31,7 +31,7 @@
           <ResumeTab />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="评价（35）">
-          <p>评价（35）</p>
+          <CommentTab />
         </van-tab>
       </van-tabs>
     </div>
@@ -46,6 +46,7 @@ import 'vue-dplayer/dist/vue-dplayer.css'
 import SummaryTab from '@/views/home/course/SummaryTab'
 import DirectoryTab from '@/views/home/course/DirectoryTab'
 import ResumeTab from '@/views/home/course/ResumeTab'
+import CommentTab from '@/views/home/course/CommentTab'
 
 export default {
   name: 'CourseDetail',
@@ -56,6 +57,7 @@ export default {
     SummaryTab,
     DirectoryTab,
     ResumeTab,
+    CommentTab,
     'd-player': VueDPlayer
   },
   data () {
