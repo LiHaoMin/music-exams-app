@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Toast } from 'vant'
 
 const baseURL = '/api'
 
@@ -11,19 +12,19 @@ const instance = axios.create({
     // 设置状态码返回true就算报404，但依旧会显示请求成功
     switch (status) {
       case 400:
-        console.log('请求出错')
+        Toast('请求出错')
         break
       case 401:
-        console.log('授权失败，请重新登录')
+        Toast('授权失败，请重新登录')
         break
       case 403:
-        console.log('授权失败，请重新登录')
+        Toast('授权失败，请重新登录')
         break
       case 404:
-        console.log('请求错误,未找到该资源')
+        Toast('请求错误,未找到该资源')
         break
       case 500:
-        console.log('服务端错误')
+        Toast('服务端错误')
         break
     }
     return status >= 200 && status < 300
@@ -72,7 +73,7 @@ http.get = function (url, options) {
         // reject(response.msg)
       })
       .catch(e => {
-        console.log(e)
+        Toast(e)
       })
   })
 }
@@ -93,7 +94,7 @@ http.post = function (url, data, options) {
         // reject(response.msg)
       })
       .catch(e => {
-        console.log(e)
+        Toast(e)
       })
   })
 }

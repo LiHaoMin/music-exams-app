@@ -26,6 +26,7 @@
 
 <script>
 import { Col, Row, CellGroup, Field, Button, Checkbox, Divider, Toast } from 'vant'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Login',
@@ -56,6 +57,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setUserInfo']),
     // 获取短信验证码
     sendVerifyCode () {
       this.countDown = 60
@@ -79,7 +81,10 @@ export default {
         return
       }
       // TODO 请求登录
-      Toast('请求登录')
+      this.setUserInfo({
+        token: this.phoneNumber
+      })
+      this.$router.replace('/')
     }
   }
 }

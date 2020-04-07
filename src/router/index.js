@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import DashBoard from '@/views/DashBoard'
+import store from '../store'
 
 // 解决多次点击重复路由报错
 const originalPush = VueRouter.prototype.push
@@ -47,7 +48,8 @@ const routes = [
         name: 'Favorite',
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/favorite/Favorite'),
         meta: {
-          title: '收藏课程'
+          title: '收藏课程',
+          requireAuth: true
         }
       },
       {
@@ -56,7 +58,8 @@ const routes = [
         name: 'Learn',
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/learn/Learn'),
         meta: {
-          title: '我的学习'
+          title: '我的学习',
+          requireAuth: true
         }
       },
       {
@@ -65,7 +68,8 @@ const routes = [
         name: 'Mine',
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/mine/Mine'),
         meta: {
-          title: '我的'
+          title: '我的',
+          requireAuth: true
         }
       }
     ]
@@ -130,7 +134,8 @@ const routes = [
     path: '/mine/purchase-history',
     name: 'PurchaseHistory',
     meta: {
-      title: '购买记录'
+      title: '购买记录',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/purchase-history/PurchaseHistory')
   },
@@ -138,7 +143,8 @@ const routes = [
     path: '/mine/info',
     name: 'Info',
     meta: {
-      title: '个人信息'
+      title: '个人信息',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/info/Info')
   },
@@ -146,7 +152,8 @@ const routes = [
     path: '/mine/info/edit',
     name: 'InfoEdit',
     meta: {
-      title: '修改昵称'
+      title: '修改昵称',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/info/InfoEdit')
   },
@@ -162,7 +169,8 @@ const routes = [
     path: '/mine/join/teacher',
     name: 'JoinTeacher',
     meta: {
-      title: '成为讲师'
+      title: '成为讲师',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/join/JoinTeacher')
   },
@@ -170,7 +178,8 @@ const routes = [
     path: '/mine/join/func',
     name: 'TeacherFunc',
     meta: {
-      title: '讲师功能'
+      title: '讲师功能',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/join/TeacherFunc')
   },
@@ -178,7 +187,8 @@ const routes = [
     path: '/mine/chat',
     name: 'Chat',
     meta: {
-      title: '机器人客服'
+      title: '机器人客服',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/chat/Chat')
   }
@@ -207,15 +217,14 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) title = to.meta.title
   if (to.params.title) title = to.params.title
   document.title = title
-  // TODO 路由页面设置to.meta.requireAuth参数这里判断是否登录页
-  const flag = true
-  if (flag) {
-    // 判断该路由是否需要登录权限
-    next()
+  if (to.meta.requireAuth) {
+    if (store.state.userInfo.token) {
+      next()
+    } else {
+      next({ name: 'Login' })
+    }
   } else {
-    next({
-      name: 'login'
-    })
+    next()
   }
 })
 

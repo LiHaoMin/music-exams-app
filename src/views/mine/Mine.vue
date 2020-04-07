@@ -13,7 +13,7 @@
         <img class="gender" :src="require('@/assets/images/mine/male.png')" />
       </div>
       <div class="info">
-        <div class="nickname">蜡笔小新</div>
+        <div class="nickname">{{ userInfo.nickName }}</div>
         <div class="tag">音乐高级讲师</div>
       </div>
       <div class="vip">
@@ -54,6 +54,7 @@
 
 <script>
 import { Cell, CellGroup, Button, Image } from 'vant'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Mine',
@@ -62,7 +63,8 @@ export default {
     [CellGroup.name]: CellGroup,
     [Button.name]: Button,
     [Image.name]: Image
-  }
+  },
+  computed: mapState(['userInfo'])
 }
 </script>
 
