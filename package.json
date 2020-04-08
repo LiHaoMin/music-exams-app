@@ -11,6 +11,7 @@
     "amfe-flexible": "^2.2.1",
     "core-js": "^3.6.4",
     "fastclick": "^1.0.6",
+    "m-share": "^1.0.2",
     "vant": "^2.5.9",
     "vue": "^2.6.11",
     "vue-dplayer": "0.0.10",

@@ -53,6 +53,7 @@ import SummaryTab from '@/views/home/course/SummaryTab'
 import DirectoryTab from '@/views/home/course/DirectoryTab'
 import ResumeTab from '@/views/home/course/ResumeTab'
 import CommentTab from '@/views/home/course/CommentTab'
+import mShare from 'm-share/dist/m-share.min'
 
 export default {
   name: 'CourseDetail',
@@ -104,7 +105,7 @@ export default {
     },
     // 分享
     share () {
-      alert('分享')
+      mShare.popup()
     }
   },
   mounted () {
