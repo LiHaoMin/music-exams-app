@@ -60,7 +60,7 @@ export default {
     ...mapMutations(['setUserInfo']),
     // 获取短信验证码
     sendVerifyCode () {
-      this.countDown = 3
+      this.countDown = 60
       this.timeIntervalID = setInterval(() => {
         this.countDown--
         // 如果减到0 则清除定时器

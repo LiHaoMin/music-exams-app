@@ -1,20 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { getLocalStore, setLocalStore } from '@/utils/global'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     isLoading: false,
-    userInfo: {
-      nickName: '蜡笔小新',
-      phoneNumber: '',
-      token: ''
-    }
+    userInfo: JSON.parse(getLocalStore('user_info') || '{}')
   },
   mutations: {
     setUserInfo (state, user) {
       state.userInfo = { ...user }
+      setLocalStore('user_info', state.userInfo)
     }
   },
   actions: {

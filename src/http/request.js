@@ -35,7 +35,7 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
   config => {
-    if (store.state.userInfo.token) {
+    if (store.state.userInfo && store.state.userInfo.token) {
       config.headers.token = store.state.userInfo.token
     }
     return config
