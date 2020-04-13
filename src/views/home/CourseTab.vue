@@ -89,11 +89,11 @@ export default {
       })
     },
     listFilter (value, index) {
+      this.filterValue = index
+      this.showPicker = false
       this.page = 1
       this.list = []
       this.onLoad()
-      this.filterValue = index
-      this.showPicker = false
     },
     courseItem (item) {
       this.$router.push('/course/detail')
