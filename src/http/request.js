@@ -1,7 +1,8 @@
 import axios from 'axios'
+import store from '@/store'
 import { Toast } from 'vant'
 
-const baseURL = '/api'
+const baseURL = '/musicapp'
 
 const http = {}
 
@@ -34,8 +35,9 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
   config => {
-    // TODO 请求头添加token
-    // config.headers.Authorization = `Bearer ${token}`
+    if (store.state.userInfo.token) {
+      config.headers.token = store.state.userInfo.token
+    }
     return config
   },
   error => {
@@ -46,10 +48,17 @@ instance.interceptors.request.use(
 // 响应拦截器即异常处理
 instance.interceptors.response.use(
   response => {
+    if (response.code && response.code === -1) {
+      Toast(response.msg || '请求失败.')
+    }
+    if (response.code && response.code === 401) {
+      Toast('Token失效.请重新登录.')
+    }
     return response.data
   },
   err => {
     if (err && err.response) {
+      console.log(err)
     } else {
       err.message = '连接服务器失败'
     }
@@ -58,43 +67,39 @@ instance.interceptors.response.use(
 )
 
 http.get = function (url, options) {
-  // let loading = true
-  if (!options || options.isShowLoading !== false) {
-    // TODO 显示loading
+  if (options && options.isShowLoading) {
+    store.state.isLoading = true
   }
   return new Promise((resolve, reject) => {
     instance
       .get(url, options)
       .then(response => {
-        if (!options || options.isShowLoading !== false) {
-          // TODO 隐藏loading
+        if (options && options.isShowLoading) {
+          store.state.isLoading = false
         }
         resolve(response)
-        // reject(response.msg)
       })
       .catch(e => {
-        Toast(e)
+        reject(e)
       })
   })
 }
 
 http.post = function (url, data, options) {
-  // let loading = true
-  if (!options || options.isShowLoading !== false) {
-    // TODO 显示loading
+  if (options && options.isShowLoading) {
+    store.state.isLoading = true
   }
   return new Promise((resolve, reject) => {
     instance
       .post(url, data, options)
       .then(response => {
-        if (!options || options.isShowLoading !== false) {
-          // TODO 隐藏loading
+        if (options && options.isShowLoading) {
+          store.state.isLoading = false
         }
         resolve(response)
-        // reject(response.msg)
       })
       .catch(e => {
-        Toast(e)
+        reject(e)
       })
   })
 }

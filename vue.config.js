@@ -2,8 +2,8 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
     proxy: {
-      '/api': {
-        target: 'https://www.v2ex.com',
+      '/musicapp': {
+        target: 'http://47.114.153.190:8282',
         ws: true,
         changeOrigin: true
       }

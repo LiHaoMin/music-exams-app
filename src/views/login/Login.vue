@@ -4,7 +4,7 @@
     <div class="login-box">
       <van-cell-group>
         <van-field v-model="phoneNumber" maxlength="11" placeholder="请输入手机号" />
-        <van-field v-model="smsCaptcha" maxlength="4" placeholder="请输入验证码">
+        <van-field v-model="smsCaptcha" maxlength="6" placeholder="请输入验证码">
           <van-button slot="button" color="#1E4058" size="small" type="primary"
                       :disabled="captchaDisable"
                       @click="sendVerifyCode"
@@ -42,7 +42,7 @@ export default {
   data () {
     return {
       // 手机号码
-      phoneNumber: '',
+      phoneNumber: '13588119520',
       // 短信验证码
       smsCaptcha: '',
       // 倒计时
@@ -60,7 +60,7 @@ export default {
     ...mapMutations(['setUserInfo']),
     // 获取短信验证码
     sendVerifyCode () {
-      this.countDown = 60
+      this.countDown = 3
       this.timeIntervalID = setInterval(() => {
         this.countDown--
         // 如果减到0 则清除定时器
@@ -68,7 +68,7 @@ export default {
           clearInterval(this.timeIntervalID)
         }
       }, 1000)
-      // TODO 请求验证码
+      this.$http.get('/user-info/get_code', { params: { PhoneNum: this.phoneNumber } })
     },
     // 登录
     login () {
@@ -76,15 +76,16 @@ export default {
         Toast('请输入正确的手机号')
         return
       }
-      if (this.smsCaptcha.length !== 4) {
+      if (this.smsCaptcha.length === 0) {
         Toast('请输入正确的验证码')
         return
       }
-      // TODO 请求登录
-      this.setUserInfo({
-        token: this.phoneNumber
+      this.$http.get('/user-info/sign_in', { isShowLoading: true, params: { PhoneNum: this.phoneNumber, code: this.smsCaptcha } }).then((res) => {
+        this.setUserInfo({
+          token: res.data.token
+        })
+        this.$router.replace('/')
       })
-      this.$router.replace('/')
     }
   }
 }

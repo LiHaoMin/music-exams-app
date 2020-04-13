@@ -5,8 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    isLoading: false,
     userInfo: {
       nickName: '蜡笔小新',
+      phoneNumber: '',
       token: ''
     }
   },
