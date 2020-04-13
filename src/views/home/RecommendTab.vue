@@ -7,7 +7,7 @@
       :finished="finished"
       finished-text="没有更多了"
       @load="onLoad">
-      <ListItemCell @onItemClick="$router.push('/course/detail')" :key="index" v-for="(item, index) in list" />
+      <ListItemCell @onItemClick="recommendItem(item)" :itemData="item" :key="item.id" v-for="item in list" />
     </van-list>
   </div>
 </template>
@@ -27,31 +27,32 @@ export default {
       list: [],
       loading: false,
       error: false,
-      finished: false
+      finished: false,
+      page: 1,
+      size: 1
     }
   },
   methods: {
     onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-
-        // 加载状态结束
+      this.$http.get('/home-page/recommend_curriculum_list', { isShowLoading: true, params: { num: this.page, size: this.size } }).then((res) => {
         this.loading = false
-
-        if (this.list.length === 20) {
+        if (res.code !== 200) {
           this.error = true
           return
         }
-
-        // 数据全部加载完成
-        if (this.list.length >= 30) {
+        if (this.page === 1) {
+          this.list = res.data.records
+        } else {
+          this.list = this.list.concat(res.data.records)
+        }
+        if (this.page === res.data.pages) {
           this.finished = true
         }
-      }, 1000)
+        this.page += 1
+      })
+    },
+    recommendItem (item) {
+      this.$router.push('/course/detail')
     }
   }
 }

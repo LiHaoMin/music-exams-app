@@ -2,19 +2,20 @@
   <div class="list-item-warp" @click="onItemClick">
     <div class="tag">优选</div>
     <div class="list-item-top">
-      <p class="title van-ellipsis">【联报减500】西方音乐史</p>
-      <p class="course">课程：8节</p>
-      <p class="time">时长：1小时30分钟</p>
-      <div class="price"><label>¥</label><span>100</span></div>
+      <p class="title van-ellipsis">{{itemData.curriculumName}}</p>
+      <p class="course">课程：{{itemData.videoNum}}节</p>
+      <p class="time">时长：// TODO 时长</p>
+      <div class="price" v-if="itemData.freeAdmission"><span>免费</span></div>
+      <div class="price" v-else><label>¥</label><span>{{itemData.money}}</span></div>
     </div>
     <div class="list-item-floor">
       <div>
-        <img class="circle" v-lazy="'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg'" />
-        <span>方路</span>
+        <img class="circle" v-lazy="itemData.headPortrait" />
+        <span>{{itemData.teacherName}}</span>
       </div>
       <div>
         <img :src="require('@/assets/images/home/play.png')" />
-        <span>88888</span>
+        <span>{{itemData.orderNum}}</span>
       </div>
     </div>
   </div>
@@ -24,6 +25,7 @@
 
 export default {
   props: {
+    itemData: Object
   },
   data () {
     return {

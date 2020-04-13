@@ -2,8 +2,8 @@
   <div class="find-tab">
     <div class="find-tab-header">
       <van-swipe class="swipe" :autoplay="3000" indicator-color="#fff">
-        <van-swipe-item v-for="(image, index) in images" :key="index">
-          <a href="https://www.baidu.com"><img v-lazy="image" /></a>
+        <van-swipe-item v-for="(image, index) in bannerList" :key="index">
+          <a :href="image.bannerPath"><img v-lazy="image.bannerUrl" /></a>
         </van-swipe-item>
       </van-swipe>
       <van-grid :border="false" :column-num="3">
@@ -47,9 +47,7 @@
       </div>
     </div>
     <list-header title="推荐课程" moreText="更多" @onMore="moreRecommend">
-      <ListItemCell @onItemClick="$router.push('/course/detail')" />
-      <ListItemCell  @onItemClick="$router.push('/course/detail')" />
-      <ListItemCell @onItemClick="$router.push('/course/detail')" />
+      <ListItemCell :key="item.id" :itemData="item" v-for="item in recommendCourseList" @onItemClick="recommendItem(item)" />
     </list-header>
     <list-header title="课程列表" moreText="查看全部" @onMore="moreCourse">
       <ListItemCard @onItemClick="$router.push('/course/detail')" />
@@ -80,12 +78,13 @@ export default {
   },
   data () {
     return {
-      images: [
-        'https://i.loli.net/2020/04/02/CNold4PSJUIayZb.png',
-        'https://i.loli.net/2020/04/02/CNold4PSJUIayZb.png',
-        'https://i.loli.net/2020/04/02/CNold4PSJUIayZb.png'
-      ]
+      bannerList: [],
+      recommendCourseList: []
     }
+  },
+  created () {
+    this.requestBanner()
+    this.requestRecommendCourse()
   },
   methods: {
     // 更多 -> 推荐课程
@@ -93,6 +92,9 @@ export default {
       // 解决tab滚动条位置问题
       window.scrollTo(0, 0)
       this.$emit('tabSelected', 1)
+    },
+    recommendItem (item) {
+      this.$router.push('/course/detail')
     },
     // 查看全部 -> 课程列表
     moreCourse () {
@@ -123,6 +125,16 @@ export default {
     // 音乐留学
     abroad () {
       this.$router.push({ name: 'OfflineCourse', params: { title: '音乐留学', offlineCourseType: 1 } })
+    },
+    requestBanner () {
+      this.$http.get('/home-page/get_banner', { isShowLoading: true }).then((res) => {
+        this.bannerList = res.data
+      })
+    },
+    requestRecommendCourse () {
+      this.$http.get('/home-page/recommend_curriculum_list', { isShowLoading: true, params: { num: 1, size: 3 } }).then((res) => {
+        this.recommendCourseList = res.data.records
+      })
     }
   }
 }
