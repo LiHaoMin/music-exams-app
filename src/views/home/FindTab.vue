@@ -50,9 +50,7 @@
       <ListItemCell :key="item.id" :itemData="item" v-for="item in recommendCourseList" @onItemClick="recommendItem(item)" />
     </list-header>
     <list-header title="课程列表" moreText="查看全部" @onMore="moreCourse">
-      <ListItemCard @onItemClick="$router.push('/course/detail')" />
-      <ListItemCard @onItemClick="$router.push('/course/detail')" />
-      <ListItemCard @onItemClick="$router.push('/course/detail')" />
+      <ListItemCard :key="item.id" :itemData="item" v-for="item in courseList" @onItemClick="courseItem(item)" />
     </list-header>
     <div class="block"></div>
   </div>
@@ -79,12 +77,14 @@ export default {
   data () {
     return {
       bannerList: [],
-      recommendCourseList: []
+      recommendCourseList: [],
+      courseList: []
     }
   },
   created () {
     this.requestBanner()
     this.requestRecommendCourse()
+    this.requestCourseList()
   },
   methods: {
     // 更多 -> 推荐课程
@@ -101,6 +101,9 @@ export default {
       // 解决tab滚动条位置问题
       window.scrollTo(0, 0)
       this.$emit('tabSelected', 2)
+    },
+    courseItem (item) {
+      this.$router.push('/course/detail')
     },
     // 导师博讲堂
     teacher () {
@@ -134,6 +137,11 @@ export default {
     requestRecommendCourse () {
       this.$http.get('/home-page/recommend_curriculum_list', { isShowLoading: true, params: { num: 1, size: 3 } }).then((res) => {
         this.recommendCourseList = res.data.records
+      })
+    },
+    requestCourseList () {
+      this.$http.post('/home-page/get_curriculum_list', { num: 1, size: 3 }, { isShowLoading: true }).then((res) => {
+        this.courseList = res.data.records
       })
     }
   }

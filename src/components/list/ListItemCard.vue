@@ -2,17 +2,19 @@
   <div class="card-item-warp" @click="onItemClick">
     <div class="tag" v-if="isPageType === 2">优选</div>
     <div class="thumb">
-      <img v-lazy="'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg'" />
+      <img v-lazy="itemData.curriculumImg" />
     </div>
     <div class="content">
-      <p class="title van-ellipsis">23天高能专业培训</p>
-      <p class="description van-ellipsis">帮你吃透专业，轻松上岸</p>
-      <p class="teacher">讲师：李丽</p>
+      <p class="title van-ellipsis">{{itemData.curriculumName}}</p>
+      <p class="description van-ellipsis">// TODO 描述</p>
+      <p class="teacher">讲师：{{itemData.teacherName}}</p>
       <div class="play" v-if="isPageType !== 2">
         <img :src="require('@/assets/images/home/play.png')" />
-        <span>88888</span>
+        <span>{{itemData.orderNum}} // TODO 假数据</span>
       </div>
-      <div class="price" v-if="isPageType !== 2"><label>¥</label><span>100</span></div>
+      <div class="price" v-if="isPageType === 2"><label>¥</label><span>100</span></div>
+      <div class="price" v-if="itemData.freeAdmission"><span>免费</span></div>
+      <div class="price" v-else><label>¥</label><span>{{itemData.money}}</span></div>
       <div class="status active" v-if="isPageType === 2">已学习</div>
     </div>
     <div class="rate" @click.stop="onRateClick" v-if="isPageType === 1">
@@ -27,7 +29,8 @@ import { Rate } from 'vant'
 export default {
   props: {
     // 0：默认 1：收藏课程 2：我的学习
-    isPageType: Number
+    isPageType: Number,
+    itemData: Object
   },
   components: {
     [Rate.name]: Rate

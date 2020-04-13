@@ -12,7 +12,7 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad">
-        <ListItemCard @onItemClick="$router.push('/course/detail')" :key="index" v-for="(item, index) in list" />
+        <ListItemCard @onItemClick="courseItem(item)" :key="item.id" :itemData="item" v-for="item in list" />
       </van-list>
     </div>
     <van-popup v-model="showPicker" :safe-area-inset-bottom="true" position="bottom" get-container="#app">
@@ -47,39 +47,61 @@ export default {
       error: false,
       finished: false,
       filterValue: 0,
-      columns: ['全部课程', '中西音乐史', '复调', '和声曲式'],
-      showPicker: false
+      classificationList: [],
+      showPicker: false,
+      page: 1,
+      size: 25
+    }
+  },
+  created () {
+    this.classification()
+  },
+  computed: {
+    columns () {
+      const columns = ['全部课程']
+      this.classificationList.forEach((item) => {
+        columns.push(item.classificationName)
+      })
+      return columns
     }
   },
   methods: {
     onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-
-        // 加载状态结束
+      const data = { num: this.page, size: this.size }
+      if (this.filterValue !== 0) {
+        data.typeA = this.classificationList[this.filterValue - 1].id
+      }
+      this.$http.post('/home-page/get_curriculum_list', data, { isShowLoading: true }).then((res) => {
         this.loading = false
-
-        if (this.list.length === 20) {
+        if (res.code !== 200) {
           this.error = true
           return
         }
-
-        // 数据全部加载完成
-        if (this.list.length >= 30) {
+        if (this.page === 1) {
+          this.list = res.data.records
+        } else {
+          this.list = this.list.concat(res.data.records)
+        }
+        if (this.page === res.data.pages) {
           this.finished = true
         }
-      }, 1000)
-    },
-    showFilterPicker () {
-      alert(1)
+        this.page += 1
+      })
     },
     listFilter (value, index) {
+      this.page = 1
+      this.list = []
+      this.onLoad()
       this.filterValue = index
       this.showPicker = false
+    },
+    courseItem (item) {
+      this.$router.push('/course/detail')
+    },
+    classification () {
+      this.$http.get('/home-page/get_curriculum_classification_list', { isShowLoading: true }).then((res) => {
+        this.classificationList = res.data
+      })
     }
   }
 }
