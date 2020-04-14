@@ -4,7 +4,7 @@
     <div class="sidebar">
       <div class="left-warp">
         <ul>
-          <li class="van-ellipsis" :class="{'active': index === currentCategory}" @click="categoryClick(index)" :key="index" v-for="(item, index) in categories">{{item}}</li>
+          <li class="van-ellipsis" :class="{'active': index === currentCategory}" @click="categoryClick(index)" :key="index" v-for="(item, index) in categories">{{item.classificationName}}</li>
         </ul>
       </div>
       <div class="right-warp">
@@ -19,24 +19,25 @@
             :finished="finished"
             finished-text="没有更多了"
             @load="onLoad">
-            <div class="list-item" :key="index" v-for="(item, index) in list">
+            <div class="list-item" @click="courseItem(item)" :key="item.id" v-for="item in list">
               <div class="thumb">
-                <img v-lazy="'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg'" />
+                <img v-lazy="item.curriculumImg" />
               </div>
               <div class="content">
-                <p class="title">23天高能专业培训</p>
-                <p class="description">帮你吃透专业，轻松上岸</p>
+                <p class="title">{{item.curriculumName}}</p>
+                <p class="description">{{item.briefIntroduction}}</p>
                 <div class="icon">
                   <div>
                     <img :src="require('@/assets/images/home/ren.png')" />
-                    <span>李丽</span>
+                    <span>{{item.teacherName}}</span>
                   </div>
                   <div>
                     <img :src="require('@/assets/images/home/play.png')" />
-                    <span>88888</span>
+                    <span>{{item.isNumOfLearners ? item.numOfLearners : item.orderNum}}</span>
                   </div>
                 </div>
-                <div class="price"><label>¥</label><span>100</span></div>
+                <div class="price" v-if="item.freeAdmission"><span>免费</span></div>
+                <div class="price" v-else><label>¥</label><span>{{item.money}}</span></div>
               </div>
             </div>
           </van-list>
@@ -71,7 +72,10 @@ export default {
       list: [],
       loading: false,
       error: false,
-      finished: false
+      finished: false,
+      typeD: '',
+      page: 1,
+      size: 10
     }
   },
   mounted () {
@@ -83,18 +87,14 @@ export default {
       if (this.currentTab === type) return
       this.currentTab = type
       this.currentCategory = -1
-      const tmpData = [
-        ['考研英语', '考研政治', '和声曲式', '中西音乐史', '其他专业科目'],
-        ['考研英语', '考研政治', '其他专业科目'],
-        ['美国', '澳大利亚', '韩国', '英国', '日本']
-      ]
-      this.categories = tmpData[type - 1]
       this.categoryClick(0)
     },
     // 三级分类点击
-    categoryClick (idx) {
+    async categoryClick (idx) {
       if (this.currentCategory === idx) return
       this.currentCategory = idx
+      await this.requestTwoClassification()
+      this.typeD = this.categories[idx].id
       this.list = []
       // 清空列表数据
       this.finished = false
@@ -105,26 +105,32 @@ export default {
       this.onLoad()
     },
     onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-
-        // 加载状态结束
+      const data = { num: this.page, size: this.size, typeB: this.$route.params.classroomType, typeC: this.currentTab, typeD: this.typeD }
+      this.$http.post('/home-page/get_curriculum_list', data, { isShowLoading: true }).then((res) => {
         this.loading = false
-
-        if (this.list.length === 20) {
+        if (res.code !== 200) {
           this.error = true
           return
         }
-
-        // 数据全部加载完成
-        if (this.list.length >= 30) {
+        if (this.page === 1) {
+          this.list = res.data.records
+        } else {
+          this.list = this.list.concat(res.data.records)
+        }
+        if (this.page === res.data.pages || res.data.records.length === 0) {
           this.finished = true
         }
-      }, 1000)
+        this.page += 1
+      })
+    },
+    requestTwoClassification () {
+      const param = { TypeB: this.$route.params.classroomType, TypeC: this.currentTab }
+      this.$http.get('/home-page/get_two_curriculum_classification_list', { isShowLoading: true, params: param }).then((res) => {
+        this.categories = res.data
+      })
+    },
+    courseItem (item) {
+      this.$router.push('/course/detail')
     }
   }
 }
