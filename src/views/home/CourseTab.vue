@@ -96,7 +96,7 @@ export default {
       this.onLoad()
     },
     courseItem (item) {
-      this.$router.push('/course/detail')
+      this.$router.push('/course/detail/' + item.id)
     },
     classification () {
       this.$http.get('/home-page/get_curriculum_classification_list', { isShowLoading: true }).then((res) => {

@@ -130,7 +130,7 @@ export default {
       })
     },
     courseItem (item) {
-      this.$router.push('/course/detail')
+      this.$router.push('/course/detail/' + item.id)
     }
   }
 }

@@ -107,7 +107,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/offline-course/OfflineCourse')
   },
   {
-    path: '/offline-course/detail',
+    path: '/offline-course/detail/:id',
     name: 'OfflineCourseDetail',
     meta: {
       title: '保过班'
@@ -123,7 +123,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/offline-course/OfflineCourseApply')
   },
   {
-    path: '/course/detail',
+    path: '/course/detail/:id',
     name: 'CourseDetail',
     meta: {
       title: '课程'

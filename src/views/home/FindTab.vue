@@ -94,7 +94,7 @@ export default {
       this.$emit('tabSelected', 1)
     },
     recommendItem (item) {
-      this.$router.push('/course/detail')
+      this.$router.push('/course/detail/' + item.id)
     },
     // 查看全部 -> 课程列表
     moreCourse () {
@@ -103,7 +103,7 @@ export default {
       this.$emit('tabSelected', 2)
     },
     courseItem (item) {
-      this.$router.push('/course/detail')
+      this.$router.push('/course/detail/' + item.id)
     },
     // 导师博讲堂
     teacher () {

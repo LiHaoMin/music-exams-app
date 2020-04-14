@@ -8,7 +8,7 @@
         @search="search">
       </van-search>
     </form>
-    <div class="list-warp" v-if="!isEmpty">
+    <div class="list-warp" v-if="list.length > 0">
       <van-list
         v-model="loading"
         :error.sync="error"
@@ -16,10 +16,10 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad">
-        <ListItemCard :isPageType="1" @onRateClick="onRateClick" :key="index" v-for="(item, index) in list" @onItemClick="$router.push('/course/detail')" />
+        <ListItemCard :isPageType="1" :itemData="item" @onRateClick="onRateClick" :key="item.id" v-for="item in list" @onItemClick="courseItem(item)" />
       </van-list>
     </div>
-    <div class="list-empty" v-if="isEmpty">
+    <div class="list-empty" v-else>
       <img :src="require('@/assets/images/favorite/empty.png')" />
       <p>您还没有收藏课程哦～</p>
     </div>
@@ -40,13 +40,17 @@ export default {
   data () {
     return {
       value: '',
-      isEmpty: true,
       list: [],
       loading: false,
       error: false,
       finished: false,
-      isSearched: false
+      isSearched: false,
+      page: 1,
+      size: 1
     }
+  },
+  created () {
+    this.onLoad()
   },
   methods: {
     // 搜索
@@ -55,6 +59,8 @@ export default {
       this.list = []
       // 清空列表数据
       this.finished = false
+
+      // TODO 搜索
 
       // 重新加载数据
       // 将 loading 设置为 true，表示处于加载状态
@@ -66,33 +72,31 @@ export default {
       Dialog.confirm({
         message: '取消收藏后，课程被移除，\n确定取消收藏吗？'
       }).then(() => {
-        // on confirm
+        // TODO 取消收藏
       }).catch(() => {
         // on cancel
       })
     },
     onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-
-        // 加载状态结束
+      this.$http.get('/home-page/get_collection_list', { isShowLoading: true, params: { num: this.page, size: this.size } }).then((res) => {
         this.loading = false
-        this.isEmpty = false
-
-        if (this.list.length === 20) {
+        if (res.code !== 200) {
           this.error = true
           return
         }
-
-        // 数据全部加载完成
-        if (this.list.length >= 30) {
+        if (this.page === 1) {
+          this.list = res.data.records
+        } else {
+          this.list = this.list.concat(res.data.records)
+        }
+        if (this.page === res.data.pages || res.data.records.length === 0) {
           this.finished = true
         }
-      }, 1000)
+        this.page += 1
+      })
+    },
+    courseItem (item) {
+      this.$router.push('/course/detail/' + item.id)
     }
   }
 }

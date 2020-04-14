@@ -52,7 +52,7 @@ export default {
       })
     },
     recommendItem (item) {
-      this.$router.push('/course/detail')
+      this.$router.push('/course/detail/' + item.id)
     }
   }
 }

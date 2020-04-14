@@ -40,7 +40,7 @@ export default {
   methods: {
     // 明细点击
     itemClick (item) {
-      this.$router.push('/offline-course/detail')
+      this.$router.push('/offline-course/detail/' + item.id)
     },
     onLoad () {
       const data = { num: this.page, size: this.size, typeA: this.$route.params.offlineCourseType }
