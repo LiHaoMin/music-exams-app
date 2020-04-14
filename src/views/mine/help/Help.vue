@@ -4,14 +4,7 @@
     <div class="content">
       <div class="title">帮助手册</div>
       <div class="text">
-        <p>帮助手册大等哈看就是短发就是快的哈快结束的是
-        打开警示灯看见啊好看的就啊好的机会哈手机客户端上
-        很大空间设计的空间上的空间啊我还看得见和萨快接书
-          会打开手机等哈看手机号。</p>
-        <p>帮助手册大等哈看就是短发就是快的哈快结束的是
-        打开警示灯看见啊好看的就啊好的机会哈手机客户端上
-        很大空间设计的空间上的空间啊我还看得见和萨快接书
-          会打开手机等哈看手机号。</p>
+        <p>{{helpText.content}}</p>
       </div>
     </div>
   </div>
@@ -27,9 +20,20 @@ export default {
   },
   data () {
     return {
+      helpText: {}
     }
   },
+  created () {
+    this.requestHelp()
+  },
   methods: {
+    requestHelp () {
+      this.$http.get('/user-info/get_help', { isShowLoading: true }).then((res) => {
+        if (res.data && res.data.length > 0) {
+          this.helpText = res.data[0]
+        }
+      })
+    }
   }
 }
 </script>
