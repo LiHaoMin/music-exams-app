@@ -25,5 +25,6 @@ export default {
   .nav-bar {
     position: relative;
     z-index: 99;
+    display: none;
   }
 </style>
