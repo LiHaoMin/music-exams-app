@@ -11,8 +11,8 @@
           @cancel="$router.back()">
         </van-search>
       </form>
-      <div class="hot-warp" v-if="!isSearched">
-        <span>热门搜索</span>
+      <div class="hot-warp" v-if="!isSearched && hotTags.length > 0">
+        <span>历史搜索</span>
         <div class="tags">
           <div class="tag" @click="tag(item)" :key="index" v-for="(item,index) in hotTags">{{ item }}</div>
         </div>
@@ -26,10 +26,7 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad">
-        <template v-for="(item, index) in list">
-          <ListItemCell  @onItemClick="$router.push('/course/detail')" :key="index" v-if="index % 2 === 0" />
-          <ListItemCard @onItemClick="$router.push('/course/detail')" :key="index" v-else />
-        </template>
+        <ListItemCard @onItemClick="courseItem(item)" :key="item.id" :itemData="item" v-for="item in list" />
       </van-list>
     </div>
   </div>
@@ -37,26 +34,27 @@
 
 <script>
 import { Search, List } from 'vant'
-import ListItemCell from '@/components/list/ListItemCell'
 import ListItemCard from '@/components/list/ListItemCard'
+import { getLocalStore, setLocalStore } from '@/utils/global'
 
 export default {
   name: 'Search',
   components: {
     [Search.name]: Search,
     [List.name]: List,
-    ListItemCell,
     ListItemCard
   },
   data () {
     return {
       value: '',
-      hotTags: ['考研', '中西音乐史', '舞蹈'],
+      hotTags: JSON.parse(getLocalStore('history_tags') || '[]'),
       list: [],
       loading: false,
       error: false,
       finished: false,
-      isSearched: false
+      isSearched: false,
+      page: 1,
+      size: 10
     }
   },
   methods: {
@@ -64,6 +62,14 @@ export default {
     search () {
       this.isSearched = true
       this.list = []
+
+      // TODO 搜索问题 ps：lhm
+
+      if (this.hotTags.indexOf(this.value) === -1) {
+        this.hotTags.push(this.value)
+        setLocalStore('history_tags', this.hotTags)
+      }
+
       // 清空列表数据
       this.finished = false
 
@@ -78,26 +84,26 @@ export default {
       this.search()
     },
     onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-
-        // 加载状态结束
+      const data = { num: this.page, size: this.size, search: this.value }
+      this.$http.post('/home-page/get_curriculum_list', data, { isShowLoading: true }).then((res) => {
         this.loading = false
-
-        if (this.list.length === 20) {
+        if (res.code !== 200) {
           this.error = true
           return
         }
-
-        // 数据全部加载完成
-        if (this.list.length >= 30) {
+        if (this.page === 1) {
+          this.list = res.data.records
+        } else {
+          this.list = this.list.concat(res.data.records)
+        }
+        if (this.page === res.data.pages || res.data.records.length === 0) {
           this.finished = true
         }
-      }, 1000)
+        this.page += 1
+      })
+    },
+    courseItem (item) {
+      this.$router.push('/course/detail')
     }
   }
 }

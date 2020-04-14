@@ -45,7 +45,7 @@ export default {
         } else {
           this.list = this.list.concat(res.data.records)
         }
-        if (this.page === res.data.pages) {
+        if (this.page === res.data.pages || res.data.records.length === 0) {
           this.finished = true
         }
         this.page += 1

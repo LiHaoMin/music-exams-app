@@ -15,7 +15,7 @@
       </div>
       <div>
         <img :src="require('@/assets/images/home/play.png')" />
-        <span>{{itemData.orderNum}}</span>
+        <span>{{itemData.isNumOfLearners ? itemData.numOfLearners : itemData.orderNum}}</span>
       </div>
     </div>
   </div>

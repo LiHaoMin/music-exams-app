@@ -1,6 +1,8 @@
 import axios from 'axios'
 import store from '@/store'
+import router from '@/router'
 import { Toast } from 'vant'
+import { removeLocalStore } from '@/utils/global'
 
 const baseURL = '/musicapp'
 
@@ -48,13 +50,16 @@ instance.interceptors.request.use(
 // 响应拦截器即异常处理
 instance.interceptors.response.use(
   response => {
-    if (response.code && response.code === -1) {
-      Toast(response.msg || '请求失败.')
+    const res = response.data
+    if (res.code && res.code === -1) {
+      Toast(res.msg || '请求失败.')
     }
-    if (response.code && response.code === 401) {
+    if (res.code && res.code === 10004) {
       Toast('Token失效.请重新登录.')
+      router.replace({ name: 'Login' })
+      removeLocalStore('user_info')
     }
-    return response.data
+    return res
   },
   err => {
     if (err && err.response) {

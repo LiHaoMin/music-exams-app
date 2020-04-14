@@ -6,11 +6,11 @@
     </div>
     <div class="content">
       <p class="title van-ellipsis">{{itemData.curriculumName}}</p>
-      <p class="description van-ellipsis">// TODO 描述</p>
+      <p class="description van-ellipsis">{{itemData.briefIntroduction}}</p>
       <p class="teacher">讲师：{{itemData.teacherName}}</p>
       <div class="play" v-if="isPageType !== 2">
         <img :src="require('@/assets/images/home/play.png')" />
-        <span>{{itemData.orderNum}} // TODO 假数据</span>
+        <span>{{itemData.isNumOfLearners ? itemData.numOfLearners : itemData.orderNum}}</span>
       </div>
       <div class="price" v-if="isPageType === 2"><label>¥</label><span>100</span></div>
       <div class="price" v-if="itemData.freeAdmission"><span>免费</span></div>

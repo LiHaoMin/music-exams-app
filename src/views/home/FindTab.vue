@@ -3,7 +3,7 @@
     <div class="find-tab-header">
       <van-swipe class="swipe" :autoplay="3000" indicator-color="#fff">
         <van-swipe-item v-for="(image, index) in bannerList" :key="index">
-          <a :href="image.bannerPath"><img v-lazy="image.bannerUrl" /></a>
+          <a :href="image.bannerPath" target="_blank"><img v-lazy="image.bannerUrl" /></a>
         </van-swipe-item>
       </van-swipe>
       <van-grid :border="false" :column-num="3">
@@ -119,15 +119,15 @@ export default {
     },
     // 音乐考研
     music () {
-      this.$router.push({ name: 'OfflineCourse', params: { title: '音乐考研', offlineCourseType: 1 } })
+      this.$router.push({ name: 'OfflineCourse', params: { title: '音乐考研', offlineCourseType: 51 } })
     },
     // 舞蹈考研
     dance () {
-      this.$router.push({ name: 'OfflineCourse', params: { title: '舞蹈考研', offlineCourseType: 1 } })
+      this.$router.push({ name: 'OfflineCourse', params: { title: '舞蹈考研', offlineCourseType: 52 } })
     },
     // 音乐留学
     abroad () {
-      this.$router.push({ name: 'OfflineCourse', params: { title: '音乐留学', offlineCourseType: 1 } })
+      this.$router.push({ name: 'OfflineCourse', params: { title: '音乐留学', offlineCourseType: 53 } })
     },
     requestBanner () {
       this.$http.get('/home-page/get_banner', { isShowLoading: true }).then((res) => {

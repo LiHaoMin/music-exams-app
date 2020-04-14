@@ -50,7 +50,7 @@ export default {
       classificationList: [],
       showPicker: false,
       page: 1,
-      size: 25
+      size: 10
     }
   },
   created () {
@@ -82,7 +82,7 @@ export default {
         } else {
           this.list = this.list.concat(res.data.records)
         }
-        if (this.page === res.data.pages) {
+        if (this.page === res.data.pages || res.data.records.length === 0) {
           this.finished = true
         }
         this.page += 1
