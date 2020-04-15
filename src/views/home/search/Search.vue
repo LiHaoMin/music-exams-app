@@ -62,8 +62,7 @@ export default {
     search () {
       this.isSearched = true
       this.list = []
-
-      // TODO 搜索问题 ps：lhm
+      this.page = 1
 
       if (this.hotTags.indexOf(this.value) === -1) {
         this.hotTags.push(this.value)
