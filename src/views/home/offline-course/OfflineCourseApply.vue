@@ -3,11 +3,11 @@
     <NavBar />
     <div class="form">
       <van-cell-group>
-        <van-field label-class="my-label" label="姓名" placeholder="请输入" input-align="right" />
-        <van-field label-class="my-label" label="本科院校" placeholder="请输入" input-align="right" />
-        <van-field label-class="my-label" label="报考院校" placeholder="请输入" input-align="right" />
-        <van-field label-class="my-label" label="报考专业" placeholder="请输入" input-align="right" />
-        <van-field label-class="my-label" label="电话" placeholder="请输入" input-align="right" />
+        <van-field label-class="my-label" label="姓名" placeholder="请输入" input-align="right" v-model="info.signUpName" />
+        <van-field label-class="my-label" label="本科院校" placeholder="请输入" input-align="right" v-model="info.school" />
+        <van-field label-class="my-label" label="报考院校" placeholder="请输入" input-align="right" v-model="info.bkSchool" />
+        <van-field label-class="my-label" label="报考专业" placeholder="请输入" input-align="right" v-model="info.bkMajor" />
+        <van-field label-class="my-label" label="电话" placeholder="请输入" input-align="right" v-model="info.telephone" />
       </van-cell-group>
     </div>
     <div class="content">
@@ -48,10 +48,11 @@
       <div class="popup">
         <div class="info">
           <p>需付金额</p>
-          <div class="price"><label>¥</label>800</div>
+          <div class="price" v-if="detail.freeAdmission"><span>免费</span></div>
+          <div class="price" v-else><label>¥</label><span>{{detail.money}}</span></div>
         </div>
         <div class="btn">
-          <van-button class="payment" @click="payment = true" type="default">确认支付</van-button>
+          <van-button class="payment" @click="payment" type="default">确认支付</van-button>
         </div>
       </div>
     </van-action-sheet>
@@ -59,7 +60,7 @@
 </template>
 
 <script>
-import { Cell, CellGroup, Field, Button, ActionSheet } from 'vant'
+import { Cell, CellGroup, Field, Button, ActionSheet, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import ListHeader from '@/components/list/ListHeader'
 import { getLocalStore, removeLocalStore } from '@/utils/global'
@@ -78,7 +79,8 @@ export default {
   data () {
     return {
       showPayment: false,
-      detail: {}
+      detail: {},
+      info: {}
     }
   },
   created () {
@@ -90,6 +92,20 @@ export default {
   methods: {
     // 付款
     payment () {
+      alert(1)
+      // TODO 此处需判断如果免费直接报名
+      // TODO 接入微信支付
+      this.requestJoin()
+    },
+    requestJoin () {
+      this.info.curriculumId = this.$route.params.id
+      this.$http.post('/home-page/join_curriculum', this.info, { isShowLoading: true }).then((res) => {
+        if (res && res.data) {
+          Toast.success('操作成功')
+        } else {
+          Toast.fail('操作失败')
+        }
+      })
     }
   }
 }
