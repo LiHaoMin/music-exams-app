@@ -26,7 +26,22 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad">
-        <ListItemCard @onItemClick="courseItem(item)" :key="item.id" :itemData="item" v-for="item in list" />
+        <div class="card-item-warp" :key="item.id" v-for="item in list" @click="courseItem(item)">
+          <div class="thumb">
+            <img v-lazy="item.curriculumImg" />
+          </div>
+          <div class="content">
+            <p class="title van-ellipsis">{{item.curriculumName}}</p>
+            <p class="description van-ellipsis">{{item.briefIntroduction}}</p>
+            <p class="teacher">讲师：{{item.teacherName}}</p>
+            <div class="play">
+              <img :src="require('@/assets/images/home/play.png')" />
+              <span>{{item.isNumOfLearners ? item.numOfLearners : item.orderNum}}</span>
+            </div>
+            <div class="price" v-if="item.freeAdmission"><span>免费</span></div>
+            <div class="price" v-else><label>¥</label><span>{{item.money}}</span></div>
+          </div>
+        </div>
       </van-list>
     </div>
   </div>
@@ -34,7 +49,6 @@
 
 <script>
 import { Search, List } from 'vant'
-import ListItemCard from '@/components/list/ListItemCard'
 import { getLocalStore, setLocalStore } from '@/utils/global'
 
 // TODO 推荐/两种样式
@@ -43,8 +57,7 @@ export default {
   name: 'Search',
   components: {
     [Search.name]: Search,
-    [List.name]: List,
-    ListItemCard
+    [List.name]: List
   },
   data () {
     return {
@@ -144,5 +157,124 @@ export default {
 
   .search-result {
     padding: 10px 15px;
+  }
+
+  .card-item-warp {
+    height: 126px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(234,234,234,0.5);
+    border-radius:10px;
+    padding: 8px 8px 0 8px;
+    margin-bottom: 10px;
+    display: flex;
+    position: relative;
+  }
+  .card-item-warp .thumb {
+    width: 110px;
+    height: 110px;
+  }
+  .card-item-warp .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .card-item-warp .content {
+    margin-left: 21px;
+    flex: 1;
+    position: relative;
+  }
+  .card-item-warp .content p {
+    margin: 0;
+  }
+  .card-item-warp .content .title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 10px;
+    /*display: inline-block;*/
+    width: 160px;
+  }
+  .card-item-warp .content .description {
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    margin-top: 6px;
+    /*display: inline-block;*/
+    width: 160px;
+  }
+  .card-item-warp .content .teacher {
+    font-size: 12px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 17px;
+  }
+  .card-item-warp .content .play {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .card-item-warp .content .play img {
+    width: 11px;
+    height: 11px;
+  }
+  .card-item-warp .content .play span {
+    font-size: 12px;
+    font-weight: 400;
+    color: #888;
+    margin-left: 3px;
+  }
+  .card-item-warp .content .price {
+    position: absolute;
+    top: 85px;
+    right: 10px;
+  }
+  .card-item-warp .content .price label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #DB6073;
+  }
+  .card-item-warp .content .price span {
+    font-size: 20px;
+    font-weight:500;
+    color: #DB6073;
+  }
+
+  .rate {
+    position: absolute;
+    top: 0;
+    right: 15px;
+  }
+
+  .card-item-warp .tag {
+    width: 38px;
+    height: 23px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 23px;
+    background-image: url("~@/assets/images/home/list-tag.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .card-item-warp .content .status {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+  }
+  .card-item-warp .content .status {
+    font-size: 12px;
+    font-weight:500;
+    color: #FFBC49;
+    line-height: 17px;
+  }
+  .card-item-warp .content .active {
+    color: #888;
   }
 </style>
