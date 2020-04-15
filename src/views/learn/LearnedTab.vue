@@ -1,6 +1,6 @@
 <template>
   <div class="learned-tab">
-    <div class="list-warp" v-if="!isEmpty">
+    <div class="list-warp" v-if="list.length > 0">
       <van-list
         v-model="loading"
         :error.sync="error"
@@ -8,10 +8,10 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad">
-        <ListItemCard :isPageType="2" @onRateClick="onRateClick" :key="index" v-for="(item, index) in list" @onItemClick="$router.push('/course/detail')" />
+        <ListItemCard :isPageType="2" :itemData="item" :key="item.id" v-for="item in list" @onItemClick="courseItem(item)" />
       </van-list>
     </div>
-    <div class="list-empty" v-if="isEmpty">
+    <div class="list-empty" v-else>
       <img :src="require('@/assets/images/learn/empty.png')" />
       <p>这里空空如也～</p>
     </div>
@@ -22,6 +22,7 @@
 import { List } from 'vant'
 import ListItemCard from '@/components/list/ListItemCard'
 
+// TODO 学习时长/推荐
 export default {
   name: 'LearnedTab',
   components: {
@@ -30,37 +31,38 @@ export default {
   },
   data () {
     return {
-      isEmpty: false,
       list: [],
       loading: false,
       error: false,
       finished: false,
-      isSearched: false
+      page: 1,
+      size: 10
     }
+  },
+  created () {
+    this.onLoad()
   },
   methods: {
     onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-
-        // 加载状态结束
+      this.$http.get('/home-page/get_my_studied_list', { isShowLoading: true, params: { num: this.page, size: this.size, judge: true } }).then((res) => {
         this.loading = false
-        this.isEmpty = false
-
-        if (this.list.length === 20) {
+        if (res.code !== 200) {
           this.error = true
           return
         }
-
-        // 数据全部加载完成
-        if (this.list.length >= 30) {
+        if (this.page === 1) {
+          this.list = res.data.records
+        } else {
+          this.list = this.list.concat(res.data.records)
+        }
+        if (this.page === res.data.pages || res.data.records.length === 0) {
           this.finished = true
         }
-      }, 1000)
+        this.page += 1
+      })
+    },
+    courseItem (item) {
+      this.$router.push('/course/detail/' + item.id)
     }
   }
 }

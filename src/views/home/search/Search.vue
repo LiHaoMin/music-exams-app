@@ -37,6 +37,8 @@ import { Search, List } from 'vant'
 import ListItemCard from '@/components/list/ListItemCard'
 import { getLocalStore, setLocalStore } from '@/utils/global'
 
+// TODO 推荐/两种样式
+
 export default {
   name: 'Search',
   components: {

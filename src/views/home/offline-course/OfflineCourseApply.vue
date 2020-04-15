@@ -20,7 +20,7 @@
           <img class="right-icon" :src="require('@/assets/images/home/tips.png')" />
         </div>
         <div class="tips">
-          <div class="text">18279866888</div>
+          <div class="text">{{detail.teacherTelephone}}</div>
           <img class="right-icon" :src="require('@/assets/images/home/tips.png')" />
         </div>
       </div>
