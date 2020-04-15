@@ -115,7 +115,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/offline-course/OfflineCourseDetail')
   },
   {
-    path: '/offline-course/apply',
+    path: '/offline-course/apply/:id',
     name: 'OfflineCourseApply',
     meta: {
       title: '报名信息填写'

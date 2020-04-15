@@ -28,11 +28,8 @@
       <div class="resume">
         {{detail.teacherIntroduce}}
       </div>
-      <div class="introduction">
+      <div class="introduction" v-if="showController">
         <d-player ref="player" @timeupdate="timeupdate" @ended="ended" :options="options"></d-player>
-        <div class="player-controller" v-if="showController">
-          <img @click.stop="play" :src="require('@/assets/images/home/v-play.png')" />
-        </div>
       </div>
     </div>
     <div class="footer">
@@ -46,6 +43,7 @@ import { Button, Dialog, Swipe, SwipeItem } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import VueDPlayer from 'vue-dplayer'
 import 'vue-dplayer/dist/vue-dplayer.css'
+import { setLocalStore } from '@/utils/global'
 
 // TODO 带班老师/视频介绍
 
@@ -102,11 +100,17 @@ export default {
     },
     // 我要报名
     apply () {
-      this.$router.push('/offline-course/apply')
+      this.$router.push({ name: 'OfflineCourseApply', params: { id: this.detail.id } })
+      setLocalStore('apply_detail', this.detail)
     },
     requestCourseDetail () {
       this.$http.get('/home-page/get_curriculum_content', { isShowLoading: true, params: { CurriculumId: this.$route.params.id } }).then((res) => {
         this.detail = res.data
+        if (this.detail.videoIntroduction) {
+          this.options.video.url = this.detail.videoIntroduction
+          this.options.video.pic = this.detail.videoIntroduction + '?vframe/jpg/offset/1/w/800/h/640'
+        }
+        this.showController = true
       })
     }
   },
@@ -268,10 +272,10 @@ export default {
     margin: 10px 15px;
     background-color: #DB6073;
   }
-  .player >>> .dplayer {
+  .introduction >>> .dplayer {
     width: 100%;
     height: 100%;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
   }
 
   .introduction >>> .dplayer-controller {

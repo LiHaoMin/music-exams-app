@@ -12,7 +12,7 @@
     </div>
     <div class="content">
       <ListHeader title="您选择的课程">
-        <ListItemCard />
+        <ListItemCard :itemData="detail" />
       </ListHeader>
       <div class="tips-warp van-clearfix">
         <div class="tips">
@@ -47,6 +47,7 @@ import { Cell, CellGroup, Field, Button, ActionSheet } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import ListHeader from '@/components/list/ListHeader'
 import ListItemCard from '@/components/list/ListItemCard'
+import { getLocalStore, removeLocalStore } from '@/utils/global'
 
 export default {
   name: 'OfflineCourseApply',
@@ -62,8 +63,15 @@ export default {
   },
   data () {
     return {
-      showPayment: false
+      showPayment: false,
+      detail: {}
     }
+  },
+  created () {
+    this.detail = JSON.parse(getLocalStore('apply_detail') || '{}')
+  },
+  beforeDestroy () {
+    removeLocalStore('apply_detail')
   },
   methods: {
     // 付款
