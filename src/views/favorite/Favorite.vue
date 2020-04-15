@@ -39,7 +39,7 @@ export default {
   },
   data () {
     return {
-      value: '',
+      value: null,
       list: [],
       loading: false,
       error: false,
@@ -61,6 +61,7 @@ export default {
       this.finished = false
 
       // TODO 搜索
+      this.page = 1
 
       // 重新加载数据
       // 将 loading 设置为 true，表示处于加载状态
@@ -78,7 +79,7 @@ export default {
       })
     },
     onLoad () {
-      this.$http.get('/home-page/get_collection_list', { isShowLoading: true, params: { num: this.page, size: this.size } }).then((res) => {
+      this.$http.post('/home-page/get_collection_list', { num: this.page, size: this.size, search: this.value }, { isShowLoading: true }).then((res) => {
         this.loading = false
         if (res.code !== 200) {
           this.error = true
