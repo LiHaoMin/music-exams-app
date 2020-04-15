@@ -2,7 +2,7 @@
   <div class="info">
     <NavBar />
     <van-cell-group>
-      <van-cell title-class="cell-title" center is-link title="昵称" v-model="nickName" @click="openNickname" />
+      <van-cell title-class="cell-title" center is-link title="昵称" v-model="userInfo.name" @click="openNickname" />
       <van-cell title-class="cell-title" center is-link title="性别" v-model="gender" @click="showGender = true" />
       <van-cell title-class="cell-title" center is-link title="更换头像" @click="$refs.uploader.chooseFile()">
         <van-image
@@ -28,6 +28,7 @@
 <script>
 import { Cell, CellGroup, ActionSheet, Uploader, Image, Button } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Info',
@@ -47,10 +48,10 @@ export default {
         { name: '男', color: '#DB6073' },
         { name: '女', color: '#333' }
       ],
-      nickName: '张无忌',
       gender: '男'
     }
   },
+  computed: mapState(['userInfo']),
   methods: {
     // 修改昵称
     openNickname () {

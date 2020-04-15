@@ -78,6 +78,7 @@ export default {
     requestUserInfo () {
       this.$http.get('/user-info/user_content', { isShowLoading: true }).then((res) => {
         this.setUserInfo({
+          userId: res.data.mUserInfo.id,
           headPortrait: res.data.mUserInfo.headPortrait,
           name: res.data.mUserInfo.name,
           account: res.data.mUserInfo.account,

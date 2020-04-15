@@ -8,14 +8,15 @@
                  :placeholder="nickName" />
     </van-cell-group>
     <div class="btn">
-      <van-button class="edit" type="default">确认修改</van-button>
+      <van-button class="edit" type="default" @click="edit">确认修改</van-button>
     </div>
   </div>
 </template>
 
 <script>
-import { CellGroup, Field, Button } from 'vant'
+import { CellGroup, Field, Button, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'InfoEdit',
@@ -28,13 +29,29 @@ export default {
   data () {
     return {
       // 路由传递过来的参数 nickName
-      nickName: this.$route.params.nickName
+      nickName: ''
     }
   },
+  computed: mapState(['userInfo']),
   methods: {
+    ...mapMutations(['setUserInfo']),
+    edit () {
+      this.$http.post('/user-info/update_User', { name: this.nickName }, { isShowLoading: true }).then((res) => {
+        if (res && res.data) {
+          Toast.success('操作成功')
+          this.setUserInfo({
+            name: this.nickName
+          })
+          this.$router.back()
+        } else {
+          Toast.fail('操作失败')
+        }
+      })
+    }
   },
   mounted () {
     this.$refs.field.focus()
+    this.nickName = this.userInfo.name
   }
 }
 </script>
