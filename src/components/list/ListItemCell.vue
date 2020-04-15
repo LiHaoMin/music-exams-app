@@ -4,7 +4,7 @@
     <div class="list-item-top">
       <p class="title van-ellipsis">{{itemData.curriculumName}}</p>
       <p class="course">课程：{{itemData.videoNum}}节</p>
-      <p class="time">时长：// TODO 时长</p>
+      <p class="time"></p>
       <div class="price" v-if="itemData.freeAdmission"><span>免费</span></div>
       <div class="price" v-else><label>¥</label><span>{{itemData.money}}</span></div>
     </div>
