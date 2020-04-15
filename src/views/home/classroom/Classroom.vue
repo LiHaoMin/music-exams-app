@@ -123,11 +123,10 @@ export default {
         this.page += 1
       })
     },
-    requestTwoClassification () {
+    async requestTwoClassification () {
       const param = { TypeB: this.$route.params.classroomType, TypeC: this.currentTab }
-      this.$http.get('/home-page/get_two_curriculum_classification_list', { isShowLoading: true, params: param }).then((res) => {
-        this.categories = res.data
-      })
+      const res = await this.$http.get('/home-page/get_two_curriculum_classification_list', { isShowLoading: true, params: param })
+      this.categories = res.data
     },
     courseItem (item) {
       this.$router.push('/course/detail/' + item.id)
