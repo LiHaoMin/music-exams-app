@@ -91,7 +91,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "search" */ '@/views/home/search/Search')
   },
   {
-    path: '/classroom',
+    path: '/classroom/:classroomType',
     name: 'Classroom',
     meta: {
       title: '导师博讲堂'
@@ -99,7 +99,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "classroom" */ '@/views/home/classroom/Classroom')
   },
   {
-    path: '/offline-course',
+    path: '/offline-course/:offlineCourseType',
     name: 'OfflineCourse',
     meta: {
       title: '音乐考研'
