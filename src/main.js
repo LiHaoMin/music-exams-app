@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from './http/request'
+import moment from 'moment'
 
 // 移动端适配
 import 'amfe-flexible'
@@ -24,6 +25,10 @@ Dialog.setDefaultOptions({
 })
 
 Vue.prototype.$http = axios
+
+Vue.filter('datafmt', (input, fmt) => {
+  return input ? moment(input).format(fmt) : ''
+})
 
 Vue.config.productionTip = false
 

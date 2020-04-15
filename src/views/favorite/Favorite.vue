@@ -46,7 +46,7 @@ export default {
       finished: false,
       isSearched: false,
       page: 1,
-      size: 1
+      size: 10
     }
   },
   created () {

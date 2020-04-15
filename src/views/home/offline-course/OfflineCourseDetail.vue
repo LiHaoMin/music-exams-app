@@ -11,7 +11,8 @@
         <div class="title">
           <p>{{detail.curriculumName}}</p>
           <p>{{detail.isNumOfLearners ? detail.numOfLearners : detail.num }}人已报名</p>
-          <div class="price"><label>¥</label>800</div>
+          <div class="price" v-if="detail.freeAdmission"><span>免费</span></div>
+          <div class="price" v-else><label>¥</label><span>{{detail.money}}</span></div>
         </div>
         <div class="teacher">
           <img class="circle" v-lazy="detail.headPortrait" />
@@ -41,12 +42,12 @@
 </template>
 
 <script>
-import { Button, Dialog, Swipe } from 'vant'
+import { Button, Dialog, Swipe, SwipeItem } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import VueDPlayer from 'vue-dplayer'
 import 'vue-dplayer/dist/vue-dplayer.css'
 
-// TODO 带班老师/视频介绍/轮播图
+// TODO 带班老师/视频介绍
 
 export default {
   name: 'OfflineCourseDetail',
@@ -54,6 +55,7 @@ export default {
     [Button.name]: Button,
     [Dialog.name]: Dialog,
     [Swipe.name]: Swipe,
+    [SwipeItem.name]: SwipeItem,
     NavBar,
     'd-player': VueDPlayer
   },
