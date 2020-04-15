@@ -8,13 +8,13 @@
           lazy-load
           round
           fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
+          :src="userInfo.headPortrait"
         />
         <img class="gender" :src="require('@/assets/images/mine/male.png')" />
       </div>
       <div class="info">
-        <div class="nickname">{{ userInfo.nickName }}</div>
-        <div class="tag">音乐高级讲师</div>
+        <div class="nickname">{{ userInfo.name }}</div>
+        <div class="tag" v-if="userInfo.userType === 3">音乐高级讲师</div>
       </div>
       <div class="vip">
         <img :src="require('@/assets/images/mine/vip.png')" />
@@ -47,14 +47,15 @@
       </van-cell-group>
     </div>
     <div class="btn">
-      <van-button class="logout" type="default">退出登录</van-button>
+      <van-button class="logout" type="default" @click="logout">退出登录</van-button>
     </div>
   </div>
 </template>
 
 <script>
 import { Cell, CellGroup, Button, Image } from 'vant'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
+import { removeLocalStore } from '@/utils/global'
 
 export default {
   name: 'Mine',
@@ -64,7 +65,28 @@ export default {
     [Button.name]: Button,
     [Image.name]: Image
   },
-  computed: mapState(['userInfo'])
+  created () {
+    this.requestUserInfo()
+  },
+  computed: mapState(['userInfo']),
+  methods: {
+    ...mapMutations(['setUserInfo']),
+    logout () {
+      removeLocalStore('user_info')
+      this.$router.replace({ name: 'Login' })
+    },
+    requestUserInfo () {
+      this.$http.get('/user-info/user_content', { isShowLoading: true }).then((res) => {
+        this.setUserInfo({
+          headPortrait: res.data.mUserInfo.headPortrait,
+          name: res.data.mUserInfo.name,
+          account: res.data.mUserInfo.account,
+          telephone: res.data.mUserInfo.telephone,
+          userType: res.data.mUserInfo.userType
+        })
+      })
+    }
+  }
 }
 </script>
 

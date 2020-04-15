@@ -11,7 +11,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setUserInfo (state, user) {
-      state.userInfo = { ...user }
+      Object.assign(state.userInfo, user)
       setLocalStore('user_info', state.userInfo)
     }
   },
