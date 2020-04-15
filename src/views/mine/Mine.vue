@@ -17,32 +17,32 @@
         <div class="tag">音乐高级讲师</div>
       </div>
       <div class="vip">
-        <img :src="require('@/assets/images/home/play.png')" />
+        <img :src="require('@/assets/images/mine/vip.png')" />
         <span>会员</span>
       </div>
     </div>
     <div class="cell-warp">
       <van-cell-group>
         <van-cell center title-class="cell-title" title="购买记录" is-link to="/mine/purchase-history">
-          <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
+          <img class="cell-icon" slot="icon" :src="require('@/assets/images/mine/icon1.png')" />
         </van-cell>
         <van-cell center title-class="cell-title" title="个人信息" is-link to="/mine/info">
-          <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
+          <img class="cell-icon" slot="icon" :src="require('@/assets/images/mine/icon2.png')" />
         </van-cell>
         <van-cell center title-class="cell-title" title="联系客服" is-link to="/mine/chat">
-          <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
+          <img class="cell-icon" slot="icon" :src="require('@/assets/images/mine/icon3.png')" />
         </van-cell>
         <van-cell center title-class="cell-title" title="帮助手册" is-link to="/mine/help">
-          <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
+          <img class="cell-icon" slot="icon" :src="require('@/assets/images/mine/icon4.png')" />
         </van-cell>
       </van-cell-group>
       <div class="gap"></div>
       <van-cell-group>
         <van-cell center title-class="cell-title" title="成为讲师" is-link to="/mine/join/teacher">
-          <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
+          <img class="cell-icon" slot="icon" :src="require('@/assets/images/mine/icon5.png')" />
         </van-cell>
         <van-cell center title-class="cell-title" title="讲师功能" is-link to="/mine/join/func">
-          <img class="cell-icon" slot="icon" :src="require('@/assets/images/home/play.png')" />
+          <img class="cell-icon" slot="icon" :src="require('@/assets/images/mine/icon6.png')" />
         </van-cell>
       </van-cell-group>
     </div>
@@ -81,6 +81,10 @@ export default {
     background-color: #fff;
     display: flex;
     position: relative;
+    background-image: url("~@/assets/images/mine/mine-bg.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .header .avatar {
@@ -127,6 +131,8 @@ export default {
     align-items: center;
   }
   .header .vip img {
+    width: 20px;
+    height: 20px;
     margin-right: 7px;
   }
 
