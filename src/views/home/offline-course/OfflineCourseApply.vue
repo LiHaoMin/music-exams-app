@@ -18,11 +18,12 @@
           </div>
           <div class="content">
             <p class="title van-ellipsis">{{detail.curriculumName}}</p>
-            <p class="description van-ellipsis">{{detail.briefIntroduction}}</p>
-            <p class="teacher">讲师：{{detail.teacherName}}</p>
             <div class="play">
-              <img :src="require('@/assets/images/home/play.png')" />
-              <span>{{detail.isNumOfLearners ? detail.numOfLearners : detail.orderNum}}</span>
+              <span>{{detail.isNumOfLearners ? detail.numOfLearners : detail.orderNum}}人已报名</span>
+            </div>
+            <div class="circle">
+              <img v-lazy="detail.headPortrait" />
+              <span>{{detail.teacherName}}</span>
             </div>
             <div class="price" v-if="detail.freeAdmission"><span>免费</span></div>
             <div class="price" v-else><label>¥</label><span>{{detail.money}}</span></div>
@@ -109,6 +110,9 @@ export default {
   .tips-warp {
     margin-top: 19px;
     margin-right: 29px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
   .tips {
     display: flex;
@@ -281,6 +285,26 @@ export default {
     font-size: 20px;
     font-weight:500;
     color: #DB6073;
+  }
+  .card-item-warp .content .circle img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+  }
+  .card-item-warp .content .circle {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 80px;
+  }
+  .card-item-warp .content .circle span {
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #888;
   }
 
   .rate {

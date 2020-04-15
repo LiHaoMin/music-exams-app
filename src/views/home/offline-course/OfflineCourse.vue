@@ -18,8 +18,7 @@
             <p class="description van-ellipsis">{{item.briefIntroduction}}</p>
             <p class="teacher">讲师：{{item.teacherName}}</p>
             <div class="play">
-              <img :src="require('@/assets/images/home/play.png')" />
-              <span>{{item.isNumOfLearners ? item.numOfLearners : item.orderNum}}</span>
+              <span>已报名{{item.isNumOfLearners ? item.numOfLearners : item.orderNum}}</span>
             </div>
             <div class="price" v-if="item.freeAdmission"><span>免费</span></div>
             <div class="price" v-else><label>¥</label><span>{{item.money}}</span></div>
@@ -174,7 +173,6 @@ export default {
     font-size: 12px;
     font-weight: 400;
     color: #888;
-    margin-left: 3px;
   }
   .card-item-warp .content .price {
     position: absolute;

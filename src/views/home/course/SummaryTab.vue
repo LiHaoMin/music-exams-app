@@ -30,7 +30,7 @@
       <div class="warpper block">
         <div class="title"></div>
         <div class="container card">
-          <div class="card-item-warp" v-if="true">
+          <div class="card-item-warp" v-if="false">
             <div class="thumb">
               <img v-lazy="detail.curriculumImg" />
             </div>
