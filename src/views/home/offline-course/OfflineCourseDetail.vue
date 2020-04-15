@@ -2,36 +2,32 @@
   <div class="offline-course-detail">
     <NavBar />
     <div class="header">
-      <div class="image"><img v-lazy="'https://i.loli.net/2020/04/04/Fed3fi4m8bGklsu.jpg'" /></div>
+      <van-swipe class="image" :autoplay="3000" indicator-color="#fff">
+        <van-swipe-item v-for="(image, index) in images" :key="index">
+          <img v-lazy="image" />
+        </van-swipe-item>
+      </van-swipe>
       <div class="content">
         <div class="title">
-          <p>保过班</p>
-          <p>202020人已报名</p>
+          <p>{{detail.curriculumName}}</p>
+          <p>{{detail.isNumOfLearners ? detail.numOfLearners : detail.num }}人已报名</p>
           <div class="price"><label>¥</label>800</div>
         </div>
         <div class="teacher">
-          <img class="circle" v-lazy="'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg'" />
+          <img class="circle" v-lazy="detail.headPortrait" />
           <div class="info">
-            <span>方笑笑</span>
+            <span>{{detail.teacherName}}</span>
             <span>带班老师</span>
-            <p>18278654321</p>
+            <p>{{detail.teacherTelephone}}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="summary">
       <div class="resume">
-        介绍等哈圣诞节啊教大家说的结合杀菌的哈
-        好风景阿佘减肥的哈手机客户反馈回家阿佘
-        哈科技活动空间啊还是觉得客服哈萨克觉得
-        第八圣诞节啊还是觉得哈等哈就睡得好大家
-        大家啊活动空间啊还觉得哈大家授课活动空
-        间啊还是看的但是觉得哈手机但是科技大会
-        上大号就看到哈看就是大事大手大脚大厦将
-        阿就看到哈就开始的哈就睡得好说的那款经
-        那不就是不对劲啊不大的哈就看到。
+        {{detail.teacherIntroduce}}
       </div>
-      <div class="introduction" @click="showController = !showController">
+      <div class="introduction">
         <d-player ref="player" @timeupdate="timeupdate" @ended="ended" :options="options"></d-player>
         <div class="player-controller" v-if="showController">
           <img @click.stop="play" :src="require('@/assets/images/home/v-play.png')" />
@@ -45,23 +41,27 @@
 </template>
 
 <script>
-import { Button, Dialog } from 'vant'
+import { Button, Dialog, Swipe } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import VueDPlayer from 'vue-dplayer'
 import 'vue-dplayer/dist/vue-dplayer.css'
+
+// TODO 带班老师/视频介绍/轮播图
 
 export default {
   name: 'OfflineCourseDetail',
   components: {
     [Button.name]: Button,
     [Dialog.name]: Dialog,
+    [Swipe.name]: Swipe,
     NavBar,
     'd-player': VueDPlayer
   },
   data () {
     return {
+      detail: {},
       player: null,
-      showController: true,
+      showController: false,
       options: {
         video: {
           url: 'http://cdn.toxicjohann.com/lostStar.mp4',
@@ -72,6 +72,11 @@ export default {
         autoplay: false,
         contextmenu: []
       }
+    }
+  },
+  computed: {
+    images () {
+      return this.detail.rotationChart ? this.detail.rotationChart.split(',') : []
     }
   },
   methods: {
@@ -96,7 +101,15 @@ export default {
     // 我要报名
     apply () {
       this.$router.push('/offline-course/apply')
+    },
+    requestCourseDetail () {
+      this.$http.get('/home-page/get_curriculum_content', { isShowLoading: true, params: { CurriculumId: this.$route.params.id } }).then((res) => {
+        this.detail = res.data
+      })
     }
+  },
+  created () {
+    this.requestCourseDetail()
   },
   mounted () {
     this.player = this.$refs.player.dp
@@ -261,7 +274,20 @@ export default {
 
   .introduction >>> .dplayer-controller {
     /* 底部控制条 */
+    /*display: none;*/
+  }
+
+  .introduction >>> .dplayer-setting-icon {
     display: none;
+  }
+  .introduction >>> .dplayer-full-in-icon {
+    display: none !important;
+  }
+  .introduction >>> .dplayer-full-icon {
+    margin-top: -30px;
+  }
+  .introduction >>> .dplayer-play-icon {
+    margin-top: -10px;
   }
 
   .introduction >>> .dplayer-notice {
@@ -276,6 +302,6 @@ export default {
 
   .introduction >>> .dplayer-mask {
     /* 悬浮层 */
-    display: inline-block;
+    /*display: inline-block;*/
   }
 </style>
