@@ -16,7 +16,7 @@
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad">
-        <ListItemCard :isPageType="1" :itemData="item" @onRateClick="onRateClick" :key="item.id" v-for="item in list" @onItemClick="courseItem(item)" />
+        <ListItemCard :isPageType="1" :itemData="item" @onRateClick="onRateClick(item, index)" :key="item.id" v-for="(item, index) in list" @onItemClick="courseItem(item)" />
       </van-list>
     </div>
     <div class="list-empty" v-else>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { Search, List, Dialog } from 'vant'
+import { Search, List, Dialog, Toast } from 'vant'
 import ListItemCard from '@/components/list/ListItemCard'
 
 export default {
@@ -69,13 +69,20 @@ export default {
       this.onLoad()
     },
     // 取消收藏
-    onRateClick () {
+    onRateClick (item, index) {
       Dialog.confirm({
         message: '取消收藏后，课程被移除，\n确定取消收藏吗？'
       }).then(() => {
-        // TODO 取消收藏
+        this.$http.get('/home-page/no_collection', { isShowLoading: true, params: { curriculumId: item.id } }).then((res) => {
+          if (res && res.data) {
+            this.list.splice(index, 1)
+            Toast.success('操作成功')
+          } else {
+            Toast.fail('操作失败')
+          }
+        })
       }).catch(() => {
-        // on cancel
+        // 取消
       })
     },
     onLoad () {
