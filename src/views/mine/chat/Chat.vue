@@ -4,13 +4,13 @@
     <div  class="container">
       <div class="chat-list">
         <template v-for="(item, index) in messages">
-          <div class="message left" :key="index" v-if="!item.id">
+          <div class="message left" :key="index" v-if="item.type !== 1">
             <div class="icon">
               <img v-lazy="item.avatar" />
             </div>
             <div class="text">{{item.message}}</div>
           </div>
-          <div class="message right" :key="index" v-if="item.id">
+          <div class="message right" :key="index" v-else>
             <div class="text">{{item.message}}</div>
             <div class="icon">
               <img v-lazy="item.avatar" />
@@ -21,7 +21,7 @@
       <div class="action">
         <div class="switch" @click="switchType">
           <img :src="require('@/assets/images/mine/contact.png')" />
-          <span>转人工</span>
+          <span>{{typeFlag ? '转人工' : '转机器'}}</span>
         </div>
         <div class="send">
           <form action="/" @submit.prevent="send">
@@ -36,7 +36,7 @@
 <script>
 import NavBar from '@/components/nav-bar/NavBar'
 import { Field } from 'vant'
-
+// TODO 头像
 export default {
   name: 'Chat',
   components: {
@@ -45,33 +45,74 @@ export default {
   },
   data () {
     return {
-      messages: [
-        {
-          id: null,
-          avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
-          message: '您好，有什么可以帮助您？'
-        }
-      ],
-      message: ''
+      messages: [],
+      message: '',
+      // true: 机器人 false:客服
+      typeFlag: true
     }
+  },
+  created () {
+    this.welcome()
   },
   methods: {
     // 发送
     send () {
+      if (this.typeFlag) this.robotAnswer()
+      else this.questions()
       this.messages.push({
         id: 1,
         avatar: 'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg',
-        message: this.message
+        message: this.message,
+        type: 1
       })
       this.message = ''
       return true
     },
     // 转人工/客服切换
     switchType () {
-      this.messages.push({
-        id: null,
-        avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
-        message: '您好，有什么可以帮助您？'
+      this.typeFlag = !this.typeFlag
+      this.messages = []
+      if (this.typeFlag) this.welcome()
+      else this.answer()
+    },
+    welcome () {
+      this.$http.get('/user-info/welcome', { params: { problem: this.message } }).then((res) => {
+        if (res && res.msg) {
+          this.messages.push({
+            id: null,
+            avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
+            message: res.msg
+          })
+        }
+      })
+    },
+    robotAnswer () {
+      this.$http.get('/user-info/get_robot_answer_list', { params: { problem: this.message } }).then((res) => {
+        if (res.data && res.data.length > 0) {
+          this.messages.push({
+            id: null,
+            avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
+            message: res.data[0].answer
+          })
+        }
+      })
+    },
+    answer () {
+      this.$http.get('/user-info/get_answer', { isShowLoading: true, params: { problem: this.message } }).then((res) => {
+        if (res.data && res.data.length > 0) {
+          res.data.forEach((item) => {
+            this.messages.push({
+              id: item.id,
+              avatar: item.headPortrait,
+              message: item.problem,
+              type: item.type
+            })
+          })
+        }
+      })
+    },
+    questions () {
+      this.$http.get('/user-info/put_questions_to', { params: { problem: this.message } }).then((res) => {
       })
     }
   }
