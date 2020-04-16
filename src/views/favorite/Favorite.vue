@@ -32,7 +32,7 @@
             <div class="price" v-else><label>¥</label><span>{{item.money}}</span></div>
           </div>
           <div class="rate" @click.stop="onRateClick(item, index)">
-            <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" readonly :count="1"  void-color="#FFBC49" value="1" />
+            <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" readonly :count="1"  void-color="#FFBC49" :value="1" />
           </div>
         </div>
       </van-list>

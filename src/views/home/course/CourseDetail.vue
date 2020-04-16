@@ -1,23 +1,21 @@
 <template>
   <div class="course-detail">
     <NavBar />
-    <div class="player" @click="showController = !showController">
+    <div class="player">
       <d-player ref="player" @timeupdate="timeupdate" @ended="ended" :options="options"></d-player>
-      <div class="player-controller" v-if="showController">
-        <img @click.stop="play" :src="require('@/assets/images/home/v-play.png')" />
-      </div>
     </div>
     <div class="content">
       <div class="title">
-        <p>保过班</p>
-        <p>202020人已报名</p>
-        <div class="price"><label>¥</label>800</div>
+        <p>{{detail.curriculumName}}</p>
+        <p>{{detail.isNumOfLearners ? detail.numOfLearners : detail.num}}人已报名</p>
+        <div class="price" v-if="detail.freeAdmission">免费</div>
+        <div class="price" v-else><label>¥</label>{{detail.money}}</div>
         <div class="share" @click="share">
           <img :src="require('@/assets/images/home/share.png')" />
         </div>
       </div>
     </div>
-    <div class="favorite">
+    <div class="favorite" v-if="!detail.isCollection" @click="favorite">
       <img :src="require('@/assets/images/home/favorite.png')" />
     </div>
     <div class="tab-warp">
@@ -28,15 +26,15 @@
                 title-inactive-color="#333"
                 title-active-color="#1E4058">
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="课程介绍">
-          <SummaryTab />
+          <SummaryTab :detail="detail" />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="课程目录">
           <DirectoryTab />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="老师介绍">
-          <ResumeTab />
+          <ResumeTab :detail="detail" />
         </van-tab>
-        <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="评价（35）">
+        <van-tab title-style="font-size: 0.37333rem;font-weight:500;" :title="commentTitle">
           <CommentTab />
         </van-tab>
       </van-tabs>
@@ -45,7 +43,7 @@
 </template>
 
 <script>
-import { Tab, Tabs } from 'vant'
+import { Tab, Tabs, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import VueDPlayer from 'vue-dplayer'
 import 'vue-dplayer/dist/vue-dplayer.css'
@@ -81,8 +79,19 @@ export default {
         screenshot: false,
         autoplay: false,
         contextmenu: []
-      }
+      },
+      detail: {},
+      commentTotal: 0
     }
+  },
+  computed: {
+    commentTitle () {
+      return this.commentTotal ? `评价（${this.commentTotal}）` : '评价'
+    }
+  },
+  created () {
+    this.requestCourseDetail()
+    this.requestComment()
   },
   methods: {
     // 视频播放
@@ -105,7 +114,35 @@ export default {
     },
     // 分享
     share () {
-      mShare.popup()
+      const config = {
+        types: ['wx', 'wxline', 'qq', 'qzone']
+      }
+      mShare.popup(config)
+    },
+    // 收藏
+    favorite () {
+      this.$http.get('/home-page/collection', { isShowLoading: true, params: { curriculumId: this.$route.params.id } }).then((res) => {
+        if (res && res.data) {
+          Toast.success('操作成功')
+          this.detail.isCollection = true
+        } else {
+          Toast.fail('操作失败')
+        }
+      })
+    },
+    requestCourseDetail () {
+      this.$http.get('/home-page/get_curriculum_content', { isShowLoading: true, params: { CurriculumId: this.$route.params.id } }).then((res) => {
+        if (res && res.data) {
+          this.detail = res.data
+        }
+      })
+    },
+    requestComment () {
+      this.$http.get('/home-page/evaluate_list', { isShowLoading: true, params: { num: 0, size: 0, curriculumId: this.$route.params.id } }).then((res) => {
+        if (res && res.data) {
+          this.commentTotal = res.data.total
+        }
+      })
     }
   },
   mounted () {
@@ -195,7 +232,7 @@ export default {
 
   .favorite {
     position: absolute;
-    top: 1.49334rem;
+    top: 0;
     right: 25px;
     width: 25px;
     height: 25px;
@@ -213,7 +250,20 @@ export default {
   }
   .player >>> .dplayer-controller {
     /* 底部控制条 */
+    /*display: none;*/
+  }
+
+  .player >>> .dplayer-setting-icon {
     display: none;
+  }
+  .player >>> .dplayer-full-in-icon {
+    display: none !important;
+  }
+  .player >>> .dplayer-full-icon {
+    margin-top: -30px;
+  }
+  .player >>> .dplayer-play-icon {
+    margin-top: -10px;
   }
 
   .player >>> .dplayer-notice {
@@ -228,6 +278,6 @@ export default {
 
   .player >>> .dplayer-mask {
     /* 悬浮层 */
-    display: inline-block;
+    /*display: inline-block;*/
   }
 </style>

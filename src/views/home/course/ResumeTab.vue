@@ -1,16 +1,14 @@
 <template>
   <div class="resumet-tab">
     <div class="info">
-      <img class="circle" v-lazy="'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg'" />
+      <img class="circle" v-lazy="detail.headPortrait" />
       <div class="text">
-        <div>方笑笑</div>
-        <div>西方音乐教授</div>
+        <div>{{detail.teacherName}}</div>
+        <div v-if="detail.teacherCall">{{detail.teacherCall}}</div>
       </div>
     </div>
     <div class="description">
-      方笑笑作为一名优质讲师，8年授课经验，毕业于哈哈
-      哈弗音乐学院，这里的介绍是100个字以内的，请注意
-      字数限制。
+      {{detail.teacherIntroduce}}
     </div>
   </div>
 </template>
@@ -19,6 +17,9 @@
 
 export default {
   name: 'ResumeTab',
+  props: {
+    detail: Object
+  },
   components: {
   },
   data () {

@@ -4,15 +4,7 @@
       <div class="warpper">
         <div class="title">课程简介</div>
         <div class="container resume">
-          介绍等哈圣诞节啊教大家说的结合杀菌的哈
-          好风景阿佘减肥的哈手机客户反馈回家阿佘
-          哈科技活动空间啊还是觉得客服哈萨克觉得
-          第八圣诞节啊还是觉得哈等哈就睡得好大家
-          大家啊活动空间啊还觉得哈大家授课活动空
-          间啊还是看的但是觉得哈手机但是科技大会
-          上大号就看到哈看就是大事大手大脚大厦将
-          阿就看到哈就开始的哈就睡得好说的那款经
-          那不就是不对劲啊不大的哈就看到。
+          {{detail.briefIntroduction}}
         </div>
       </div>
       <div class="warpper">
@@ -53,22 +45,21 @@
         <div class="container comment">
           <div class="subtitle">
             <h3>课程评价</h3>
-            <span>5.0</span>
-            <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="value" />
+            <span>{{courseRate.toFixed(1)}}</span>
+            <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="courseRate" />
           </div>
           <div class="content">
-            <div class="comment-item" :key="index" v-for="(item, index) in [1, 1, 1]">
+            <div class="comment-item" :key="index" v-for="(item, index) in commentList">
               <div class="circle">
-                <img v-lazy="'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg'" />
+                <img v-lazy="item.headPortrait" />
               </div>
               <div class="right-warp">
                 <div class="info">
-                  <span class="nickname">chjshdjs </span>
-                  <span class="date">2019-09-21</span>
+                  <span class="nickname">{{item.name}} </span>
+                  <span class="date">{{item.gmtCreate | datafmt('YYYY-MM-DD')}}</span>
                 </div>
-                <div class="rate"><van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="value" /></div>
-                <div class="description van-multi-ellipsis--l2">太棒了太棒了太棒了太棒了太棒了太棒了太棒了吧
-                  我的天呐</div>
+                <div class="rate"><van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="item.fraction" /></div>
+                <div class="description van-multi-ellipsis--l2">{{item.content}}</div>
               </div>
             </div>
           </div>
@@ -83,7 +74,8 @@
       <div class="popup">
         <div class="info">
           <p>需付金额</p>
-          <div class="price"><label>¥</label>800</div>
+          <div class="price" v-if="detail.freeAdmission"><span>免费</span></div>
+          <div class="price" v-else><label>¥</label><span>{{detail.money}}</span></div>
         </div>
         <div class="btn">
           <van-button class="payment" @click="payment = true" type="default">确认支付</van-button>
@@ -95,9 +87,12 @@
 
 <script>
 import { Rate, button, ActionSheet } from 'vant'
-
+// TODO 课程涵盖/课程推荐/付款后按钮的显示控制展开
 export default {
   name: 'SummaryTab',
+  props: {
+    detail: Object
+  },
   components: {
     [Rate.name]: Rate,
     [button.name]: button,
@@ -106,12 +101,34 @@ export default {
   data () {
     return {
       value: 4,
-      showPayment: false
+      showPayment: false,
+      courseRate: 0,
+      commentList: [],
+      commentTotal: 0
     }
+  },
+  created () {
+    this.requestCourseRate()
+    this.requestComment()
   },
   methods: {
     // 付款
     payment () {
+    },
+    requestCourseRate () {
+      this.$http.get('/home-page/score', { isShowLoading: true, params: { curriculumId: this.$route.params.id } }).then((res) => {
+        if (res && res.data) {
+          this.courseRate = res.data.fraction
+        }
+      })
+    },
+    requestComment () {
+      this.$http.get('/home-page/evaluate_list', { isShowLoading: true, params: { num: 1, size: 3, curriculumId: this.$route.params.id } }).then((res) => {
+        if (res && res.data) {
+          this.commentList = res.data.records
+          this.commentTotal = res.data.total
+        }
+      })
     }
   }
 }
@@ -431,12 +448,6 @@ export default {
     font-size: 20px;
     font-weight:500;
     color: #DB6073;
-  }
-
-  .rate {
-    position: absolute;
-    top: 0;
-    right: 15px;
   }
 
   .card-item-warp .tag {

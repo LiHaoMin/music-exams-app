@@ -4,8 +4,8 @@
       <div class="subtitle">
         <h3>课程评价</h3>
         <div>
-          <span>5.0</span>
-          <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="value" />
+          <span>{{courseRate.toFixed(1)}}</span>
+          <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="courseRate" />
         </div>
       </div>
       <div class="content">
@@ -17,36 +17,35 @@
           @load="onLoad">
           <div class="comment-item" :key="index" v-for="(item, index) in list">
             <div class="circle">
-              <img v-lazy="'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg'" />
+              <img v-lazy="item.headPortrait" />
             </div>
             <div class="right-warp">
               <div class="info">
-                <span class="nickname">chjshdjs </span>
-                <span class="date">2019-09-21</span>
+                <span class="nickname">{{item.name}}</span>
+                <span class="date">{{item.gmtCreate | datafmt('YYYY-MM-DD')}}</span>
               </div>
-              <div class="rate"><van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="value" /></div>
-              <div class="description van-multi-ellipsis--l2">太棒了太棒了太棒了太棒了太棒了太棒了太棒了吧
-                我的天呐</div>
+              <div class="rate"><van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="item.fraction" /></div>
+              <div class="description van-multi-ellipsis--l2">{{item.content}}</div>
             </div>
           </div>
         </van-list>
       </div>
     </div>
     <div class="btn">
-      <van-button class="publish" @click="showDialog = true" type="default">发布评价</van-button>
+      <van-button class="publish" @click="openDialog" type="default">发布评价</van-button>
     </div>
-    <van-dialog v-model="showDialog" getContainer="#app" show-cancel-button>
+    <van-dialog v-model="showDialog" getContainer="#app" show-cancel-button :beforeClose="saveComment">
       <div class="dialog-title" slot="title">评价</div>
       <div class="dialog-content">
-        <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" v-model="value" />
-        <van-field type="textarea" placeholder="请输入您的评价…" />
+        <van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" v-model="comment.fraction" />
+        <van-field type="textarea" v-model="comment.content" placeholder="请输入您的评价…" />
       </div>
     </van-dialog>
   </div>
 </template>
 
 <script>
-import { Rate, List, Button, Field } from 'vant'
+import { Rate, List, Button, Field, Toast } from 'vant'
 
 export default {
   name: 'CommentTab',
@@ -64,20 +63,63 @@ export default {
       error: false,
       finished: false,
       isSearched: false,
-      showDialog: false
+      showDialog: false,
+      page: 1,
+      size: 10,
+      courseRate: 0,
+      comment: {}
     }
+  },
+  created () {
+    this.requestCourseRate()
   },
   methods: {
     onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 3; i++) {
-          this.list.push(this.list.length + 1)
+      const data = { num: this.page, size: this.size, curriculumId: this.$route.params.id }
+      this.$http.get('/home-page/evaluate_list', { isShowLoading: true, params: data }).then((res) => {
+        this.loading = false
+        if (res.code !== 200) {
+          this.error = true
+          return
         }
-
-        this.finished = true
-      }, 1000)
+        if (this.page === 1) {
+          this.list = res.data.records
+        } else {
+          this.list = this.list.concat(res.data.records)
+        }
+        if (this.page === res.data.pages || res.data.records.length === 0) {
+          this.finished = true
+        }
+        this.page += 1
+      })
+    },
+    requestCourseRate () {
+      this.$http.get('/home-page/score', { isShowLoading: true, params: { curriculumId: this.$route.params.id } }).then((res) => {
+        if (res && res.data) {
+          this.courseRate = res.data.fraction
+        }
+      })
+    },
+    openDialog () {
+      this.showDialog = true
+      this.comment = {}
+    },
+    saveComment (action, done) {
+      if (action === 'confirm') {
+        this.comment.curriculumId = this.$route.params.id
+        this.$http.get('/home-page/comment', { isShowLoading: true, params: this.comment }).then((res) => {
+          if (res && res.data) {
+            Toast.success('操作成功')
+            this.page = 1
+            this.list = []
+            this.loading = true
+            this.onLoad()
+          } else {
+            Toast.fail('操作失败')
+          }
+        })
+      }
+      done()
     }
   }
 }
