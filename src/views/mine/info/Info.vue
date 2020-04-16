@@ -12,23 +12,23 @@
           lazy-load
           round
           fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"/>
+          :src="userInfo.headPortrait" />
       </van-cell>
     </van-cell-group>
     <div class="btn">
       <van-button class="edit" type="default">确认修改</van-button>
     </div>
     <van-action-sheet v-model="showGender" title="选择性别" close-icon close-on-click-action :round="false" :actions="genderList" @select="selectGender" />
-    <van-uploader ref="uploader">
+    <van-uploader ref="uploader" accept="image/png,image/jpeg" :max-count="1" :after-read="afterRead">
       <div></div>
     </van-uploader>
   </div>
 </template>
 
 <script>
-import { Cell, CellGroup, ActionSheet, Uploader, Image, Button } from 'vant'
+import { Cell, CellGroup, ActionSheet, Uploader, Image, Button, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'Info',
@@ -48,11 +48,16 @@ export default {
         { name: '男', color: '#DB6073' },
         { name: '女', color: '#333' }
       ],
-      gender: '男'
+      gender: '男',
+      qiniu: {}
     }
   },
   computed: mapState(['userInfo']),
+  created () {
+    this.requestQiniu()
+  },
   methods: {
+    ...mapMutations(['setUserInfo']),
     // 修改昵称
     openNickname () {
       this.$router.push({ name: 'InfoEdit', params: { nickName: this.nickName } })
@@ -65,6 +70,44 @@ export default {
           item.color = '#DB6073'
         } else {
           el.color = '#333'
+        }
+      })
+    },
+    requestQiniu () {
+      this.$http.get('/user-info/qiniu').then((res) => {
+        if (res && res.data) {
+          this.qiniu = res.data
+        }
+      })
+    },
+    afterRead (file) {
+      const config = {
+        isShowLoading: true,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: false
+      }
+      const formData = new FormData()
+      formData.append('file', file.file)
+      formData.append('token', this.qiniu.token)
+      this.$http.post('http://up.qiniu.com', formData, config).then((res) => {
+        if (res && res.key) {
+          this.edit('http://q8ieryh01.bkt.clouddn.com/' + res.key)
+        } else {
+          Toast.fail('操作失败')
+        }
+      })
+    },
+    edit (head) {
+      this.$http.post('/user-info/update_User', { headPortrait: head }, { isShowLoading: true }).then((res) => {
+        if (res && res.data) {
+          Toast.success('操作成功')
+          this.setUserInfo({
+            headPortrait: head
+          })
+        } else {
+          Toast.fail('操作失败')
         }
       })
     }
