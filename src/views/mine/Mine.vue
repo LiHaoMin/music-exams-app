@@ -10,7 +10,7 @@
           fit="cover"
           :src="userInfo.headPortrait"
         />
-        <img class="gender" :src="require('@/assets/images/mine/male.png')" />
+        <img style="display: none" class="gender" :src="require('@/assets/images/mine/male.png')" />
       </div>
       <div class="info">
         <div class="nickname">{{ userInfo.name }}</div>

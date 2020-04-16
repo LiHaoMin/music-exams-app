@@ -3,7 +3,7 @@
     <NavBar />
     <van-cell-group>
       <van-cell title-class="cell-title" center is-link title="昵称" v-model="userInfo.name" @click="openNickname" />
-      <van-cell title-class="cell-title" center is-link title="性别" v-model="gender" @click="showGender = true" />
+      <van-cell style="display: none" title-class="cell-title" center is-link title="性别" v-model="gender" @click="showGender = true" />
       <van-cell title-class="cell-title" center is-link title="更换头像" @click="$refs.uploader.chooseFile()">
         <van-image
           class="cell-icon"
@@ -15,7 +15,7 @@
           :src="userInfo.headPortrait" />
       </van-cell>
     </van-cell-group>
-    <div class="btn">
+    <div class="btn" style="display: none">
       <van-button class="edit" type="default">确认修改</van-button>
     </div>
     <van-action-sheet v-model="showGender" title="选择性别" close-icon close-on-click-action :round="false" :actions="genderList" @select="selectGender" />
