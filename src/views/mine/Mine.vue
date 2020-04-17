@@ -38,10 +38,10 @@
       </van-cell-group>
       <div class="gap"></div>
       <van-cell-group>
-        <van-cell center title-class="cell-title" title="成为讲师" is-link to="/mine/join/teacher">
+        <van-cell v-if="!user.mLecturer" center title-class="cell-title" title="成为讲师" is-link to="/mine/join/teacher">
           <img class="cell-icon" slot="icon" :src="require('@/assets/images/mine/icon5.png')" />
         </van-cell>
-        <van-cell center title-class="cell-title" title="讲师功能" is-link to="/mine/join/func">
+        <van-cell v-else center title-class="cell-title" title="讲师功能" is-link to="/mine/join/func">
           <img class="cell-icon" slot="icon" :src="require('@/assets/images/mine/icon6.png')" />
         </van-cell>
       </van-cell-group>
@@ -56,7 +56,7 @@
 import { Cell, CellGroup, Button, Image } from 'vant'
 import { mapState, mapMutations } from 'vuex'
 import { removeLocalStore } from '@/utils/global'
-
+// TODO 讲师尊称
 export default {
   name: 'Mine',
   components: {
@@ -68,6 +68,11 @@ export default {
   created () {
     this.requestUserInfo()
   },
+  data () {
+    return {
+      user: {}
+    }
+  },
   computed: mapState(['userInfo']),
   methods: {
     ...mapMutations(['setUserInfo']),
@@ -77,6 +82,7 @@ export default {
     },
     requestUserInfo () {
       this.$http.get('/user-info/user_content', { isShowLoading: true }).then((res) => {
+        this.user = res.data
         this.setUserInfo({
           userId: res.data.mUserInfo.id,
           headPortrait: res.data.mUserInfo.headPortrait,

@@ -3,24 +3,24 @@
     <NavBar />
     <div class="form">
       <van-cell-group>
-        <van-field label-class="my-label required" label="真实姓名" placeholder="请输入" input-align="right" />
-        <van-field label-class="my-label required" label="手机号码" placeholder="请输入" input-align="right" />
-        <van-field label-class="my-label" label="邮箱" placeholder="请输入" input-align="right" />
+        <van-field label-class="my-label required" label="真实姓名" placeholder="请输入" input-align="right" v-model="info.name" />
+        <van-field label-class="my-label required" label="手机号码" placeholder="请输入" input-align="right" v-model="info.telephone"/>
+        <van-field style="display: none" label-class="my-label" label="邮箱" placeholder="请输入" input-align="right" />
       </van-cell-group>
       <div class="gap"></div>
       <van-cell-group>
         <van-cell title-class="my-label required" title="上传身份证照片">
           <div class="id-card-cell" slot="label">
-            <van-uploader>
+            <van-uploader v-model="identityImgZ" :after-read="afterRead1" accept="image/png,image/jpeg" :max-count="1">
               <div class="id-card">
                 <img :src="require('@/assets/images/mine/plus.png')" />
                 <p>上传正面照</p>
               </div>
             </van-uploader>
-            <van-uploader>
+            <van-uploader v-model="identityImgF" :after-read="afterRead2" accept="image/png,image/jpeg" :max-count="1">
               <div class="id-card">
                 <img :src="require('@/assets/images/mine/plus.png')" />
-                <p>上传正面照</p>
+                <p>上传反面照</p>
               </div>
             </van-uploader>
           </div>
@@ -30,7 +30,7 @@
       <van-cell-group>
         <van-cell title-class="my-label" title="上传各类证书">
           <div class="certificate-cell" slot="label">
-            <van-uploader v-model="certificates" :after-read="afterRead">
+            <van-uploader v-model="certificates" :after-read="afterRead3">
               <div class="certificate"></div>
             </van-uploader>
           </div>
@@ -38,13 +38,13 @@
       </van-cell-group>
     </div>
     <div class="btn">
-      <van-button class="edit" type="default">成为讲师</van-button>
+      <van-button class="edit" type="default" @click="save">成为讲师</van-button>
     </div>
   </div>
 </template>
 
 <script>
-import { Cell, CellGroup, Field, Button, Uploader } from 'vant'
+import { Cell, CellGroup, Field, Button, Uploader, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 
 export default {
@@ -59,12 +59,112 @@ export default {
   },
   data () {
     return {
-      certificates: []
+      identityImgZ: [],
+      identityImgF: [],
+      certificates: [],
+      qiniu: {},
+      info: {}
     }
   },
+  computed: {
+    certificatesUrl () {
+      let urls = ''
+      this.certificates.forEach((item) => {
+        urls += ',' + item.url
+      })
+      return urls.substring(1)
+    }
+  },
+  created () {
+    this.requestQiniu()
+  },
   methods: {
-    afterRead (file) {
-      console.log(file)
+    save () {
+      if (!this.info.name || !this.info.telephone) {
+        Toast('请填写必须项')
+        return
+      }
+      if (!this.info.identityImgZ || !this.info.identityImgF) {
+        Toast('请填写必须项')
+        return
+      }
+      this.info.certificate = this.certificatesUrl
+      this.$http.post('/user-info/becoming_a_teacher', this.info, { isShowLoading: true }).then((res) => {
+        if (res && res.data) {
+          Toast.success('操作成功')
+        } else {
+          Toast.fail('操作失败')
+        }
+      })
+    },
+    requestQiniu () {
+      this.$http.get('/user-info/qiniu').then((res) => {
+        if (res && res.data) {
+          this.qiniu = res.data
+        }
+      })
+    },
+    afterRead1 (file, detail) {
+      this.identityImgZ[detail.index].status = 'uploading'
+      this.identityImgZ[detail.index].message = '上传中...'
+      this.upload(file, detail, 1)
+    },
+    afterRead2 (file, detail) {
+      this.identityImgF[detail.index].status = 'uploading'
+      this.identityImgF[detail.index].message = '上传中...'
+      this.upload(file, detail, 2)
+    },
+    afterRead3 (file, detail) {
+      this.certificates[detail.index].status = 'uploading'
+      this.certificates[detail.index].message = '上传中...'
+      this.upload(file, detail, 3)
+    },
+    upload (file, detail, t) {
+      const config = {
+        isShowLoading: true,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: false
+      }
+      const formData = new FormData()
+      formData.append('file', file.file)
+      formData.append('token', this.qiniu.token)
+      this.$http.post('http://up.qiniu.com', formData, config).then((res) => {
+        if (res && res.key) {
+          const imgUrl = 'http://q8ieryh01.bkt.clouddn.com/' + res.key
+          if (t === 1) {
+            this.info.identityImgZ = imgUrl
+            this.identityImgZ[detail.index].url = imgUrl
+            this.identityImgZ[detail.index].status = 'done'
+            this.identityImgZ[detail.index].message = ''
+          }
+          if (t === 2) {
+            this.info.identityImgF = imgUrl
+            this.identityImgF[detail.index].url = imgUrl
+            this.identityImgF[detail.index].status = 'done'
+            this.identityImgF[detail.index].message = ''
+          }
+          if (t === 3) {
+            this.certificates[detail.index].url = imgUrl
+            this.certificates[detail.index].status = 'done'
+            this.certificates[detail.index].message = ''
+          }
+        } else {
+          if (t === 1) {
+            this.identityImgZ[detail.index].status = 'failed'
+            this.identityImgZ[detail.index].message = '上传失败'
+          }
+          if (t === 2) {
+            this.identityImgF[detail.index].status = 'failed'
+            this.identityImgF[detail.index].message = '上传失败'
+          }
+          if (t === 3) {
+            this.certificates[detail.index].status = 'failed'
+            this.certificates[detail.index].message = '上传失败'
+          }
+        }
+      })
     }
   }
 }
@@ -134,7 +234,7 @@ export default {
   .join-teacher >>> .my-label span {
     position: relative;
   }
-  .join-teacher >>> .required span:before {
+  .join-teacher >>> .required > span:before {
     position: absolute;
     color: #ee0a24;
     right: -10px;
