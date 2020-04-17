@@ -68,7 +68,7 @@
       <div class="bottom-block"></div>
     </div>
     <div class="footer">
-      <van-button class="join" @click="showPayment = true" type="default">加入学习</van-button>
+      <van-button v-if="!detail.purchase" class="join" @click="showPayment = true" type="default">加入学习</van-button>
     </div>
     <van-action-sheet v-model="showPayment" title="确认支付" :round="false">
       <div class="popup">
@@ -78,7 +78,7 @@
           <div class="price" v-else><label>¥</label><span>{{detail.money}}</span></div>
         </div>
         <div class="btn">
-          <van-button class="payment" @click="payment = true" type="default">确认支付</van-button>
+          <van-button class="payment" @click="payment" type="default">确认支付</van-button>
         </div>
       </div>
     </van-action-sheet>
@@ -86,8 +86,8 @@
 </template>
 
 <script>
-import { Rate, button, ActionSheet } from 'vant'
-// TODO 课程涵盖/付款后按钮的显示控制展开
+import { Rate, button, ActionSheet, Toast } from 'vant'
+// TODO 课程涵盖/判断未购买的结果请求需横展开
 export default {
   name: 'SummaryTab',
   props: {
@@ -116,6 +116,15 @@ export default {
   methods: {
     // 付款
     payment () {
+      // TODO 此处需判断如果免费直接报名
+      // TODO 接入微信支付
+      this.$http.get('/home-page/purchase', { isShowLoading: true, params: { CurriculumId: this.$route.params.id } }).then((res) => {
+        if (res && res.data) {
+          Toast.success('操作成功')
+        } else {
+          Toast.fail('操作失败')
+        }
+      })
     },
     requestCourseRate () {
       this.$http.get('/home-page/score', { isShowLoading: true, params: { curriculumId: this.$route.params.id } }).then((res) => {

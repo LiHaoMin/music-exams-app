@@ -92,7 +92,6 @@ export default {
   methods: {
     // 付款
     payment () {
-      alert(1)
       // TODO 此处需判断如果免费直接报名
       // TODO 接入微信支付
       this.requestJoin()

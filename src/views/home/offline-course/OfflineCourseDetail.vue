@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="footer">
-      <van-button class="apply" @click="apply" type="default">我要报名</van-button>
+      <van-button v-if="!detail.purchase" class="apply" @click="apply" type="default">我要报名</van-button>
     </div>
   </div>
 </template>
