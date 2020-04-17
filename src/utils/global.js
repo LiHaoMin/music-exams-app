@@ -19,5 +19,8 @@ export const removeLocalStore = name => {
   return window.localStorage.removeItem(name)
 }
 
-// 版本信息
-export const _VERSION_ = '1.4.1'
+// 七牛url
+export const QI_NIU = 'http://q8ieryh01.bkt.clouddn.com/'
+
+// 网址
+export const WEB_URL = 'http://47.114.153.190:8282/musicapp/'

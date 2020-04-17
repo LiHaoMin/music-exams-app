@@ -6,17 +6,16 @@
       <div class="text">
         <p class="title">恭喜您成为音乐考研平台讲师</p>
         <p class="subtitle">现在您可以登录讲师后台，上传讲师课程啦～</p>
-        <p class="link">http://dhajsdhjahdkahw.com</p>
+        <p class="link">{{webUrl}}</p>
       </div>
       <div class="form">
-        <p class="account">您的讲师后台账号：<span>001</span></p>
-        <p class="phone">现发送后台密码至您手机182****4532</p>
+        <p class="account">您的讲师后台账号：<span>{{user.account}}</span></p>
+        <p class="phone">现发送后台密码至您手机{{telephone}}</p>
         <van-field v-model="captcha" maxlength="4" placeholder="请输入验证码">
           <img class="verification"
-               src="http://demo.itlike.com/web/xlmc/api/captcha"
+               :src="captchaUrl"
                alt="captcha"
                @click.prevent="getCaptcha"
-               ref="imgCaptcha"
                slot="button">
         </van-field>
       </div>
@@ -30,7 +29,9 @@
 <script>
 import { Button, Field, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
-
+import { mapState } from 'vuex'
+import { WEB_URL } from '@/utils/global'
+// TODO 验证吗/接受
 export default {
   name: 'TeacherFunc',
   components: {
@@ -40,17 +41,46 @@ export default {
   },
   data () {
     return {
-      captcha: ''
+      captchaUrl: WEB_URL + 'user-info/getVerifiCode',
+      captcha: '',
+      user: {},
+      webUrl: WEB_URL
     }
+  },
+  computed: {
+    ...mapState(['userInfo']),
+    telephone () {
+      if (!this.user.telephone) return ''
+      const mid = this.user.telephone.substr(3, 4)
+      return this.user.telephone.replace(mid, '****')
+    }
+  },
+  created () {
+    this.requestTeacher()
   },
   methods: {
     // 切换图片验证码
     getCaptcha () {
-      this.$set(this.$refs.imgCaptcha, 'src', 'http://demo.itlike.com/web/xlmc/api/captcha?time=' + new Date())
+      this.captchaUrl = WEB_URL + 'user-info/getVerifiCode?time=' + new Date().getTime()
     },
     // 接收密码
     receive () {
-      if (!this.captcha) Toast('请填写正确验证码～')
+      if (!this.captcha) {
+        Toast('请填写正确验证码～')
+        return
+      }
+      this.$http.get('/user-info/setpw', { isShowLoading: true, code: this.captcha }).then((res) => {
+        if (res && res.data) {
+          Toast.success('操作成功')
+        } else {
+          Toast.fail('操作失败')
+        }
+      })
+    },
+    requestTeacher () {
+      this.$http.get('/user-info/teacher_content', { isShowLoading: true }).then((res) => {
+        this.user = res.data
+      })
     }
   }
 }

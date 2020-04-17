@@ -46,6 +46,7 @@
 <script>
 import { Cell, CellGroup, Field, Button, Uploader, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
+import { QI_NIU } from '@/utils/global'
 
 export default {
   name: 'join-teacher',
@@ -132,7 +133,7 @@ export default {
       formData.append('token', this.qiniu.token)
       this.$http.post('http://up.qiniu.com', formData, config).then((res) => {
         if (res && res.key) {
-          const imgUrl = 'http://q8ieryh01.bkt.clouddn.com/' + res.key
+          const imgUrl = QI_NIU + res.key
           if (t === 1) {
             this.info.identityImgZ = imgUrl
             this.identityImgZ[detail.index].url = imgUrl

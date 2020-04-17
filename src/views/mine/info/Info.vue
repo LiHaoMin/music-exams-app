@@ -29,6 +29,7 @@
 import { Cell, CellGroup, ActionSheet, Uploader, Image, Button, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import { mapMutations, mapState } from 'vuex'
+import { QI_NIU } from '@/utils/global'
 
 export default {
   name: 'Info',
@@ -93,7 +94,7 @@ export default {
       formData.append('token', this.qiniu.token)
       this.$http.post('http://up.qiniu.com', formData, config).then((res) => {
         if (res && res.key) {
-          this.edit('http://q8ieryh01.bkt.clouddn.com/' + res.key)
+          this.edit(QI_NIU + res.key)
         } else {
           Toast.fail('操作失败')
         }
