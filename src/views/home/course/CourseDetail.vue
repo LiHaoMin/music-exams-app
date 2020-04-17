@@ -26,13 +26,13 @@
                 title-inactive-color="#333"
                 title-active-color="#1E4058">
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="课程介绍">
-          <SummaryTab :detail="detail" />
+          <SummaryTab v-if="detail.id" :detail="detail" />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="课程目录">
           <DirectoryTab />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="老师介绍">
-          <ResumeTab :detail="detail" />
+          <ResumeTab v-if="detail.id" :detail="detail" />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" :title="commentTitle">
           <CommentTab />

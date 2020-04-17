@@ -22,20 +22,20 @@
       <div class="warpper block">
         <div class="title"></div>
         <div class="container card">
-          <div class="card-item-warp" v-if="false">
+          <div class="card-item-warp" :key="item.id" v-for="item in courseList">
             <div class="thumb">
-              <img v-lazy="detail.curriculumImg" />
+              <img v-lazy="item.curriculumImg ? item.curriculumImg : require('@/assets/avatar.jpg')" />
             </div>
             <div class="content">
-              <p class="title van-ellipsis">{{detail.curriculumName}}</p>
-              <p class="description van-ellipsis">{{detail.briefIntroduction}}</p>
-              <p class="teacher">讲师：{{detail.teacherName}}</p>
+              <p class="title van-ellipsis">{{item.curriculumName}}</p>
+              <p class="description van-ellipsis">{{item.briefIntroduction}}</p>
+              <p class="teacher">讲师：{{item.teacherName}}</p>
               <div class="play">
                 <img :src="require('@/assets/images/home/play.png')" />
-                <span>{{detail.isNumOfLearners ? detail.numOfLearners : detail.orderNum}}</span>
+                <span>{{item.isNumOfLearners ? item.numOfLearners : item.orderNum}}</span>
               </div>
-              <div class="price" v-if="detail.freeAdmission"><span>免费</span></div>
-              <div class="price" v-else><label>¥</label><span>{{detail.money}}</span></div>
+              <div class="price" v-if="item.freeAdmission"><span>免费</span></div>
+              <div class="price" v-else><label>¥</label><span>{{item.money}}</span></div>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@
 
 <script>
 import { Rate, button, ActionSheet } from 'vant'
-// TODO 课程涵盖/课程推荐/付款后按钮的显示控制展开
+// TODO 课程涵盖/付款后按钮的显示控制展开
 export default {
   name: 'SummaryTab',
   props: {
@@ -104,12 +104,14 @@ export default {
       showPayment: false,
       courseRate: 0,
       commentList: [],
-      commentTotal: 0
+      commentTotal: 0,
+      courseList: []
     }
   },
   created () {
     this.requestCourseRate()
     this.requestComment()
+    this.requestCourse()
   },
   methods: {
     // 付款
@@ -127,6 +129,14 @@ export default {
         if (res && res.data) {
           this.commentList = res.data.records
           this.commentTotal = res.data.total
+        }
+      })
+    },
+    requestCourse () {
+      const data = { num: 1, size: 3, typeD: this.detail.typeD }
+      this.$http.post('/home-page/get_curriculum_list', data, { isShowLoading: true }).then((res) => {
+        if (res && res.data) {
+          this.courseList = res.data.records
         }
       })
     }
@@ -154,7 +164,7 @@ export default {
   .warpper:first-child {
     margin-top: 181px;
   }
-  .warpper  .title {
+  .warpper > .title {
     font-size: 15px;
     font-weight: normal;
     color: #fff;
