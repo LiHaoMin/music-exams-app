@@ -15,7 +15,7 @@
           <div class="price" v-else><label>¥</label><span>{{detail.money}}</span></div>
         </div>
         <div class="teacher">
-          <img class="circle" v-lazy="detail.headPortrait" />
+          <img class="circle" v-lazy="detail.headPortrait ? detail.headPortrait : require('@/assets/avatar.jpg')" />
           <div class="info">
             <span>{{detail.teacherName}}</span>
             <span>带班老师</span>

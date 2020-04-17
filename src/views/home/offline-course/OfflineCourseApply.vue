@@ -22,7 +22,7 @@
               <span>{{detail.isNumOfLearners ? detail.numOfLearners : detail.orderNum}}人已报名</span>
             </div>
             <div class="circle">
-              <img v-lazy="detail.headPortrait" />
+              <img v-lazy="detail.headPortrait ? detail.headPortrait : require('@/assets/avatar.jpg')" />
               <span>{{detail.teacherName}}</span>
             </div>
             <div class="price" v-if="detail.freeAdmission"><span>免费</span></div>

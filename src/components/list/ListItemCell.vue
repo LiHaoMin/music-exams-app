@@ -10,7 +10,7 @@
     </div>
     <div class="list-item-floor">
       <div>
-        <img class="circle" v-lazy="itemData.headPortrait" />
+        <img class="circle" v-lazy="itemData.headPortrait ? itemData.headPortrait : require('@/assets/avatar.jpg')" />
         <span>{{itemData.teacherName}}</span>
       </div>
       <div>

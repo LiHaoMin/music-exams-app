@@ -8,7 +8,7 @@
           lazy-load
           round
           fit="cover"
-          :src="userInfo.headPortrait"
+          :src="userInfo.headPortrait ? userInfo.headPortrait : require('@/assets/avatar.jpg')"
         />
         <img style="display: none" class="gender" :src="require('@/assets/images/mine/male.png')" />
       </div>

@@ -51,7 +51,7 @@
           <div class="content">
             <div class="comment-item" :key="index" v-for="(item, index) in commentList">
               <div class="circle">
-                <img v-lazy="item.headPortrait" />
+                <img v-lazy="item.headPortrait ? item.headPortrait : require('@/assets/avatar.jpg')" />
               </div>
               <div class="right-warp">
                 <div class="info">

@@ -6,14 +6,14 @@
         <template v-for="(item, index) in messages">
           <div class="message left" :key="index" v-if="item.type !== 1">
             <div class="icon">
-              <img v-lazy="item.avatar" />
+              <img v-lazy="item.avatar ? item.avatar : require('@/assets/avatar.jpg')" />
             </div>
             <div class="text">{{item.message}}</div>
           </div>
           <div class="message right" :key="index" v-else>
             <div class="text">{{item.message}}</div>
             <div class="icon">
-              <img v-lazy="item.avatar" />
+              <img v-lazy="item.avatar ? item.avatar : require('@/assets/avatar.jpg')" />
             </div>
           </div>
         </template>
@@ -35,8 +35,9 @@
 
 <script>
 import NavBar from '@/components/nav-bar/NavBar'
+import { mapState } from 'vuex'
 import { Field } from 'vant'
-// TODO 头像
+
 export default {
   name: 'Chat',
   components: {
@@ -51,6 +52,7 @@ export default {
       typeFlag: true
     }
   },
+  computed: mapState(['userInfo']),
   created () {
     this.welcome()
   },
@@ -61,7 +63,7 @@ export default {
       else this.questions()
       this.messages.push({
         id: 1,
-        avatar: 'https://i.loli.net/2020/04/03/WLFcBrZd4MtCjIX.jpg',
+        avatar: this.userInfo.headPortrait,
         message: this.message,
         type: 1
       })
@@ -80,7 +82,7 @@ export default {
         if (res && res.msg) {
           this.messages.push({
             id: null,
-            avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
+            avatar: null,
             message: res.msg
           })
         }
@@ -91,7 +93,7 @@ export default {
         if (res.data && res.data.length > 0) {
           this.messages.push({
             id: null,
-            avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
+            avatar: null,
             message: res.data[0].answer
           })
         }

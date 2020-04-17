@@ -12,7 +12,7 @@
           lazy-load
           round
           fit="cover"
-          :src="userInfo.headPortrait" />
+          :src="userInfo.headPortrait ? userInfo.headPortrait : require('@/assets/avatar.jpg')" />
       </van-cell>
     </van-cell-group>
     <div class="btn" style="display: none">

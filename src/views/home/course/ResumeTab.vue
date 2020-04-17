@@ -1,7 +1,7 @@
 <template>
   <div class="resumet-tab">
     <div class="info">
-      <img class="circle" v-lazy="detail.headPortrait" />
+      <img class="circle" v-lazy="detail.headPortrait ? detail.headPortrait : require('@/assets/avatar.jpg')" />
       <div class="text">
         <div>{{detail.teacherName}}</div>
         <div v-if="detail.teacherCall">{{detail.teacherCall}}</div>
