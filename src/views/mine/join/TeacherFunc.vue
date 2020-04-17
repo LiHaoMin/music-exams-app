@@ -11,7 +11,7 @@
       <div class="form">
         <p class="account">您的讲师后台账号：<span>{{user.account}}</span></p>
         <p class="phone">现发送后台密码至您手机{{telephone}}</p>
-        <van-field v-model="captcha" maxlength="4" placeholder="请输入验证码">
+        <van-field v-model="captcha" maxlength="6" placeholder="请输入验证码">
           <img class="verification"
                :src="captchaUrl"
                alt="captcha"
@@ -69,11 +69,11 @@ export default {
         Toast('请填写正确验证码～')
         return
       }
-      this.$http.get('/user-info/setpw', { isShowLoading: true, code: this.captcha }).then((res) => {
+      this.$http.get('/user-info/setpw', { isShowLoading: true, params: { code: this.captcha } }).then((res) => {
         if (res && res.data) {
           Toast.success('操作成功')
         } else {
-          Toast.fail('操作失败')
+          Toast.fail('验证码不正确')
         }
       })
     },
