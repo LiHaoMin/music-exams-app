@@ -18,7 +18,7 @@
           <img class="circle" v-lazy="detail.headPortrait ? detail.headPortrait : require('@/assets/avatar.jpg')" />
           <div class="info">
             <span>{{detail.teacherName}}</span>
-            <span>带班老师</span>
+            <span v-if="detail.teacherCall">{{detail.teacherCall}}</span>
             <p>{{detail.teacherTelephone}}</p>
           </div>
         </div>
