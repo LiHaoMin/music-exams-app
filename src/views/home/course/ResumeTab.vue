@@ -55,18 +55,18 @@ export default {
   }
   .info .text div:first-child {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
   }
   .info .text div:last-child {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     margin-top: 6px;
   }
   .description {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     line-height: 20px;
   }

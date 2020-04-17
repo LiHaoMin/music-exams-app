@@ -145,7 +145,7 @@ export default {
   }
   .header .content .title {
     font-size: 15px;
-    font-weight: 500;
+    font-weight: bold;
     color: #333;
     padding-top: 9px;
     padding-bottom: 9px;
@@ -158,7 +158,7 @@ export default {
   .header .content .title p:nth-last-child(2) {
     color: #888;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     padding-top: 6px;
   }
   .header .content .price {
@@ -166,12 +166,12 @@ export default {
     bottom: 9px;
     right: 0;
     font-size:20px;
-    font-weight: 500;
+    font-weight: bold;
     color: #DB6073;
   }
   .header .content .price label {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #DB6073;
     margin-right: 5px;
   }
@@ -193,12 +193,12 @@ export default {
   }
   .header .content .teacher .info span:first-child {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
   }
   .header .content .teacher .info span:nth-child(2) {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #1E4058;
     padding: 2px 5px;
     background-color: #F2FAFF;
@@ -206,7 +206,7 @@ export default {
   }
   .header .content .teacher .info p {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     margin: 0;
   }

@@ -160,7 +160,7 @@ export default {
     background-color: #fff;
     color: #1E4058;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: bold;
     position: relative;
   }
   .sidebar .left-warp li.active:before {
@@ -230,12 +230,12 @@ export default {
   }
   .right-warp .list-item .content .title {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     color: #333;
   }
   .right-warp .list-item .content .description {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     margin-top: 3px;
   }
@@ -251,7 +251,7 @@ export default {
   }
   .right-warp .list-item .content .icon span {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     margin-left: 3px;
   }
@@ -262,7 +262,7 @@ export default {
   }
   .right-warp .list-item .content .price label {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #DB6073;
   }
   .right-warp .list-item .content .price span {

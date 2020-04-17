@@ -98,7 +98,7 @@ export default {
   }
   .list-empty p {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     line-height: 20px;
   }
@@ -132,7 +132,7 @@ export default {
   }
   .card-item-warp .content .title {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     color: #333;
     margin-top: 10px;
     /*display: inline-block;*/
@@ -140,7 +140,7 @@ export default {
   }
   .card-item-warp .content .description {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     margin-top: 6px;
     /*display: inline-block;*/
@@ -148,7 +148,7 @@ export default {
   }
   .card-item-warp .content .teacher {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     margin-top: 17px;
   }
@@ -163,7 +163,7 @@ export default {
   }
   .card-item-warp .content .play span {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     margin-left: 3px;
   }
@@ -174,7 +174,7 @@ export default {
   }
   .card-item-warp .content .price label {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #DB6073;
   }
   .card-item-warp .content .price span {
@@ -194,7 +194,7 @@ export default {
     height: 23px;
     color: #fff;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     text-align: center;
     line-height: 23px;
     background-image: url("~@/assets/images/home/list-tag.png");

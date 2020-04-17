@@ -138,7 +138,7 @@ export default {
   }
   .tips .text {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #1E4058;
     background: #fff;
     box-shadow: 0 2px 10px 0 #EAEAEA;
@@ -162,7 +162,7 @@ export default {
     width: 100%;
     color: #fff;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: normal;
     border-radius: 2px;
     margin: 10px 15px;
     background-color: #1E4058;
@@ -171,7 +171,7 @@ export default {
     margin: 0;
     color: #333;
     font-size: 13px;
-    font-weight: 400;
+    font-weight: normal;
   }
   .popup {
     background-color: #FFF;
@@ -184,7 +184,7 @@ export default {
   }
   .popup .info .price {
     font-size:20px;
-    font-weight: 500;
+    font-weight: bold;
     color: #DB6073;
     position: absolute;
     right: 25px;
@@ -192,7 +192,7 @@ export default {
   }
   .popup .info .price label {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #DB6073;
     margin-right: 5px;
   }
@@ -205,7 +205,7 @@ export default {
     width: 100%;
     color: #fff;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: normal;
     border-radius: 2px;
     margin: 10px 15px;
     background-color: #1E4058;
@@ -214,7 +214,7 @@ export default {
   .offline-course-apply >>> .van-action-sheet__header {
     color: #333;
     font-size: 13px;
-    font-weight: 400;
+    font-weight: normal;
     background-color: #F8F8F8;
   }
   .offline-course-apply >>> .van-action-sheet__header i {
@@ -252,7 +252,7 @@ export default {
   }
   .card-item-warp .content .title {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     color: #333;
     margin-top: 10px;
     /*display: inline-block;*/
@@ -260,7 +260,7 @@ export default {
   }
   .card-item-warp .content .description {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     margin-top: 6px;
     /*display: inline-block;*/
@@ -268,7 +268,7 @@ export default {
   }
   .card-item-warp .content .teacher {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     margin-top: 17px;
   }
@@ -283,7 +283,7 @@ export default {
   }
   .card-item-warp .content .play span {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     margin-left: 3px;
   }
@@ -294,7 +294,7 @@ export default {
   }
   .card-item-warp .content .price label {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #DB6073;
   }
   .card-item-warp .content .price span {

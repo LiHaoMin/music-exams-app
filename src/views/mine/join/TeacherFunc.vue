@@ -104,13 +104,13 @@ export default {
   }
   .text .title {
     font-size: 15px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     line-height: 21px;
   }
   .text .subtitle {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     line-height: 17px;
   }
@@ -138,7 +138,7 @@ export default {
   }
   .form .account {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     line-height: 20px;
   }
@@ -150,7 +150,7 @@ export default {
   }
   .form .phone {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     line-height: 17px;
   }
@@ -171,7 +171,7 @@ export default {
     width: 100%;
     color: #fff;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: normal;
     border-radius: 5px;
     margin: 10px 46px;
     background-color: #1E4058;

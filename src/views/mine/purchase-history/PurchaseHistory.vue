@@ -116,24 +116,24 @@ export default {
   .list-item .title {
     width: 220px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     color: #333;
     line-height: 20px;
   }
   .list-item .time {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     line-height: 17px;
   }
   .list-item .price {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     line-height: 17px;
   }
   .list-item .price span {
-    font-weight: 500;
+    font-weight: bold;
     color: #DB6073;
   }
 
@@ -149,7 +149,7 @@ export default {
   }
   .list-empty p {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     line-height: 20px;
   }

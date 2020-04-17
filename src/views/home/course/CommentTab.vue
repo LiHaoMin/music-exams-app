@@ -139,7 +139,7 @@ export default {
   .comment .subtitle h3 {
     color: #333;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: normal;
     display: inline-block;
     margin-left: 10px;
   }
@@ -150,7 +150,7 @@ export default {
   .comment .subtitle span {
     color: #FFBC49;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     margin-left: 10px;
     margin-right: 11px;
   }
@@ -178,18 +178,18 @@ export default {
   }
   .comment-item .info .nickname {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
   }
   .comment-item .info .date {
     font-size: 11px;
-    font-weight: 400;
+    font-weight: normal;
     color: #979797;
     line-height: 17px;
   }
   .comment-item .description {
     font-size: 11px;
-    font-weight: 400;
+    font-weight: normal;
     color: #585858;
     line-height: 16px;
     margin-top: 5px;
@@ -204,7 +204,7 @@ export default {
     width: 100%;
     color: #fff;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     border-radius: 5px;
     margin: 10px 15px;
     background-color: #1E4058;
@@ -212,7 +212,7 @@ export default {
 
   .dialog-title {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     line-height: 20px;
     background-color: #F5F5F5;

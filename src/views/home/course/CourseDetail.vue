@@ -183,7 +183,7 @@ export default {
   }
   .content .title {
     font-size: 15px;
-    font-weight: 500;
+    font-weight: bold;
     color: #333;
     padding-top: 9px;
     padding-bottom: 9px;
@@ -195,7 +195,7 @@ export default {
   .content .title p:nth-last-child(2) {
     color: #888;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     padding-top: 6px;
   }
   .content .price {
@@ -203,12 +203,12 @@ export default {
     bottom: 9px;
     right: 0;
     font-size:20px;
-    font-weight: 500;
+    font-weight: bold;
     color: #DB6073;
   }
   .content .price label {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #DB6073;
     margin-right: 5px;
   }

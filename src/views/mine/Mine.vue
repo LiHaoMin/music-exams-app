@@ -133,7 +133,7 @@ export default {
 
   .header .info .nickname {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     color: #333;
     line-height: 20px;
     margin-bottom: 3px;
@@ -150,7 +150,7 @@ export default {
   }
   .header .vip {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     color: #1E4058;
     line-height: 20px;
     position: absolute;
@@ -172,7 +172,7 @@ export default {
   }
   .cell-title {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     line-height: 20px;
   }
@@ -198,7 +198,7 @@ export default {
     width: 100%;
     color: #333;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: normal;
     border-radius: 2px;
     margin: 10px 46px;
     background-color: #fff;

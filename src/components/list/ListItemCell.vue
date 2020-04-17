@@ -54,7 +54,7 @@ export default {
     height: 23px;
     color: #fff;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     text-align: center;
     line-height: 23px;
     background-image: url("~@/assets/images/home/list-tag.png");
@@ -75,7 +75,7 @@ export default {
     width: 280px;
     color: #333;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     margin-left: -8px;
     padding-top: 10px;
   }
@@ -98,7 +98,7 @@ export default {
   }
   .list-item-warp .list-item-top > .price label {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #DB6073;
   }
   .list-item-warp .list-item-top > .price span {
@@ -123,7 +123,7 @@ export default {
   .list-item-warp .list-item-floor div:first-child > span {
     margin-left: 10px;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
   }
   .list-item-warp .list-item-floor .circle {

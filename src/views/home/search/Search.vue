@@ -138,7 +138,7 @@ export default {
   }
   .hot-warp span {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
   }
   .hot-warp .tags {
@@ -146,7 +146,7 @@ export default {
   }
   .hot-warp .tag {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #C2C1C1;
     border-radius:11px;
     border:1px solid #EDEDED;
@@ -189,7 +189,7 @@ export default {
   }
   .card-item-warp .content .title {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     color: #333;
     margin-top: 10px;
     /*display: inline-block;*/
@@ -197,7 +197,7 @@ export default {
   }
   .card-item-warp .content .description {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     margin-top: 6px;
     /*display: inline-block;*/
@@ -205,7 +205,7 @@ export default {
   }
   .card-item-warp .content .teacher {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     margin-top: 17px;
   }

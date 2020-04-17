@@ -156,7 +156,7 @@ export default {
   }
   .warpper  .title {
     font-size: 15px;
-    font-weight: 400;
+    font-weight: normal;
     color: #fff;
     padding-left: 20px;
     text-align: center;
@@ -171,7 +171,7 @@ export default {
   .resume {
     color: #1E4058;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     line-height: 23px;
     padding: 13px 19px 11px 20px;
   }
@@ -192,18 +192,18 @@ export default {
     border-radius: 8px;
     color: #FFF;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: bold;
   }
   .directory li .text {
     font-size: 14px;
     color: #333;
-    font-weight: 400;
+    font-weight: normal;
     margin-left: 14px;
     width: 155px;
   }
   .directory li .time {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
   }
 
@@ -245,14 +245,14 @@ export default {
   .comment .subtitle h3 {
     color: #333;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: normal;
     display: inline-block;
     margin-left: 10px;
   }
   .comment .subtitle span {
     color: #FFBC49;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     margin-left: 15px;
     margin-right: 11px;
   }
@@ -281,7 +281,7 @@ export default {
   }
   .comment-item .info .nickname {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
   }
   .comment-item .info .date {
@@ -332,7 +332,7 @@ export default {
   }
   .popup .info .price {
     font-size:20px;
-    font-weight: 500;
+    font-weight: bold;
     color: #DB6073;
     position: absolute;
     right: 25px;
@@ -399,7 +399,7 @@ export default {
   }
   .card-item-warp .content .title {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     color: #333;
     margin-top: 10px;
     /*display: inline-block;*/

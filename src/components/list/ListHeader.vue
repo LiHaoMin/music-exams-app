@@ -42,7 +42,7 @@ export default {
   .list-warp > .title span:first-child {
     color: #333;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: bold;
   }
   .list-warp > .title span:last-child {
     color:#888;

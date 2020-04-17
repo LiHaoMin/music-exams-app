@@ -154,7 +154,7 @@ export default {
   }
   .message .text {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     line-height: 20px;
     max-width: 220px;
   }
@@ -199,7 +199,7 @@ export default {
   }
   .action .switch span {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #1E4058;
     line-height: 17px;
     margin-top: 3px;

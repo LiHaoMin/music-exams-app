@@ -55,7 +55,7 @@ export default {
   }
   .content .text {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     line-height: 20px;
     text-indent: 12px;

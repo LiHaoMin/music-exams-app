@@ -124,7 +124,7 @@ export default {
 
   .cell-title {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: normal;
     color: #333;
     line-height: 20px;
   }
@@ -145,7 +145,7 @@ export default {
     width: 100%;
     color: #fff;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: normal;
     border-radius: 2px;
     margin: 10px 46px;
     background-color: #1E4058;

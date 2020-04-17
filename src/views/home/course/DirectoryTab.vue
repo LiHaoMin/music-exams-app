@@ -74,7 +74,7 @@ export default {
     border-radius: 8px;
     color: #FFF;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: bold;
     margin-right: 12px;
   }
   .directory-item .content {
@@ -90,12 +90,12 @@ export default {
   }
   .directory-item .info .status {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #1E4058;
   }
   .directory-item .time {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: normal;
     color: #888;
     margin-top: 5px;
   }
