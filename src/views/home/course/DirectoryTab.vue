@@ -6,7 +6,7 @@
       error-text="请求失败，点击重新加载"
       :finished="finished"
       @load="onLoad">
-      <div class="directory-item" :class="{'active': item.learningTime >= item.time}" :key="index" v-for="(item, index) in list">
+      <div class="directory-item" @click="$emit('play', item, index)" :class="{'active': item.learningTime >= item.time}" :key="index" v-for="(item, index) in list">
         <div class="no">{{index + 1}}</div>
         <div class="content">
           <div class="info">

@@ -1,8 +1,19 @@
 <template>
   <div class="course-detail">
     <NavBar />
-    <div class="player" v-if="showController">
-      <d-player ref="player" @play="play" @timeupdate="timeupdate" @ended="ended" :options="options"></d-player>
+    <div class="player">
+      <video-player  ref="videoPlayer"
+                     :options="options"
+                     :playsinline="true"
+                     @play="onPlayerPlay($event)"
+                     @pause="onPlayerPause($event)"
+                     @ended="onPlayerEnded($event)"
+                     @waiting="onPlayerWaiting($event)"
+                     @playing="onPlayerPlaying($event)"
+                     @timeupdate="onPlayerTimeupdate($event)"
+                     @ready="playerReadied"
+                     @statechanged="playerStateChanged($event)">
+      </video-player>
     </div>
     <div class="content">
       <div class="title">
@@ -29,7 +40,7 @@
           <SummaryTab v-if="detail.id" :chapterList="chapterList" :detail="detail" />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="课程目录">
-          <DirectoryTab />
+          <DirectoryTab @play="play" />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="老师介绍">
           <ResumeTab v-if="detail.id" :detail="detail" />
@@ -43,10 +54,11 @@
 </template>
 
 <script>
-import { Tab, Tabs, Toast } from 'vant'
+import { Tab, Tabs, Toast, Dialog } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
-import VueDPlayer from 'vue-dplayer'
-import 'vue-dplayer/dist/vue-dplayer.css'
+import 'video.js/dist/video-js.css'
+import 'vue-video-player/src/custom-theme.css'
+import { videoPlayer } from 'vue-video-player'
 import SummaryTab from '@/views/home/course/SummaryTab'
 import DirectoryTab from '@/views/home/course/DirectoryTab'
 import ResumeTab from '@/views/home/course/ResumeTab'
@@ -63,22 +75,30 @@ export default {
     DirectoryTab,
     ResumeTab,
     CommentTab,
-    'd-player': VueDPlayer
+    videoPlayer,
+    [Dialog.Component.name]: Dialog.Component
   },
   data () {
     return {
       currentIdx: 0,
       showController: false,
       options: {
-        video: {},
-        preload: false,
-        screenshot: false,
         autoplay: false,
-        contextmenu: []
+        language: 'zh-CN',
+        preload: 'auto',
+        muted: true,
+        loop: false,
+        notSupportedMessage: '此视频暂无法播放,请稍后再试',
+        sources: [],
+        poster: '',
+        controlBar: {
+          remainingTimeDisplay: true
+        }
       },
       detail: {},
       commentTotal: 0,
-      chapterList: []
+      chapterList: [],
+      currentChapterIndex: 0
     }
   },
   computed: {
@@ -86,7 +106,7 @@ export default {
       return this.commentTotal ? `评价（${this.commentTotal}）` : '评价'
     },
     player () {
-      return this.$refs.player.dp
+      return this.$refs.videoPlayer.player
     }
   },
   created () {
@@ -95,22 +115,6 @@ export default {
     this.requestChapter()
   },
   methods: {
-    // 视频播放
-    play () {
-    },
-    // 播放中
-    timeupdate () {
-      console.log(this.player.video.currentTime)
-    },
-    // 视频播放结束
-    ended () {
-      // http://cdn.toxicjohann.com/lostStar.mp4
-      // http://vjs.zencdn.net/v/oceans.mp4
-      this.player.switchVideo({
-        url: this.chapterList[1].videoUrl,
-        pic: this.chapterList[1].videoUrl + '?vframe/jpg/offset/1/w/800/h/640'
-      })
-    },
     // 分享
     share () {
       const config = {
@@ -148,13 +152,58 @@ export default {
         if (res && res.data) {
           this.showController = true
           this.chapterList = res.data
-          if (this.chapterList.length > 0) {
-            const item = this.chapterList[0]
-            this.options.video.url = item.videoUrl
-            this.options.video.pic = item.videoUrl + '?vframe/jpg/offset/1/w/800/h/640'
+          if (this.chapterList.length > this.currentChapterIndex) {
+            const item = this.chapterList[this.currentChapterIndex]
+            this.play(item)
           }
         }
       })
+    },
+    play (item, idx) {
+      if (idx) this.currentChapterIndex = idx
+      this.$set(this.options.sources, 0, {
+        type: 'video/mp4',
+        src: item.videoUrl
+      })
+      this.$set(this.options, 'poster', item.videoUrl + '?vframe/jpg/offset/1/w/800/h/640')
+    },
+    // listen event
+    onPlayerPlay (player) {
+      console.log('player play!', player)
+    },
+    onPlayerPause (player) {
+      console.log('player pause!', player)
+    },
+    onPlayerEnded (player) {
+      console.log('player ended!', player)
+      // if (player.isFullscreen()) player.exitFullscreen()
+      if (this.currentChapterIndex < this.chapterList.length) {
+        this.play(this.chapterList[++this.currentChapterIndex])
+        Toast('本集已播放完,点击播放按钮继续下一集.')
+      } else {
+        Toast('课程已学完.')
+      }
+    },
+    onPlayerWaiting (player) {
+      console.log('player Waiting!', player)
+    },
+    onPlayerPlaying (player) {
+      console.log('player Playing!', player)
+    },
+    onPlayerTimeupdate (player) {
+      console.log('player Timeupdate!', player.currentTime())
+      // TODO 记录课程学习记录
+    },
+    // or listen state event
+    playerStateChanged (playerCurrentState) {
+      console.log('player current update state', playerCurrentState)
+    },
+    // player is ready
+    playerReadied (player) {
+      // seek to 10s
+      console.log('example player 1 readied', player)
+      // player.currentTime(10)
+      console.log('example 01: the player is readied', player)
     }
   }
 }
@@ -288,5 +337,15 @@ export default {
   .player >>> .dplayer-mask {
     /* 悬浮层 */
     /*display: inline-block;*/
+  }
+
+  .player >>> .video-js {
+    width: 100%;
+    height: 189px;
+  }
+  .player >>> .vjs-big-play-button {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
 </style>
