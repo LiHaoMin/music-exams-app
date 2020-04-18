@@ -41,7 +41,7 @@ export default {
   },
   data () {
     return {
-      captchaUrl: WEB_URL + 'user-info/getVerifiCode',
+      captchaUrl: '',
       captcha: '',
       user: {},
       webUrl: WEB_URL
@@ -57,11 +57,12 @@ export default {
   },
   created () {
     this.requestTeacher()
+    this.captchaUrl = WEB_URL + 'user-info/getVerifiCode?token' + this.userInfo.token
   },
   methods: {
     // 切换图片验证码
     getCaptcha () {
-      this.captchaUrl = WEB_URL + 'user-info/getVerifiCode?time=' + new Date().getTime()
+      this.captchaUrl = WEB_URL + 'user-info/getVerifiCode?time=' + new Date().getTime() + '&token=' + this.userInfo.token
     },
     // 接收密码
     receive () {
@@ -69,7 +70,7 @@ export default {
         Toast('请填写正确验证码～')
         return
       }
-      this.$http.get('/user-info/setpw', { isShowLoading: true, params: { code: this.captcha } }).then((res) => {
+      this.$http.get('/user-info/setpw', { isShowLoading: true, params: { code: this.captcha, PhoneNum: this.user.telephone } }).then((res) => {
         if (res && res.data) {
           Toast.success('操作成功')
         } else {

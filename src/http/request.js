@@ -67,6 +67,7 @@ instance.interceptors.response.use(
     } else {
       err.message = '连接服务器失败'
     }
+    store.state.isLoading = false
     return Promise.reject(err.response)
   }
 )

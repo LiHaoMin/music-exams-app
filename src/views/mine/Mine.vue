@@ -14,7 +14,7 @@
       </div>
       <div class="info">
         <div class="nickname">{{ userInfo.name }}</div>
-        <div class="tag" v-if="userInfo.userType === 3">音乐高级讲师</div>
+        <div class="tag" STYLE="display: none">音乐高级讲师</div>
       </div>
       <div class="vip">
         <img :src="require('@/assets/images/mine/vip.png')" />
