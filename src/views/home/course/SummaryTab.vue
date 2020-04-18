@@ -11,10 +11,10 @@
         <div class="title">课程涵盖</div>
         <div class="container directory">
           <ul>
-            <li :key="index" v-for="(item, index) in [1, 1, 1, 1, 1, 1]">
+            <li :key="index" v-for="(item, index) in chapterList.slice(0 , 6)">
               <div class="no">{{index + 1}}</div>
-              <div class="text van-ellipsis">西方音乐史</div>
-              <div class="time">时长：30</div>
+              <div class="text van-ellipsis">{{item.videoName}}</div>
+              <div class="time">时长：{{item.time ? Math.round(item.time / 60) : 0}}</div>
             </li>
           </ul>
         </div>
@@ -91,7 +91,8 @@ import { Rate, button, ActionSheet, Toast } from 'vant'
 export default {
   name: 'SummaryTab',
   props: {
-    detail: Object
+    detail: Object,
+    chapterList: Array
   },
   components: {
     [Rate.name]: Rate,

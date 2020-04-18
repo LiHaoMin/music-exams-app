@@ -6,14 +6,14 @@
       error-text="请求失败，点击重新加载"
       :finished="finished"
       @load="onLoad">
-      <div class="directory-item" :class="{'active': index % 2 === 0}" :key="index" v-for="(item, index) in list">
+      <div class="directory-item" :class="{'active': item.learningTime >= item.time}" :key="index" v-for="(item, index) in list">
         <div class="no">{{index + 1}}</div>
         <div class="content">
           <div class="info">
-            <span class="title">西方音乐史{{index + 1}}</span>
-            <span class="status">已学完</span>
+            <span class="title">{{item.videoName}}</span>
+            <span class="status">{{item | status}}</span>
           </div>
-          <div class="time">时长：30分钟</div>
+          <div class="time">时长：{{item.time ? Math.round(item.time / 60) : 0}}分钟</div>
         </div>
       </div>
     </van-list>
@@ -37,17 +37,25 @@ export default {
       isSearched: false
     }
   },
+  filters: {
+    status (data) {
+      if (data.learningTime) {
+        return data.learningTime >= data.time ? '已学完' : `已学${Math.round(data.learningTime / 60)}分钟`
+      }
+      return '未学习'
+    }
+  },
   methods: {
     onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
+      this.$http.get('/home-page/get_chapter_list', { params: { CurriculumId: this.$route.params.id } }).then((res) => {
+        if (res && res.data) {
+          this.list = res.data
+          this.loading = false
+          this.finished = true
+        } else {
+          this.error = true
         }
-
-        this.finished = true
-      }, 1000)
+      })
     }
   }
 }

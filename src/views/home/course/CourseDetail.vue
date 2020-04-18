@@ -1,8 +1,8 @@
 <template>
   <div class="course-detail">
     <NavBar />
-    <div class="player">
-      <d-player ref="player" @timeupdate="timeupdate" @ended="ended" :options="options"></d-player>
+    <div class="player" v-if="showController">
+      <d-player ref="player" @play="play" @timeupdate="timeupdate" @ended="ended" :options="options"></d-player>
     </div>
     <div class="content">
       <div class="title">
@@ -26,7 +26,7 @@
                 title-inactive-color="#333"
                 title-active-color="#1E4058">
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="课程介绍">
-          <SummaryTab v-if="detail.id" :detail="detail" />
+          <SummaryTab v-if="detail.id" :chapterList="chapterList" :detail="detail" />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="课程目录">
           <DirectoryTab />
@@ -68,36 +68,35 @@ export default {
   data () {
     return {
       currentIdx: 0,
-      player: null,
-      showController: true,
+      showController: false,
       options: {
-        video: {
-          url: 'http://cdn.toxicjohann.com/lostStar.mp4',
-          pic: 'https://i.loli.net/2020/04/04/Fed3fi4m8bGklsu.jpg'
-        },
+        video: {},
         preload: false,
         screenshot: false,
         autoplay: false,
         contextmenu: []
       },
       detail: {},
-      commentTotal: 0
+      commentTotal: 0,
+      chapterList: []
     }
   },
   computed: {
     commentTitle () {
       return this.commentTotal ? `评价（${this.commentTotal}）` : '评价'
+    },
+    player () {
+      return this.$refs.player.dp
     }
   },
   created () {
     this.requestCourseDetail()
     this.requestComment()
+    this.requestChapter()
   },
   methods: {
     // 视频播放
     play () {
-      this.player.toggle()
-      this.showController = !this.showController
     },
     // 播放中
     timeupdate () {
@@ -107,10 +106,10 @@ export default {
     ended () {
       // http://cdn.toxicjohann.com/lostStar.mp4
       // http://vjs.zencdn.net/v/oceans.mp4
-      // this.player.switchVideo({
-      //   url: 'http://cdn.toxicjohann.com/lostStar.mp4'
-      console.log('视频播放结束')
-      // })
+      this.player.switchVideo({
+        url: this.chapterList[1].videoUrl,
+        pic: this.chapterList[1].videoUrl + '?vframe/jpg/offset/1/w/800/h/640'
+      })
     },
     // 分享
     share () {
@@ -143,10 +142,20 @@ export default {
           this.commentTotal = res.data.total
         }
       })
+    },
+    requestChapter () {
+      this.$http.get('/home-page/get_chapter_list', { isShowLoading: true, params: { CurriculumId: this.$route.params.id } }).then((res) => {
+        if (res && res.data) {
+          this.showController = true
+          this.chapterList = res.data
+          if (this.chapterList.length > 0) {
+            const item = this.chapterList[0]
+            this.options.video.url = item.videoUrl
+            this.options.video.pic = item.videoUrl + '?vframe/jpg/offset/1/w/800/h/640'
+          }
+        }
+      })
     }
-  },
-  mounted () {
-    this.player = this.$refs.player.dp
   }
 }
 </script>

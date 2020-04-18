@@ -63,10 +63,7 @@ export default {
       player: null,
       showController: false,
       options: {
-        video: {
-          url: 'http://cdn.toxicjohann.com/lostStar.mp4',
-          pic: 'https://i.loli.net/2020/04/04/Fed3fi4m8bGklsu.jpg'
-        },
+        video: {},
         preload: false,
         screenshot: false,
         autoplay: false,
