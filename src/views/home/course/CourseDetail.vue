@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { Tab, Tabs, Toast, Dialog } from 'vant'
+import { Tab, Tabs, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
@@ -71,8 +71,7 @@ export default {
     DirectoryTab,
     ResumeTab,
     CommentTab,
-    videoPlayer,
-    [Dialog.Component.name]: Dialog.Component
+    videoPlayer
   },
   data () {
     return {

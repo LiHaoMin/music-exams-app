@@ -28,8 +28,14 @@
       <div class="resume">
         {{detail.teacherIntroduce}}
       </div>
-      <div class="introduction" v-if="showController">
-        <d-player ref="player" @timeupdate="timeupdate" @ended="ended" :options="options"></d-player>
+      <div class="introduction">
+        <video-player  ref="videoPlayer"
+                       :options="options"
+                       :playsinline="true"
+                       @play="onPlayerPlay($event)"
+                       @pause="onPlayerPause($event)"
+                       @ended="onPlayerEnded($event)">
+        </video-player>
       </div>
     </div>
     <div class="footer">
@@ -39,10 +45,11 @@
 </template>
 
 <script>
-import { Button, Dialog, Swipe, SwipeItem } from 'vant'
+import { Button, Swipe, SwipeItem } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
-import VueDPlayer from 'vue-dplayer'
-import 'vue-dplayer/dist/vue-dplayer.css'
+import 'video.js/dist/video-js.css'
+import 'vue-video-player/src/custom-theme.css'
+import { videoPlayer } from 'vue-video-player'
 import { setLocalStore } from '@/utils/global'
 
 // TODO 带班老师/视频介绍
@@ -51,50 +58,39 @@ export default {
   name: 'OfflineCourseDetail',
   components: {
     [Button.name]: Button,
-    [Dialog.name]: Dialog,
     [Swipe.name]: Swipe,
     [SwipeItem.name]: SwipeItem,
     NavBar,
-    'd-player': VueDPlayer
+    videoPlayer
   },
   data () {
     return {
       detail: {},
-      player: null,
       showController: false,
       options: {
-        video: {},
-        preload: false,
-        screenshot: false,
         autoplay: false,
-        contextmenu: []
+        language: 'zh-CN',
+        preload: 'auto',
+        muted: true,
+        loop: false,
+        notSupportedMessage: '此视频暂无法播放,请稍后再试',
+        sources: [],
+        poster: '',
+        controlBar: {
+          remainingTimeDisplay: true
+        }
       }
     }
   },
   computed: {
     images () {
       return this.detail.rotationChart ? this.detail.rotationChart.split(',') : []
+    },
+    player () {
+      return this.$refs.videoPlayer.player
     }
   },
   methods: {
-    // 视频播放
-    play () {
-      this.player.toggle()
-      this.showController = !this.showController
-    },
-    // 播放中
-    timeupdate () {
-      console.log(this.player.video.currentTime)
-    },
-    // 视频播放结束
-    ended () {
-      // http://cdn.toxicjohann.com/lostStar.mp4
-      // http://vjs.zencdn.net/v/oceans.mp4
-      // this.player.switchVideo({
-      //   url: 'http://cdn.toxicjohann.com/lostStar.mp4'
-      console.log('视频播放结束')
-      // })
-    },
     // 我要报名
     apply () {
       this.$router.push({ name: 'OfflineCourseApply', params: { id: this.detail.id } })
@@ -104,18 +100,17 @@ export default {
       this.$http.get('/home-page/get_curriculum_content', { isShowLoading: true, params: { CurriculumId: this.$route.params.id } }).then((res) => {
         this.detail = res.data
         if (this.detail.videoIntroduction) {
-          this.options.video.url = this.detail.videoIntroduction
-          this.options.video.pic = this.detail.videoIntroduction + '?vframe/jpg/offset/1/w/800/h/640'
+          this.$set(this.options.sources, 0, {
+            type: 'video/mp4',
+            src: this.detail.videoIntroduction
+          })
+          this.$set(this.options, 'poster', this.detail.videoIntroduction + '?vframe/jpg/offset/1/w/800/h/640')
         }
-        this.showController = true
       })
     }
   },
   created () {
     this.requestCourseDetail()
-  },
-  mounted () {
-    this.player = this.$refs.player.dp
   }
 }
 </script>
@@ -190,6 +185,7 @@ export default {
   }
   .header .content .teacher .info span:first-child {
     font-size: 14px;
+    padding: 2px 5px;
     font-weight: normal;
     color: #333;
   }
@@ -269,42 +265,14 @@ export default {
     margin: 10px 15px;
     background-color: #DB6073;
   }
-  .introduction >>> .dplayer {
+
+  .introduction >>> .video-js {
     width: 100%;
-    height: 100%;
-    /*border-radius: 10px;*/
+    height: 189px;
   }
-
-  .introduction >>> .dplayer-controller {
-    /* 底部控制条 */
-    /*display: none;*/
-  }
-
-  .introduction >>> .dplayer-setting-icon {
-    display: none;
-  }
-  .introduction >>> .dplayer-full-in-icon {
-    display: none !important;
-  }
-  .introduction >>> .dplayer-full-icon {
-    margin-top: -30px;
-  }
-  .introduction >>> .dplayer-play-icon {
-    margin-top: -10px;
-  }
-
-  .introduction >>> .dplayer-notice {
-    /* 快退进提示 */
-    display: none;
-  }
-
-  .introduction >>> .dplayer-menu-show {
-    /* 右键信息 */
-    display: none !important;
-  }
-
-  .introduction >>> .dplayer-mask {
-    /* 悬浮层 */
-    /*display: inline-block;*/
+  .introduction >>> .vjs-big-play-button {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
 </style>
