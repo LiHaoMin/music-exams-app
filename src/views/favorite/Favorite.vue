@@ -103,7 +103,7 @@ export default {
       })
     },
     onLoad () {
-      this.$http.post('/home-page/get_collection_list', { num: this.page, size: this.size, search: this.value }, { isShowLoading: true }).then((res) => {
+      this.$http.post('/home-page/get_collection_list', { num: this.page, size: this.size, search: this.value }).then((res) => {
         this.loading = false
         if (res.code !== 200) {
           this.error = true

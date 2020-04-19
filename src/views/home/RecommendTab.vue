@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     onLoad () {
-      this.$http.get('/home-page/recommend_curriculum_list', { isShowLoading: true, params: { num: this.page, size: this.size } }).then((res) => {
+      this.$http.get('/home-page/recommend_curriculum_list', { params: { num: this.page, size: this.size } }).then((res) => {
         this.loading = false
         if (res.code !== 200) {
           this.error = true

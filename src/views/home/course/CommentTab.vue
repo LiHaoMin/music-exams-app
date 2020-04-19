@@ -76,7 +76,7 @@ export default {
   methods: {
     onLoad () {
       const data = { num: this.page, size: this.size, curriculumId: this.$route.params.id }
-      this.$http.get('/home-page/evaluate_list', { isShowLoading: true, params: data }).then((res) => {
+      this.$http.get('/home-page/evaluate_list', { params: data }).then((res) => {
         this.loading = false
         if (res.code !== 200) {
           this.error = true

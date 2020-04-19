@@ -99,7 +99,7 @@ export default {
     },
     onLoad () {
       const data = { num: this.page, size: this.size, search: this.value }
-      this.$http.post('/home-page/get_curriculum_list', data, { isShowLoading: true }).then((res) => {
+      this.$http.post('/home-page/get_curriculum_list', data).then((res) => {
         this.loading = false
         if (res.code !== 200) {
           this.error = true

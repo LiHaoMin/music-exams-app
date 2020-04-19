@@ -84,7 +84,7 @@ export default {
       if (this.filterValue !== 0) {
         data.typeA = this.classificationList[this.filterValue - 1].id
       }
-      this.$http.post('/home-page/get_curriculum_list', data, { isShowLoading: true }).then((res) => {
+      this.$http.post('/home-page/get_curriculum_list', data).then((res) => {
         this.loading = false
         if (res.code !== 200) {
           this.error = true

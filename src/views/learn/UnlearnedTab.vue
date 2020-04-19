@@ -16,7 +16,7 @@
           <div class="content">
             <p class="title van-ellipsis">{{item.curriculumName}}</p>
             <p class="teacher">讲师：{{item.teacherName}}</p>
-            <div class="status">已学习4课时</div>
+<!--            <div class="status">已学习4课时</div>-->
           </div>
         </div>
       </van-list>
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     onLoad () {
-      this.$http.get('/home-page/get_my_studied_list', { isShowLoading: true, params: { num: this.page, size: this.size, judge: false } }).then((res) => {
+      this.$http.get('/home-page/get_my_studied_list', { params: { num: this.page, size: this.size, judge: false } }).then((res) => {
         this.loading = false
         if (res.code !== 200) {
           this.error = true
