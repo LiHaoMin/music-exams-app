@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
-    <van-tabbar v-model="currentIdx" active-color="#333333" :safe-area-inset-bottom="true">
-      <van-tabbar-item :key="index" replace :to="item.path" v-for="(item, index) in tabBars">
+    <van-tabbar v-show="showTabbar" v-model="currentIdx" active-color="#333333" :safe-area-inset-bottom="true">
+      <van-tabbar-item :key="index" @click="tab(index, item.path)" v-for="(item, index) in tabBars">
         <span>{{item.title}}</span>
         <template #icon="props">
           <img :src="props.active ? item.active : item.normal"/>
@@ -24,6 +24,23 @@ export default {
   components: {
     [Tabbar.name]: Tabbar,
     [TabbarItem.name]: TabbarItem
+  },
+  created () {
+    this.tabbarSelected(this.$route.name)
+  },
+  watch: {
+    $route: {
+      handler (val, oldval) {
+        this.tabbarSelected(val.name)
+      }
+    },
+    deep: true
+  },
+  computed: {
+    showTabbar () {
+      const whiteList = ['home', 'favorite', 'learn', 'mine']
+      return whiteList.indexOf(this.$route.name.toLowerCase()) > -1
+    }
   },
   data () {
     return {
@@ -54,6 +71,21 @@ export default {
           path: 'mine'
         }
       ]
+    }
+  },
+  methods: {
+    tab (index, val) {
+      this.currentIdx = index
+      this.$router.replace({ path: val })
+    },
+    tabbarSelected (item) {
+      const mapType = {
+        home: 0,
+        favorite: 1,
+        learn: 2,
+        mine: 3
+      }
+      this.currentIdx = mapType[item.toLowerCase()]
     }
   }
 }
