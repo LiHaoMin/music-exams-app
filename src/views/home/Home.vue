@@ -4,7 +4,8 @@
     <van-tabs v-model="currentIdx"
               animated
               color="#1E4058"
-              line-height="2"
+              line-width="0.42667rem"
+              line-height="0.05333rem"
               title-inactive-color="#333"
               title-active-color="#1E4058">
       <van-tab title-style="font-size: 0.42667rem;font-weight:500;" title="发现课程">
