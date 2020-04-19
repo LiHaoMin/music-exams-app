@@ -55,9 +55,9 @@ export default {
       return this.user.telephone.replace(mid, '****')
     }
   },
-  created () {
+  mounted () {
     this.requestTeacher()
-    this.captchaUrl = WEB_URL + 'user-info/getVerifiCode?token' + this.userInfo.token
+    this.getCaptcha()
   },
   methods: {
     // 切换图片验证码
@@ -89,6 +89,7 @@ export default {
 
 <style scoped>
   .teacher-func {
+    height: 100vh;
     background-color: #F8F8F8;
   }
 
@@ -97,7 +98,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 62px;
+    padding-top: 62px;
   }
 
   .text {
@@ -156,8 +157,8 @@ export default {
     line-height: 17px;
   }
   .form .verification {
-    width: 49px;
-    height: 23px;
+    width: 55px;
+    height: 24px;
     object-fit: cover;
     object-position: center;
   }
