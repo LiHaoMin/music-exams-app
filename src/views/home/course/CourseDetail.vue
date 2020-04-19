@@ -7,13 +7,9 @@
                      :playsinline="true"
                      @play="onPlayerPlay($event)"
                      @pause="onPlayerPause($event)"
-                     @ended="onPlayerEnded($event)"
-                     @waiting="onPlayerWaiting($event)"
-                     @playing="onPlayerPlaying($event)"
-                     @timeupdate="onPlayerTimeupdate($event)"
-                     @ready="playerReadied"
-                     @statechanged="playerStateChanged($event)">
+                     @ended="onPlayerEnded($event)">
       </video-player>
+      <div class="player-controller" v-if="!detail.purchase && !detail.freeAdmission" @click="playerController"></div>
     </div>
     <div class="content">
       <div class="title">
@@ -98,7 +94,9 @@ export default {
       detail: {},
       commentTotal: 0,
       chapterList: [],
-      currentChapterIndex: 0
+      currentChapterIndex: 0,
+      timeTask: null,
+      timeout: 10
     }
   },
   computed: {
@@ -159,6 +157,16 @@ export default {
         }
       })
     },
+    requestLearn () {
+      const item = this.chapterList[this.currentChapterIndex]
+      if (item.learningTime < item.time) {
+        const learnTime = this.timeout + parseInt(item.learningTime)
+        this.chapterList[this.currentChapterIndex].learningTime = learnTime
+        this.$http.get('/home-page/update_learning_video', { params: { learningVideoId: item.learningVideoId, time: learnTime } }).then((res) => {
+          if (res && res.data) {}
+        })
+      }
+    },
     play (item, idx) {
       if (idx) this.currentChapterIndex = idx
       this.$set(this.options.sources, 0, {
@@ -167,15 +175,21 @@ export default {
       })
       this.$set(this.options, 'poster', item.videoUrl + '?vframe/jpg/offset/1/w/800/h/640')
     },
-    // listen event
+    playerController () {
+      Toast('请先购买课程.')
+    },
     onPlayerPlay (player) {
-      console.log('player play!', player)
+      if (!this.timeTask) {
+        this.timeTask = setInterval(this.requestLearn, this.timeout * 1000)
+      }
     },
     onPlayerPause (player) {
-      console.log('player pause!', player)
+      if (this.timeTask) {
+        clearInterval(this.timeTask)
+        this.timeTask = null
+      }
     },
     onPlayerEnded (player) {
-      console.log('player ended!', player)
       // if (player.isFullscreen()) player.exitFullscreen()
       if (this.currentChapterIndex < this.chapterList.length) {
         this.play(this.chapterList[++this.currentChapterIndex])
@@ -183,27 +197,10 @@ export default {
       } else {
         Toast('课程已学完.')
       }
-    },
-    onPlayerWaiting (player) {
-      console.log('player Waiting!', player)
-    },
-    onPlayerPlaying (player) {
-      console.log('player Playing!', player)
-    },
-    onPlayerTimeupdate (player) {
-      console.log('player Timeupdate!', player.currentTime())
-      // TODO 记录课程学习记录
-    },
-    // or listen state event
-    playerStateChanged (playerCurrentState) {
-      console.log('player current update state', playerCurrentState)
-    },
-    // player is ready
-    playerReadied (player) {
-      // seek to 10s
-      console.log('example player 1 readied', player)
-      // player.currentTime(10)
-      console.log('example 01: the player is readied', player)
+      if (this.timeTask) {
+        clearInterval(this.timeTask)
+        this.timeTask = null
+      }
     }
   }
 }
@@ -302,43 +299,6 @@ export default {
     object-fit: cover;
   }
 
-  .player >>> .dplayer {
-    width: 100%;
-    height: 100%;
-  }
-  .player >>> .dplayer-controller {
-    /* 底部控制条 */
-    /*display: none;*/
-  }
-
-  .player >>> .dplayer-setting-icon {
-    display: none;
-  }
-  .player >>> .dplayer-full-in-icon {
-    display: none !important;
-  }
-  .player >>> .dplayer-full-icon {
-    margin-top: -30px;
-  }
-  .player >>> .dplayer-play-icon {
-    margin-top: -10px;
-  }
-
-  .player >>> .dplayer-notice {
-    /* 快退进提示 */
-    display: none;
-  }
-
-  .player >>> .dplayer-menu-show {
-    /* 右键信息 */
-    display: none !important;
-  }
-
-  .player >>> .dplayer-mask {
-    /* 悬浮层 */
-    /*display: inline-block;*/
-  }
-
   .player >>> .video-js {
     width: 100%;
     height: 189px;
@@ -348,4 +308,6 @@ export default {
     left: 50%;
     transform: translate(-50%,-50%);
   }
+  /*.player >>> .video-js .vjs-time-control{display:block;}*/
+  /*.player >>> .video-js .vjs-remaining-time{display: none;}*/
 </style>

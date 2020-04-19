@@ -122,6 +122,8 @@ export default {
       this.$http.get('/home-page/purchase', { isShowLoading: true, params: { CurriculumId: this.$route.params.id } }).then((res) => {
         if (res && res.data) {
           Toast.success('操作成功')
+          this.showPayment = false
+          this.detail.purchase = true
         } else {
           Toast.fail('操作失败')
         }
