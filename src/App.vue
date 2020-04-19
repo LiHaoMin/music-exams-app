@@ -31,14 +31,17 @@ window.onload = function () {
 </script>
 
 <style lang="scss">
-html,body,#app {
-  margin: 0;
-  padding: 0;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html,body {
+   margin: 0;
+   padding: 0;
+ }
+#app {
   width: 100%;
   height: 100%;
+  font-family: "PingFang SC","Helvetica Neue","Hiragino Sans GB","Segoe UI","Microsoft YaHei","微软雅黑",Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .loading {
   display: flex;

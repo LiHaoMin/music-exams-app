@@ -17,8 +17,7 @@ const routes = [
     redirect: '/dashboard',
     meta: {
       keepAlive: true
-    },
-    component: DashBoard
+    }
   },
   {
     // 根页面
@@ -31,7 +30,10 @@ const routes = [
     children: [
       {
         path: '/dashboard',
-        redirect: '/dashboard/home'
+        redirect: '/dashboard/home',
+        meta: {
+          keepAlive: true
+        }
       },
       {
         // 首页
@@ -39,7 +41,9 @@ const routes = [
         name: 'Home',
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/home/Home'),
         meta: {
-          title: '首页'
+          title: '首页',
+          keepAlive: true,
+          requireAuth: true
         }
       },
       {
@@ -49,6 +53,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/favorite/Favorite'),
         meta: {
           title: '收藏课程',
+          keepAlive: true,
           requireAuth: true
         }
       },
@@ -59,6 +64,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/learn/Learn'),
         meta: {
           title: '我的学习',
+          keepAlive: true,
           requireAuth: true
         }
       },
@@ -69,6 +75,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/mine/Mine'),
         meta: {
           title: '我的',
+          keepAlive: true,
           requireAuth: true
         }
       }
@@ -86,7 +93,8 @@ const routes = [
     path: '/search',
     name: 'Search',
     meta: {
-      title: '首页'
+      title: '首页',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "search" */ '@/views/home/search/Search')
   },
@@ -94,7 +102,8 @@ const routes = [
     path: '/classroom/:classroomType',
     name: 'Classroom',
     meta: {
-      title: '导师博讲堂'
+      title: '导师博讲堂',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "classroom" */ '@/views/home/classroom/Classroom')
   },
@@ -102,7 +111,8 @@ const routes = [
     path: '/offline-course/:offlineCourseType',
     name: 'OfflineCourse',
     meta: {
-      title: '音乐考研'
+      title: '音乐考研',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/offline-course/OfflineCourse')
   },
@@ -110,7 +120,8 @@ const routes = [
     path: '/offline-course/detail/:id',
     name: 'OfflineCourseDetail',
     meta: {
-      title: '保过班'
+      title: '实体课',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/offline-course/OfflineCourseDetail')
   },
@@ -118,7 +129,8 @@ const routes = [
     path: '/offline-course/apply/:id',
     name: 'OfflineCourseApply',
     meta: {
-      title: '报名信息填写'
+      title: '报名信息填写',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/offline-course/OfflineCourseApply')
   },
@@ -126,7 +138,8 @@ const routes = [
     path: '/course/detail/:id',
     name: 'CourseDetail',
     meta: {
-      title: '课程'
+      title: '课程',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "OfflineCourse" */ '@/views/home/course/CourseDetail')
   },
@@ -161,7 +174,8 @@ const routes = [
     path: '/mine/help',
     name: 'Help',
     meta: {
-      title: '帮助手册'
+      title: '帮助手册',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/help/Help')
   },
@@ -221,7 +235,7 @@ router.beforeEach((to, from, next) => {
     if (store.state.userInfo.token) {
       next()
     } else {
-      next({ name: 'Login' })
+      next({ name: 'Login', query: { redirect: to.path } })
     }
   } else {
     next()
