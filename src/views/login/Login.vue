@@ -15,10 +15,10 @@
         </van-field>
         <span></span>
       </van-cell-group>
-      <van-button class="login-btn" round color="#1E4058" type="primary" :disabled="!isAgreement" @click="login">立即登录</van-button>
+      <van-button class="login-btn" round color="#1E4058" type="primary" :disabled="!isAgreement" @click="login">{{code ? '立即绑定' : '立即登录'}}</van-button>
       <van-checkbox v-model="isAgreement" class="agreement" checked-color="#1E4058"><span>已阅读并同意</span><a href="#">《用户协议》</a> </van-checkbox>
     </div>
-    <div class="login-footer">
+    <div class="login-footer" v-if="!code">
       <van-divider />
       <div class="login-other">
         <div class="wechat" @click="wechat">
@@ -60,12 +60,14 @@ export default {
   data () {
     return {
       // 手机号码
-      phoneNumber: '13588119520',
+      phoneNumber: '',
       // 短信验证码
       smsCaptcha: '',
       // 倒计时
       countDown: 0,
-      isAgreement: false
+      isAgreement: false,
+      code: '',
+      wechatData: {}
     }
   },
   computed: {
@@ -86,7 +88,11 @@ export default {
           clearInterval(this.timeIntervalID)
         }
       }, 1000)
-      this.$http.get('/user-info/get_code', { params: { PhoneNum: this.phoneNumber } })
+      if (this.code) {
+        this.$http.get('/user-info/get_wx_code', { params: { PhoneNum: this.phoneNumber } })
+      } else {
+        this.$http.get('/user-info/get_code', { params: { PhoneNum: this.phoneNumber } })
+      }
     },
     // 登录
     login () {
@@ -98,15 +104,53 @@ export default {
         Toast('请输入正确的验证码')
         return
       }
-      this.$http.get('/user-info/sign_in', { isShowLoading: true, params: { PhoneNum: this.phoneNumber, code: this.smsCaptcha } }).then((res) => {
-        this.setUserInfo({
-          token: res.data.token
+      if (this.code) {
+        this.wechatData.telephone = this.phoneNumber
+        this.wechatData.code = this.smsCaptcha
+        this.$http.post('/user-info/wx_user', this.wechatData, { isShowLoading: true }).then((res) => {
+          this.setUserInfo({
+            token: res.data.token
+          })
+          this.$router.replace('/')
         })
-        this.$router.replace('/')
-      })
+      } else {
+        this.$http.get('/user-info/sign_in', { isShowLoading: true, params: { PhoneNum: this.phoneNumber, code: this.smsCaptcha } }).then((res) => {
+          this.setUserInfo({
+            token: res.data.token
+          })
+          this.$router.replace('/')
+        })
+      }
     },
     wechat () {
-      Toast('微信授权')
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx78ebd89eceff8a0e&redirect_uri=${encodeURIComponent(window.location.href)}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`
+    },
+    getQueryVariable (str) {
+      var query = window.location.search.substring(1)
+      var vars = query.split('&')
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=')
+        if (pair[0] === str) {
+          return pair[1]
+        }
+      }
+      return null
+    }
+  },
+  created () {
+    if (this.getQueryVariable('code')) {
+      this.code = this.getQueryVariable('code')
+      this.$http.get('/wx/weixinLogin', { isShowLoading: true, params: { code: this.getQueryVariable('code') } }).then((res) => {
+        if (res.data.token) {
+          this.setUserInfo({
+            token: res.data.token
+          })
+        } else {
+          this.code = this.getQueryVariable('code')
+          this.wechatData = res.data
+        }
+        this.$router.replace('/')
+      })
     }
   }
 }
