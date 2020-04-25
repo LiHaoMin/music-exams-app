@@ -116,10 +116,6 @@ export default {
     this.requestComment()
     this.requestCourse()
     if (this.$route.query.code) {
-      if (!window.WeixinJSBridge) {
-        Toast('请使用微信打开')
-        return
-      }
       this.$http.get('/wx/weixinLogin', { isShowLoading: true, params: { code: this.$route.query.code, Telephone: this.userInfo.telephone } }).then((res) => {
         if (res.data.openId) {
           this.order({ CurriculumId: this.$route.params.id, openId: res.data.openId })
@@ -148,10 +144,6 @@ export default {
     payment () {
       // TODO 此处需判断如果免费直接报名
       // TODO 接入微信支付
-      if (!window.WeixinJSBridge) {
-        Toast('请使用微信打开')
-        return
-      }
       if (this.userInfo.openId) {
         this.order({ CurriculumId: this.$route.params.id, openId: this.userInfo.openId })
       } else {
@@ -182,6 +174,10 @@ export default {
       })
     },
     order (data) {
+      if (!window.WeixinJSBridge) {
+        Toast('请使用微信打开')
+        return
+      }
       this.$http.get('/wx/orders', { isShowLoading: true, params: data }).then((res) => {
         if (res && res.data) {
           window.WeixinJSBridge.invoke(

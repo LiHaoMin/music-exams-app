@@ -4,8 +4,8 @@ import router from '@/router'
 import { Toast } from 'vant'
 import { removeLocalStore } from '@/utils/global'
 
-const baseURL = '/musicapp'
-// const baseURL = 'http://yinyuebojiangtang.com/api'
+// const baseURL = '/musicapp'
+const baseURL = 'http://yinyuebojiangtang.com/api'
 
 const http = {}
 
