@@ -68,7 +68,7 @@
       <div class="bottom-block"></div>
     </div>
     <div class="footer">
-      <van-button v-if="!detail.purchase" class="join" @click="showPayment = true" type="default">加入学习</van-button>
+      <van-button v-if="!detail.purchase" class="join" @click="onPayment" type="default">加入学习</van-button>
     </div>
     <van-action-sheet v-model="showPayment" title="确认支付" :round="false">
       <div class="popup">
@@ -87,6 +87,7 @@
 
 <script>
 import { Rate, button, ActionSheet, Toast } from 'vant'
+import { mapState } from 'vuex'
 // TODO 课程涵盖/判断未购买的结果请求需横展开
 export default {
   name: 'SummaryTab',
@@ -109,16 +110,30 @@ export default {
       courseList: []
     }
   },
+  computed: mapState(['userInfo']),
   created () {
     this.requestCourseRate()
     this.requestComment()
     this.requestCourse()
+    if (this.$route.query.code) {
+      if (!window.WeixinJSBridge) {
+        Toast('请使用微信打开')
+        return
+      }
+      this.$http.get('/wx/weixinLogin', { isShowLoading: true, params: { code: this.$route.query.code, Telephone: this.userInfo.telephone } }).then((res) => {
+        if (res.data.openId) {
+          this.order({ CurriculumId: this.$route.params.id, openId: res.data.openId })
+        }
+      })
+    }
   },
   methods: {
-    // 付款
-    payment () {
+    onPayment () {
       // TODO 此处需判断如果免费直接报名
-      // TODO 接入微信支付
+      if (!this.detail.freeAdmission) {
+        this.showPayment = true
+        return
+      }
       this.$http.get('/home-page/purchase', { isShowLoading: true, params: { CurriculumId: this.$route.params.id } }).then((res) => {
         if (res && res.data) {
           Toast.success('操作成功')
@@ -128,6 +143,20 @@ export default {
           Toast.fail('操作失败')
         }
       })
+    },
+    // 付款
+    payment () {
+      // TODO 此处需判断如果免费直接报名
+      // TODO 接入微信支付
+      if (!window.WeixinJSBridge) {
+        Toast('请使用微信打开')
+        return
+      }
+      if (this.userInfo.openId) {
+        this.order({ CurriculumId: this.$route.params.id, openId: this.userInfo.openId })
+      } else {
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx78ebd89eceff8a0e&redirect_uri=${encodeURIComponent(window.location.href)}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`
+      }
     },
     requestCourseRate () {
       this.$http.get('/home-page/score', { isShowLoading: true, params: { curriculumId: this.$route.params.id } }).then((res) => {
@@ -149,6 +178,23 @@ export default {
       this.$http.post('/home-page/get_curriculum_list', data, { isShowLoading: true }).then((res) => {
         if (res && res.data) {
           this.courseList = res.data.records
+        }
+      })
+    },
+    order (data) {
+      this.$http.get('/wx/orders', { isShowLoading: true, params: data }).then((res) => {
+        if (res && res.data) {
+          window.WeixinJSBridge.invoke(
+            'getBrandWCPayRequest', res.data,
+            (rs) => {
+              if (rs.err_msg === 'get_brand_wcpay_request:ok') {
+                Toast.success('操作成功')
+                this.showPayment = false
+                this.detail.purchase = true
+              } else {
+                Toast.fail('操作失败')
+              }
+            })
         }
       })
     }

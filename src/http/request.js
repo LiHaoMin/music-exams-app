@@ -5,6 +5,7 @@ import { Toast } from 'vant'
 import { removeLocalStore } from '@/utils/global'
 
 const baseURL = '/musicapp'
+// const baseURL = 'http://yinyuebojiangtang.com/api'
 
 const http = {}
 
@@ -63,7 +64,7 @@ instance.interceptors.response.use(
   },
   err => {
     if (err && err.response) {
-      console.log(err)
+      err.message = err.response.status
     } else {
       err.message = '连接服务器失败'
     }

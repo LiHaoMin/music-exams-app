@@ -6,7 +6,7 @@
       <div class="text">
         <p class="title">恭喜您成为音乐考研平台讲师</p>
         <p class="subtitle">现在您可以登录讲师后台，上传讲师课程啦～</p>
-        <p class="link">{{webUrl}}</p>
+        <p class="link">http://manage.yinyuebojiangtang.com</p>
       </div>
       <div class="form">
         <p class="account">您的讲师后台账号：<span>{{user.account}}</span></p>

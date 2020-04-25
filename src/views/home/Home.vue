@@ -26,6 +26,7 @@ import { Search, Tab, Tabs } from 'vant'
 import FindTab from '@/views/home/FindTab'
 import RecommendTab from '@/views/home/RecommendTab'
 import CourseTab from '@/views/home/CourseTab'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Home',
@@ -42,7 +43,11 @@ export default {
       currentIdx: 0
     }
   },
+  created () {
+    this.requestUserInfo()
+  },
   methods: {
+    ...mapMutations(['setUserInfo']),
     // tab 选择
     tabSelected (idx) {
       this.currentIdx = idx
@@ -50,6 +55,20 @@ export default {
     // 搜索
     search () {
       this.$router.push('/search')
+    },
+    requestUserInfo () {
+      this.$http.get('/user-info/user_content', { isShowLoading: true }).then((res) => {
+        this.user = res.data
+        this.setUserInfo({
+          userId: res.data.mUserInfo.id,
+          headPortrait: res.data.mUserInfo.headPortrait,
+          name: res.data.mUserInfo.name,
+          account: res.data.mUserInfo.account,
+          telephone: res.data.mUserInfo.telephone,
+          userType: res.data.mUserInfo.userType,
+          openId: res.data.mUserInfo.openId
+        })
+      })
     }
   }
 }

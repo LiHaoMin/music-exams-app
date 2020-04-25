@@ -19,7 +19,7 @@
           <div class="content">
             <p class="title van-ellipsis">{{detail.curriculumName}}</p>
             <div class="play">
-              <span>{{detail.isNumOfLearners ? detail.numOfLearners : detail.orderNum}}人已报名</span>
+              <span>{{detail.isNumOfLearners ? detail.numOfLearners : detail.num }}人已报名</span>
             </div>
             <div class="circle">
               <img v-lazy="detail.headPortrait ? detail.headPortrait : require('@/assets/avatar.jpg')" />
@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="footer">
-      <van-button class="payment" @click="showPayment = true" type="default">去付款</van-button>
+      <van-button class="payment" @click="onPayment" type="default">去付款</van-button>
     </div>
     <van-action-sheet v-model="showPayment" title="确认支付" :round="false">
       <div class="popup">
@@ -64,6 +64,7 @@ import { Cell, CellGroup, Field, Button, ActionSheet, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import ListHeader from '@/components/list/ListHeader'
 import { getLocalStore, removeLocalStore } from '@/utils/global'
+import { mapState } from 'vuex'
 
 export default {
   name: 'OfflineCourseApply',
@@ -83,18 +84,45 @@ export default {
       info: {}
     }
   },
+  computed: mapState(['userInfo']),
   created () {
     this.detail = JSON.parse(getLocalStore('apply_detail') || '{}')
+    if (this.$route.query.code) {
+      if (!window.WeixinJSBridge) {
+        Toast('请使用微信打开')
+        return
+      }
+      this.$http.get('/wx/weixinLogin', { isShowLoading: true, params: { code: this.$route.query.code, Telephone: this.userInfo.telephone } }).then((res) => {
+        if (res.data.openId) {
+          this.order({ CurriculumId: this.$route.params.id, openId: res.data.openId })
+        }
+      })
+    }
   },
   beforeDestroy () {
     removeLocalStore('apply_detail')
   },
   methods: {
+    onPayment () {
+      // TODO 此处需判断如果免费直接报名
+      if (!this.detail.freeAdmission) {
+        this.showPayment = true
+        return
+      }
+      this.requestJoin()
+    },
     // 付款
     payment () {
-      // TODO 此处需判断如果免费直接报名
       // TODO 接入微信支付
-      this.requestJoin()
+      if (!window.WeixinJSBridge) {
+        Toast('请使用微信打开')
+        return
+      }
+      if (this.userInfo.openId) {
+        this.order({ CurriculumId: this.$route.params.id, openId: this.userInfo.openId })
+      } else {
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx78ebd89eceff8a0e&redirect_uri=${encodeURIComponent(window.location.href)}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`
+      }
     },
     requestJoin () {
       this.info.curriculumId = this.$route.params.id
@@ -103,6 +131,22 @@ export default {
           Toast.success('操作成功')
         } else {
           Toast.fail('操作失败')
+        }
+      })
+    },
+    order (data) {
+      this.$http.get('/wx/orders', { isShowLoading: true, params: data }).then((res) => {
+        if (res && res.data) {
+          window.WeixinJSBridge.invoke(
+            'getBrandWCPayRequest', res.data,
+            (rs) => {
+              if (rs.err_msg === 'get_brand_wcpay_request:ok') {
+                Toast.success('操作成功')
+                this.$router.back()
+              } else {
+                Toast.fail('操作失败')
+              }
+            })
         }
       })
     }

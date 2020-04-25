@@ -65,8 +65,8 @@ export default {
     [Button.name]: Button,
     [Image.name]: Image
   },
-  created () {
-    this.requestUserInfo()
+  mounted () {
+    if (!this.userInfo.userId) this.requestUserInfo()
   },
   data () {
     return {
@@ -89,7 +89,8 @@ export default {
           name: res.data.mUserInfo.name,
           account: res.data.mUserInfo.account,
           telephone: res.data.mUserInfo.telephone,
-          userType: res.data.mUserInfo.userType
+          userType: res.data.mUserInfo.userType,
+          openId: res.data.mUserInfo.openId
         })
       })
     }

@@ -148,6 +148,9 @@ export default {
         } else {
           this.code = this.getQueryVariable('code')
           this.wechatData = res.data
+          this.setUserInfo({
+            openId: res.data.openId
+          })
         }
         this.$router.replace('/')
       })

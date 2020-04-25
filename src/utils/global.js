@@ -20,7 +20,8 @@ export const removeLocalStore = name => {
 }
 
 // 七牛url
-export const QI_NIU = 'http://q8ieryh01.bkt.clouddn.com/'
+export const QI_NIU = 'http://static.yinyuebojiangtang.com/'
 
 // 网址
-export const WEB_URL = 'http://47.114.153.190:8282/musicapp/'
+// export const WEB_URL = 'http://47.114.153.190:8282/musicapp/'
+export const WEB_URL = 'http://yinyuebojiangtang.com/api/'
