@@ -106,6 +106,11 @@ export default {
     },
     saveComment (action, done) {
       if (action === 'confirm') {
+        if (!this.comment.fraction || !this.comment.content) {
+          Toast('请先填写信息')
+          done(false)
+          return
+        }
         this.comment.curriculumId = this.$route.params.id
         this.$http.get('/home-page/comment', { isShowLoading: true, params: this.comment }).then((res) => {
           if (res && res.data) {

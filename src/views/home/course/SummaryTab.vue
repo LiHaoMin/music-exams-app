@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="warpper block">
-        <div class="title"></div>
+        <div class="title" style="margin-top: -23px;">为你推荐</div>
         <div class="container card">
           <div class="card-item-warp" :key="item.id" v-for="item in courseList">
             <div class="thumb">
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="warpper">
-        <div class="title"></div>
+        <div class="title" style="margin-top: -14px;">课程评价</div>
         <div class="container comment">
           <div class="subtitle">
             <h3>课程评价</h3>

@@ -1,6 +1,8 @@
 <template>
   <div class="login">
-    <div class="login-header"></div>
+    <div class="login-header">
+      <img v-lazy="require('@/assets/logo.png')" />
+    </div>
     <div class="login-box">
       <van-cell-group>
         <van-field v-model="phoneNumber" maxlength="11" placeholder="请输入手机号" />
@@ -80,6 +82,10 @@ export default {
     ...mapMutations(['setUserInfo']),
     // 获取短信验证码
     sendVerifyCode () {
+      if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.phoneNumber)) {
+        Toast('请输入正确的手机号')
+        return
+      }
       this.countDown = 60
       this.timeIntervalID = setInterval(() => {
         this.countDown--
@@ -96,7 +102,7 @@ export default {
     },
     // 登录
     login () {
-      if (this.phoneNumber.length !== 11) {
+      if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.phoneNumber)) {
         Toast('请输入正确的手机号')
         return
       }
@@ -166,9 +172,14 @@ export default {
   }
   .login-header {
     height: 194px;
+    text-align: center;
   }
   .login-box {
     text-align: center;
+  }
+  .login-header img {
+    width: 150px;
+    height: 150px;
   }
   .login-btn {
     width: 284px;
@@ -207,5 +218,8 @@ export default {
   .login-other .wechat p {
     margin: 0;
     font-size: 14px;
+  }
+  .login >>> [class*=van-hairline]::after {
+    border: none;
   }
 </style>
