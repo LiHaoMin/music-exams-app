@@ -29,7 +29,7 @@
             <div class="content">
               <p class="title van-ellipsis">{{item.curriculumName}}</p>
               <p class="description van-ellipsis">{{item.briefIntroduction}}</p>
-              <p class="teacher">讲师：{{item.teacherName}}</p>
+              <p class="teacher van-multi-ellipsis--l2">讲师：{{item.teacherName}}</p>
               <div class="play">
                 <img :src="require('@/assets/images/home/play.png')" />
                 <span>{{item.isNumOfLearners ? item.numOfLearners : item.orderNum}}</span>
@@ -238,6 +238,7 @@ export default {
     font-weight: normal;
     line-height: 23px;
     padding: 13px 19px 11px 20px;
+    max-height: 200px;
   }
 
   .directory ul {
@@ -295,7 +296,7 @@ export default {
   }
   .card >>> .card-item-warp .content .price {
     position: absolute;
-    top: 38px;
+    top: 64px;
     right: 10px;
   }
   .block {
@@ -482,6 +483,7 @@ export default {
     font-weight: 400;
     color: #888;
     margin-top: 17px;
+    width: 160px;
   }
   .card-item-warp .content .play {
     display: flex;

@@ -85,6 +85,10 @@ export default {
         Toast('请填写必须项')
         return
       }
+      if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.info.telephone)) {
+        Toast('请输入正确的手机号')
+        return
+      }
       if (!this.info.identityImgZ || !this.info.identityImgF) {
         Toast('请填写必须项')
         return
@@ -94,7 +98,7 @@ export default {
         if (res && res.data) {
           Toast.success('操作成功')
         } else {
-          Toast.fail('操作失败')
+          Toast.fail(res.msg || '操作失败')
         }
       })
     },

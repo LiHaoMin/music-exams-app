@@ -22,8 +22,9 @@
         </div>
       </div>
     </div>
-    <div class="favorite" v-if="!detail.isCollection" @click="favorite">
-      <img :src="require('@/assets/images/home/favorite.png')" />
+    <div class="favorite" @click="favorite">
+      <img v-if="!detail.isCollection" :src="require('@/assets/images/home/favorite.png')" />
+      <img v-else :src="require('@/assets/images/home/favorite2.png')" />
     </div>
     <div class="tab-warp">
       <van-tabs v-model="currentIdx"
@@ -50,7 +51,7 @@
 </template>
 
 <script>
-import { Tab, Tabs, Toast } from 'vant'
+import { Dialog, Tab, Tabs, Toast } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
@@ -81,7 +82,7 @@ export default {
         autoplay: false,
         language: 'zh-CN',
         preload: 'auto',
-        muted: true,
+        muted: false,
         loop: false,
         notSupportedMessage: '此视频暂无法播放,请稍后再试',
         sources: [],
@@ -121,14 +122,31 @@ export default {
     },
     // 收藏
     favorite () {
-      this.$http.get('/home-page/collection', { isShowLoading: true, params: { curriculumId: this.$route.params.id } }).then((res) => {
-        if (res && res.data) {
-          Toast.success('操作成功')
-          this.detail.isCollection = true
-        } else {
-          Toast.fail('操作失败')
-        }
-      })
+      if (!this.detail.isCollection) {
+        this.$http.get('/home-page/collection', { isShowLoading: true, params: { curriculumId: this.$route.params.id } }).then((res) => {
+          if (res && res.data) {
+            Toast.success('操作成功')
+            this.detail.isCollection = true
+          } else {
+            Toast.fail('操作失败')
+          }
+        })
+      } else {
+        Dialog.confirm({
+          message: '取消收藏后，课程被移除，\n确定取消收藏吗？'
+        }).then(() => {
+          this.$http.get('/home-page/no_collection', { isShowLoading: true, params: { curriculumId: this.$route.params.id } }).then((res) => {
+            if (res && res.data) {
+              this.detail.isCollection = false
+              Toast.success('操作成功')
+            } else {
+              Toast.fail('操作失败')
+            }
+          })
+        }).catch(() => {
+          // 取消
+        })
+      }
     },
     requestCourseDetail () {
       this.$http.get('/home-page/get_curriculum_content', { isShowLoading: true, params: { CurriculumId: this.$route.params.id } }).then((res) => {
@@ -159,7 +177,7 @@ export default {
     requestLearn () {
       const item = this.chapterList[this.currentChapterIndex]
       if (item.learningTime < item.time) {
-        const learnTime = this.timeout + parseInt(item.learningTime)
+        const learnTime = this.timeout + parseInt(item.learningTime || '0')
         this.chapterList[this.currentChapterIndex].learningTime = learnTime
         this.$http.get('/home-page/update_learning_video', { params: { learningVideoId: item.learningVideoId, time: learnTime } }).then((res) => {
           if (res && res.data) {}
@@ -269,7 +287,7 @@ export default {
   .content .share {
     position: absolute;
     top: 7px;
-    right: 5px;
+    right: -10px;
     width: 15px;
     height: 15px;
   }
