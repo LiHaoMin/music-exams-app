@@ -102,6 +102,8 @@ export default {
       // 重新加载数据
       // 将 loading 设置为 true，表示处于加载状态
       this.loading = true
+      this.page = 1
+      this.size = 10
       this.onLoad()
     },
     onLoad () {
