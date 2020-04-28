@@ -26,7 +26,7 @@
     </div>
     <div class="summary">
       <div class="resume">
-        {{detail.teacherIntroduce}}
+        {{detail.briefIntroduction}}
       </div>
       <div class="introduction">
         <video-player  ref="videoPlayer"
