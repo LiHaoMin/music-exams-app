@@ -3,7 +3,7 @@
     <van-overlay :show="$store.state.isLoading" class="loading">
       <van-loading size="0.8rem" type="spinner" color="#1E4058" vertical />
     </van-overlay>
-    <router-view/>
+    <router-view :key="key" />
   </div>
 </template>
 
@@ -14,6 +14,11 @@ export default {
   components: {
     [Overlay.name]: Overlay,
     [Loading.name]: Loading
+  },
+  computed: {
+    key () {
+      return this.$route.name ? this.$route.name + new Date().getTime() : this.$route + new Date().getTime()
+    }
   }
 }
 // 禁止手机端扩大和缩小手势

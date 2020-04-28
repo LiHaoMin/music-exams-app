@@ -34,7 +34,7 @@
                 title-inactive-color="#333"
                 title-active-color="#1E4058">
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="课程介绍">
-          <SummaryTab v-if="detail.id" :chapterList="chapterList" :detail="detail" />
+          <SummaryTab @play="play" v-if="detail.id" :chapterList="chapterList" :detail="detail" />
         </van-tab>
         <van-tab title-style="font-size: 0.37333rem;font-weight:500;" title="课程目录">
           <DirectoryTab @play="play" />
@@ -308,6 +308,7 @@ export default {
     right: 25px;
     width: 25px;
     height: 25px;
+    z-index: 99;
   }
   .favorite img {
     width: 100%;

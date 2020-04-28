@@ -11,7 +11,7 @@
         <div class="title">课程涵盖</div>
         <div class="container directory">
           <ul>
-            <li :key="index" v-for="(item, index) in chapterList.slice(0 , 6)">
+            <li :key="index" v-for="(item, index) in chapterList.slice(0 , 6)" @click="$emit('play', item, index)">
               <div class="no">{{index + 1}}</div>
               <div class="text van-ellipsis">{{item.videoName}}</div>
               <div class="time">时长：{{item.time ? Math.round(item.time / 60) : 0}}</div>
@@ -22,7 +22,7 @@
       <div class="warpper block">
         <div class="title" style="margin-top: -23px;">为你推荐</div>
         <div class="container card">
-          <div class="card-item-warp" :key="item.id" v-for="item in courseList">
+          <div class="card-item-warp" @click="() => $router.push('/course/detail/' + item.id)" :key="item.id" v-for="item in courseList">
             <div class="thumb">
               <img v-lazy="item.curriculumImg ? item.curriculumImg : require('@/assets/avatar.jpg')" />
             </div>
@@ -166,7 +166,7 @@ export default {
       })
     },
     requestCourse () {
-      const data = { num: 1, size: 3, typeD: this.detail.typeD }
+      const data = { num: 1, size: 3, typeD: this.detail.typeD, cid: this.$route.params.id }
       this.$http.post('/home-page/get_curriculum_list', data, { isShowLoading: true }).then((res) => {
         if (res && res.data) {
           this.courseList = res.data.records

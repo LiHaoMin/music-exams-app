@@ -112,7 +112,7 @@ export default {
           return
         }
         this.comment.curriculumId = this.$route.params.id
-        this.$http.get('/home-page/comment', { isShowLoading: true, params: this.comment }).then((res) => {
+        this.$http.post('/home-page/comment', this.comment, { isShowLoading: true }).then((res) => {
           if (res && res.data) {
             Toast.success('操作成功')
             this.page = 1

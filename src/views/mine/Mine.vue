@@ -66,7 +66,7 @@ export default {
     [Image.name]: Image
   },
   mounted () {
-    if (!this.userInfo.userId) this.requestUserInfo()
+    this.requestUserInfo()
   },
   data () {
     return {

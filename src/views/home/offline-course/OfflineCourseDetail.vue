@@ -18,7 +18,7 @@
           <img class="circle" v-lazy="detail.headPortrait ? detail.headPortrait : require('@/assets/avatar.jpg')" />
           <div class="info">
             <span>{{detail.teacherName}}</span>
-            <span v-if="detail.teacherCall">{{detail.teacherCall}}</span>
+            <span>带班老师</span>
             <p>{{detail.teacherTelephone}}</p>
           </div>
         </div>
@@ -168,7 +168,7 @@ export default {
     margin-right: 5px;
   }
   .header .content .teacher {
-    margin-top: -10px;
+    /*margin-top: -10px;*/
   }
   .header .content .teacher .circle {
     width: 30px;

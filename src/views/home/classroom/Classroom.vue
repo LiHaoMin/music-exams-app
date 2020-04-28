@@ -25,7 +25,7 @@
               </div>
               <div class="content">
                 <p class="title">{{item.curriculumName}}</p>
-                <p class="description">{{item.briefIntroduction}}</p>
+                <p class="description van-ellipsis">{{item.briefIntroduction}}</p>
                 <div class="icon">
                   <div>
                     <img :src="require('@/assets/images/home/ren.png')" />
@@ -240,6 +240,7 @@ export default {
     font-weight: normal;
     color: #333;
     margin-top: 3px;
+    width: 180px;
   }
   .right-warp .list-item .content .icon div {
     display: inline-block;

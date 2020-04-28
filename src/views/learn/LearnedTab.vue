@@ -16,7 +16,7 @@
           <div class="content">
             <p class="title van-ellipsis">{{item.curriculumName}}</p>
             <p class="teacher">讲师：{{item.teacherName}}</p>
-<!--            <div class="status active">已学习</div>-->
+            <div class="status active">已学习</div>
           </div>
         </div>
       </van-list>

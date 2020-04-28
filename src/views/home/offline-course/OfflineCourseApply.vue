@@ -3,11 +3,11 @@
     <NavBar />
     <div class="form">
       <van-cell-group>
-        <van-field label-class="my-label" label="姓名" placeholder="请输入" input-align="right" v-model="info.signUpName" />
-        <van-field label-class="my-label" label="本科院校" placeholder="请输入" input-align="right" v-model="info.school" />
-        <van-field label-class="my-label" label="报考院校" placeholder="请输入" input-align="right" v-model="info.bkSchool" />
-        <van-field label-class="my-label" label="报考专业" placeholder="请输入" input-align="right" v-model="info.bkMajor" />
-        <van-field label-class="my-label" label="电话" placeholder="请输入" input-align="right" v-model="info.telephone" />
+        <van-field label-class="my-label" required label="姓名" placeholder="请输入" input-align="right" v-model="info.signUpName" />
+        <van-field label-class="my-label" required label="本科院校" placeholder="请输入" input-align="right" v-model="info.school" />
+        <van-field label-class="my-label" required label="报考院校" placeholder="请输入" input-align="right" v-model="info.bkSchool" />
+        <van-field label-class="my-label" required label="报考专业" placeholder="请输入" input-align="right" v-model="info.bkMajor" />
+        <van-field label-class="my-label" required label="电话" placeholder="请输入" input-align="right" v-model="info.telephone" />
       </van-cell-group>
     </div>
     <div class="content">
@@ -100,6 +100,15 @@ export default {
   },
   methods: {
     onPayment () {
+      if (!this.info.signUpName || !this.info.school ||
+        !this.info.bkSchool || !this.info.bkMajor || !this.info.telephone) {
+        Toast('请填写必须项')
+        return
+      }
+      if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.info.telephone)) {
+        Toast('请输入正确的手机号')
+        return
+      }
       // TODO 此处需判断如果免费直接报名
       if (!this.detail.freeAdmission) {
         this.showPayment = true
