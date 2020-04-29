@@ -25,7 +25,7 @@
                 <span class="date">{{item.gmtCreate | datafmt('YYYY-MM-DD')}}</span>
               </div>
               <div class="rate"><van-rate size="0.37333rem" color="#FFBC49" disabled-color="#FFBC49" void-color="#FFBC49" disabled v-model="item.fraction" /></div>
-              <div class="description van-multi-ellipsis--l2">{{item.content}}</div>
+              <div class="description">{{item.content}}</div>
             </div>
           </div>
         </van-list>
