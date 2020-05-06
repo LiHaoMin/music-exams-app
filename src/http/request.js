@@ -56,7 +56,7 @@ instance.interceptors.response.use(
       Toast(res.msg || '请求失败.')
     }
     if (res.code && res.code === 10004) {
-      Toast('Token失效.请重新登录.')
+      Toast(res.msg || 'Token失效.请重新登录.')
       router.replace({ name: 'Login' })
       removeLocalStore('user_info')
     }
