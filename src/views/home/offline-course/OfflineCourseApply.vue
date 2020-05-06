@@ -130,6 +130,7 @@ export default {
       this.$http.post('/home-page/join_curriculum', this.info, { isShowLoading: true }).then((res) => {
         if (res && res.data) {
           Toast.success('操作成功')
+          this.$router.back()
         } else {
           Toast.fail('操作失败')
         }
@@ -146,8 +147,7 @@ export default {
             'getBrandWCPayRequest', res.data,
             (rs) => {
               if (rs.err_msg === 'get_brand_wcpay_request:ok') {
-                Toast.success('操作成功')
-                this.$router.back()
+                this.requestJoin()
               } else {
                 Toast.fail('操作失败')
               }
