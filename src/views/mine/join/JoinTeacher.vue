@@ -85,7 +85,7 @@ export default {
         Toast('请填写必须项')
         return
       }
-      if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.info.telephone)) {
+      if (!/^[1][0-9]{10}$/.test(this.info.telephone)) {
         Toast('请输入正确的手机号')
         return
       }

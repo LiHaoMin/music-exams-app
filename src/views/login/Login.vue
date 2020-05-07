@@ -82,7 +82,7 @@ export default {
     ...mapMutations(['setUserInfo']),
     // 获取短信验证码
     sendVerifyCode () {
-      if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.phoneNumber)) {
+      if (!/^[1][0-9]{10}$/.test(this.phoneNumber)) {
         Toast('请输入正确的手机号')
         return
       }
@@ -102,7 +102,7 @@ export default {
     },
     // 登录
     login () {
-      if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.phoneNumber)) {
+      if (!/^[1][0-9]{10}$/.test(this.phoneNumber)) {
         Toast('请输入正确的手机号')
         return
       }
