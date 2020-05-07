@@ -109,11 +109,6 @@ export default {
         Toast('请输入正确的手机号')
         return
       }
-      // TODO 此处需判断如果免费直接报名
-      if (!this.detail.freeAdmission) {
-        this.showPayment = true
-        return
-      }
       this.requestJoin()
     },
     // 付款
@@ -129,8 +124,7 @@ export default {
       this.info.curriculumId = this.$route.params.id
       this.$http.post('/home-page/join_curriculum', this.info, { isShowLoading: true }).then((res) => {
         if (res && res.data) {
-          Toast.success('操作成功')
-          this.$router.back()
+          this.showPayment = true
         } else {
           Toast.fail('操作失败')
         }
@@ -147,7 +141,8 @@ export default {
             'getBrandWCPayRequest', res.data,
             (rs) => {
               if (rs.err_msg === 'get_brand_wcpay_request:ok') {
-                this.requestJoin()
+                Toast.success('操作成功')
+                this.$router.back()
               } else {
                 Toast.fail('操作失败')
               }
