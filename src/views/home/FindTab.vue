@@ -6,44 +6,46 @@
           <a :href="image.bannerPath" target="_blank"><img v-lazy="image.bannerUrl" /></a>
         </van-swipe-item>
       </van-swipe>
-      <van-grid :border="false" :column-num="3">
-        <van-grid-item @click="teacher">
-          <div class="grid">
-            <img :src="require('@/assets/images/home/teacher.png')" />
-            <p>导师博讲堂</p>
-          </div>
-        </van-grid-item>
-        <van-grid-item @click="senior">
-          <div class="grid">
-            <img :src="require('@/assets/images/home/senior.png')" />
-            <p>学长博讲堂</p>
-          </div>
-        </van-grid-item>
-        <van-grid-item @click="student">
-          <div class="grid">
-            <img :src="require('@/assets/images/home/student.png')" />
-            <p>学员博讲堂</p>
-          </div>
-        </van-grid-item>
-      </van-grid>
-    </div>
-    <div class="offline-box">
-      <div class="title">音乐博讲堂实体课</div>
-      <div class="warp">
-        <div class="warp-left" @click="music">
-          <p>音乐考研 <img :src="require('@/assets/images/home/arrow.png')"></p>
-          <p>音乐考研助你轻松上岸</p>
-        </div>
-        <div class="warp-right">
-          <div @click="dance">
-            <p>舞蹈考研</p>
-            <p>舞蹈考研助你上岸</p>
-          </div>
-          <div @click="abroad">
-            <p>音乐留学</p>
-            <p>音乐留学情况展示</p>
-          </div>
-        </div>
+      <div class="grid-box">
+        <div class="grid-left">在<br />线<br /><img v-lazy="require('@/assets/logo.png')" />实<br />体</div>
+        <van-grid class="grid-right" :border="false" :column-num="3">
+          <van-grid-item @click="teacher">
+            <div class="grid">
+              <img :src="require('@/assets/images/home/teacher.png')" />
+              <p>导师博讲堂</p>
+            </div>
+          </van-grid-item>
+          <van-grid-item @click="senior">
+            <div class="grid">
+              <img :src="require('@/assets/images/home/senior.png')" />
+              <p>学长博讲堂</p>
+            </div>
+          </van-grid-item>
+          <van-grid-item @click="student">
+            <div class="grid">
+              <img :src="require('@/assets/images/home/student.png')" />
+              <p>学员博讲堂</p>
+            </div>
+          </van-grid-item>
+          <van-grid-item @click="music">
+            <div class="grid">
+              <img :src="require('@/assets/images/home/music.png')" />
+              <p>音乐考研</p>
+            </div>
+          </van-grid-item>
+          <van-grid-item @click="dance">
+            <div class="grid">
+              <img :src="require('@/assets/images/home/dance.png')" />
+              <p>舞蹈考研</p>
+            </div>
+          </van-grid-item>
+          <van-grid-item @click="abroad">
+            <div class="grid">
+              <img :src="require('@/assets/images/home/abroad.png')" />
+              <p>音乐留学</p>
+            </div>
+          </van-grid-item>
+        </van-grid>
       </div>
     </div>
     <list-header title="推荐课程" moreText="更多" @onMore="moreRecommend">
@@ -120,27 +122,27 @@ export default {
     },
     // 导师博讲堂
     teacher () {
-      this.$router.push({ name: 'Classroom', params: { title: '导师博讲堂', classroomType: 1 } })
+      this.$router.push({ name: 'Classroom', params: { classroomType: 1 }, query: { type: 1 } })
     },
     // 学长博讲堂
     senior () {
-      this.$router.push({ name: 'Classroom', params: { title: '学长博讲堂', classroomType: 2 } })
+      this.$router.push({ name: 'Classroom', params: { classroomType: 2 }, query: { type: 2 } })
     },
     // 学员博讲堂
     student () {
-      this.$router.push({ name: 'Classroom', params: { title: '学员博讲堂', classroomType: 3 } })
+      this.$router.push({ name: 'Classroom', params: { classroomType: 3 }, query: { type: 3 } })
     },
     // 音乐考研
     music () {
-      this.$router.push({ name: 'OfflineCourse', params: { title: '音乐考研', offlineCourseType: 51 } })
+      this.$router.push({ name: 'OfflineCourse', params: { offlineCourseType: 51 }, query: { type: 4 } })
     },
     // 舞蹈考研
     dance () {
-      this.$router.push({ name: 'OfflineCourse', params: { title: '舞蹈考研', offlineCourseType: 52 } })
+      this.$router.push({ name: 'OfflineCourse', params: { offlineCourseType: 52 }, query: { type: 5 } })
     },
     // 音乐留学
     abroad () {
-      this.$router.push({ name: 'OfflineCourse', params: { title: '音乐留学', offlineCourseType: 53 } })
+      this.$router.push({ name: 'OfflineCourse', params: { offlineCourseType: 53 }, query: { type: 6 } })
     },
     requestBanner () {
       this.$http.get('/home-page/get_banner', { isShowLoading: true }).then((res) => {
@@ -192,59 +194,6 @@ export default {
   .grid p {
     font-size: 12px;
     font-weight:400;
-  }
-
-  .offline-box .title {
-    font-size: 16px;
-    color: #333;
-    font-weight:600;
-  }
-  .offline-box {
-    margin-top: 14px;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-  .offline-box .warp {
-    display: flex;
-    margin-top: 2px;
-    font-size: 14px;
-    line-height: 12px;
-    font-weight:500;
-  }
-  .offline-box .warp-left {
-    flex: 1;
-    color: #D99F51;
-    background-image: url("~@/assets/images/home/music.png");
-    background-size: cover;
-    background-position: center;
-    margin-right: 5px;
-    padding-left: 10px;
-    padding-top: 5px;
-  }
-  .offline-box .warp-left img {
-    width: 10px;
-    height: 10px;
-  }
-  .offline-box .warp-right {
-    flex: 1;
-  }
-  .offline-box .warp-right div:first-child {
-    height: 82px;
-    color: #CC8B76;
-    background-image: url("~@/assets/images/home/dance.png");
-    background-size: cover;
-    background-position: center;
-    padding-left: 10px;
-    padding-top: 5px;
-  }
-  .offline-box .warp-right div:last-child {
-    height: 82px;
-    color: #6DACD0;
-    background-image: url("~@/assets/images/home/abroad.png");
-    background-size: cover;
-    background-position: center;
-    padding-left: 10px;
-    padding-top: 5px;
   }
 
   .block {
@@ -368,5 +317,26 @@ export default {
   }
   .card-item-warp .content .active {
     color: #888;
+  }
+
+  .grid-box {
+    display: flex;
+  }
+  .grid-right {
+    flex: 1;
+  }
+  .grid-left {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(21,52,67,1);
+    line-height: 35px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .grid-left img {
+    width: 34px;
+    height: 34px;
   }
 </style>

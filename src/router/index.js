@@ -229,7 +229,8 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   let title = ''
   if (to.meta.title) title = to.meta.title
-  if (to.params.title) title = to.params.title
+  var list = ['导师博讲堂', '学长博讲堂', '学员博讲堂', '音乐考研', '舞蹈考研', '音乐留学']
+  if (to.query.type) title = list[to.query.type - 1]
   document.title = title
   if (to.meta.requireAuth) {
     if (store.state.userInfo.token) {

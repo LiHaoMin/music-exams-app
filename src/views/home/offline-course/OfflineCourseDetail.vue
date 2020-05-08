@@ -48,7 +48,6 @@
 import { Button, Swipe, SwipeItem } from 'vant'
 import NavBar from '@/components/nav-bar/NavBar'
 import 'video.js/dist/video-js.css'
-import 'vue-video-player/src/custom-theme.css'
 import { videoPlayer } from 'vue-video-player'
 import { setLocalStore } from '@/utils/global'
 
@@ -71,7 +70,7 @@ export default {
         autoplay: false,
         language: 'zh-CN',
         preload: 'auto',
-        muted: true,
+        muted: false,
         loop: false,
         notSupportedMessage: '此视频暂无法播放,请稍后再试',
         sources: [],

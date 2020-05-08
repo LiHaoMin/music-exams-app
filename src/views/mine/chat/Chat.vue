@@ -129,7 +129,7 @@ export default {
 
   .container {
     display: flex;
-    height: calc(100vh - 46px);
+    height: 100vh;
     flex-direction: column;
   }
 
