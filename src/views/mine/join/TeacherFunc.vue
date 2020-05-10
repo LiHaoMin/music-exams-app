@@ -5,7 +5,7 @@
       <img :src="require('@/assets/images/mine/func.png')" />
       <div class="text">
         <p class="title">恭喜您成为音乐考研平台讲师</p>
-        <p class="subtitle">现在您可以登录讲师后台，上传讲师课程啦～</p>
+        <p class="subtitle">现在您可以登录电脑端讲师后台，上传讲师课程啦～</p>
         <p class="link">http://www.yinyuebojiangtang.com</p>
       </div>
       <div class="form">
