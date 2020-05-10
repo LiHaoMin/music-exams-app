@@ -11,13 +11,13 @@
       <van-cell-group>
         <van-cell title-class="my-label required" title="上传身份证照片">
           <div class="id-card-cell" slot="label">
-            <van-uploader v-model="identityImgZ" :after-read="afterRead1" accept="image/png,image/jpeg" :max-count="1">
+            <van-uploader v-model="identityImgZ" :after-read="afterRead1" :max-count="1">
               <div class="id-card">
                 <img :src="require('@/assets/images/mine/plus.png')" />
                 <p>上传正面照</p>
               </div>
             </van-uploader>
-            <van-uploader v-model="identityImgF" :after-read="afterRead2" accept="image/png,image/jpeg" :max-count="1">
+            <van-uploader v-model="identityImgF" :after-read="afterRead2" :max-count="1">
               <div class="id-card">
                 <img :src="require('@/assets/images/mine/plus.png')" />
                 <p>上传反面照</p>
