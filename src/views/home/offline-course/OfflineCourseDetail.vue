@@ -236,7 +236,6 @@ export default {
     bottom: 88px;
     background-color: #333;
     border-radius: 10px;
-    opacity: 0.4;
   }
   .summary .player-controller {
     width: 100%;
