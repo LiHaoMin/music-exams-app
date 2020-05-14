@@ -10,7 +10,7 @@ const baseURL = 'http://yinyuebojiangtang.com/api'
 const http = {}
 
 const instance = axios.create({
-  timeout: 5000,
+  timeout: 120000,
   baseURL,
   validateStatus (status) {
     // 设置状态码返回true就算报404，但依旧会显示请求成功
