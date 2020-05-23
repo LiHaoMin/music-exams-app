@@ -232,14 +232,26 @@ router.beforeEach((to, from, next) => {
   var list = ['导师博讲堂', '学长博讲堂', '学员博讲堂', '音乐考研', '舞蹈考研', '音乐留学']
   if (to.query.type) title = list[to.query.type - 1]
   document.title = title
+  var u = navigator.userAgent
+  var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
   if (to.meta.requireAuth) {
     if (store.state.userInfo.token) {
-      next()
+      if (isiOS && to.path !== location.pathname) {
+        // 此处不可使用location.replace
+        location.assign(to.fullPath)
+      } else {
+        next()
+      }
     } else {
       next({ name: 'Login', query: { redirect: to.path } })
     }
   } else {
-    next()
+    if (isiOS && to.path !== location.pathname) {
+      // 此处不可使用location.replace
+      location.assign(to.fullPath)
+    } else {
+      next()
+    }
   }
 })
 

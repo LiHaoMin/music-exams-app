@@ -112,17 +112,37 @@ export default {
     this.requestCourseDetail()
     this.requestComment()
     this.requestChapter()
-    this.$http.get('/wx/fx', { params: { url: window.location.href } }).then((res) => {
+    var that = this
+    this.$http.get('/wx/fx', { params: { url: window.location.href.split('#')[0] } }).then((res) => {
       if (res && res.data) {
         this.wxConfig = res.data
-        // window.wx.config({
-        //   debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        //   appId: res.data.appId, // 必填，公众号的唯一标识
-        //   timestamp: res.data.timestamp, // 必填，生成签名的时间戳
-        //   nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
-        //   signature: res.data.signature, // 必填，签名
-        //   jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
-        // })
+        window.wx.config({
+          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: res.data.appId, // 必填，公众号的唯一标识
+          timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+          signature: res.data.signature, // 必填，签名
+          jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'] // 必填，需要使用的JS接口列表
+        })
+        window.wx.ready(() => {
+          window.wx.updateAppMessageShareData({
+            title: that.detail.curriculumName, // 分享标题
+            desc: that.detail.briefIntroduction, // 分享描述
+            link: window.location.href.split('#')[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: that.detail.curriculumImg + '?imageView2/1/w/150/h/150', // 分享图标
+            success: function () {
+              // Toast.success('分享成功')
+            }
+          })
+          window.wx.updateTimelineShareData({
+            title: that.detail.curriculumName, // 分享标题
+            link: window.location.href.split('#')[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: that.detail.curriculumImg + '?imageView2/1/w/150/h/150', // 分享图标
+            success: function () {
+              // Toast.success('分享成功')
+            }
+          })
+        })
       } else {
         Toast.fail('操作失败')
       }
@@ -164,14 +184,47 @@ export default {
       const config = {
         types: ['wx', 'wxline', 'qq', 'qzone']
       }
-      mShare.wxConfig({
-        title: this.detail.curriculumName,
-        link: window.location.href,
-        desc: this.detail.briefIntroduction,
-        imgUrl: this.detail.curriculumImg,
-        wx: this.wxConfig
-      })
       mShare.popup(config)
+      var doms = document.querySelectorAll('.m-share-flex > div')
+      var that = this
+      for (var i = 0; i < doms.length; i++) {
+        if (i === 0 || i === 2) {
+          doms[i].addEventListener('click', function (e) {
+            window.wx.ready(() => {
+              window.wx.updateAppMessageShareData({
+                title: that.detail.curriculumName, // 分享标题
+                desc: that.detail.briefIntroduction, // 分享描述
+                link: window.location.href.split('#')[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: that.detail.curriculumImg + '?imageView2/1/w/150/h/150', // 分享图标
+                success: function () {
+                  // Toast.success('分享成功')
+                }
+              })
+            })
+          })
+        }
+        if (i === 1 || i === 3) {
+          doms[i].addEventListener('click', function (e) {
+            window.wx.ready(() => {
+              window.wx.updateTimelineShareData({
+                title: that.detail.curriculumName, // 分享标题
+                link: window.location.href.split('#')[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: that.detail.curriculumImg + '?imageView2/1/w/150/h/150', // 分享图标
+                success: function () {
+                  // Toast.success('分享成功')
+                }
+              })
+            })
+          })
+        }
+      }
+      // mShare.wxConfig({
+      //   title: this.detail.curriculumName,
+      //   link: window.location.href,
+      //   desc: this.detail.briefIntroduction,
+      //   imgUrl: this.detail.curriculumImg,
+      //   wx: this.wxConfig
+      // })
     },
     // 收藏
     favorite () {
